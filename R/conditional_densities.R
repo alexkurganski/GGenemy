@@ -1,15 +1,17 @@
 #Plot Conditional densities
+
 #1.Calculate the quantiles for selected variable
 #2.Plot densities of all other variables based on the calculated quantiles
+
 plot_conditional_densities <- function(var_name, dataset, n_quantiles = 5){
 
-  #1.1 categorial var_name
+  #1.1 categorical var_name
   if(is.factor(dataset[,var_name])){
     if(n_quantiles != length(levels(dataset[,var_name]))){
       warning(paste0(var_name," is a categorical variable. The number of categories will be defined as a condition."))
     }
     data_help <- dataset
-    data_help$quantile <- levels(dataset[,var_name])
+    data_help$quantile <- as.factor(as.numeric(dataset[,var_name]))
 
   }
 
