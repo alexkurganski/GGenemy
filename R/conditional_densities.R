@@ -21,10 +21,10 @@
 #' number_variables <- 5
 #' 
 #' set.seed(42)
-#' variables <- sapply(1:number_variables, function(a){
+#' variables <- as.data.frame(sapply(1:number_variables, function(a){
 #'   if (runif(1) < 0.5) rnorm(n)
 #'     else rgamma(n, 0.5)
-#'}) %>% as.data.frame()
+#'}))
 #'
 #'plot_conditional_densities("V1", variables)     
 plot_conditional_densities <- function(var_name, dataset, n_quantiles = 5){
