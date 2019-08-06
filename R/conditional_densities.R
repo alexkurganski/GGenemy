@@ -3,6 +3,30 @@
 #1.Calculate the quantiles for selected variable
 #2.Plot densities of all other variables based on the calculated quantiles
 
+#' Plot conditional densities
+#' 
+#' Plot densities of continuous or categorical variables conditioned on quantiles of continuous
+#' or categories of categorical variables.
+#'   
+#'
+#' @param var_name A variable from your \code{dataset}.
+#' @param dataset A dataframe. 
+#' @param n_quantiles Number of quantiles you want to partition \code{var_name} into.
+#'
+#' @return  
+#' @export
+#'
+#' @examples
+#' n <- 500
+#' number_variables <- 5
+#' 
+#' set.seed(42)
+#' variables <- sapply(1:number_variables, function(a){
+#'   if (runif(1) < 0.5) rnorm(n)
+#'     else rgamma(n, 0.5)
+#'}) %>% as.data.frame()
+#'
+#'plot_conditional_densities("V1", variables)     
 plot_conditional_densities <- function(var_name, dataset, n_quantiles = 5){
 
   #1.1 categorical var_name
@@ -17,7 +41,7 @@ plot_conditional_densities <- function(var_name, dataset, n_quantiles = 5){
 
   #1.2 continuous var_name
   else{
-    var_goal <- select(dataset, var_name)[,1]
+    var_goal <- dplyr::select(dataset, var_name)[,1]
     quantiles <- quantile(var_goal, 1:(n_quantiles-1)/(n_quantiles))
     quantiles <- as.numeric(quantiles)
     data_help <- dataset
@@ -28,18 +52,17 @@ plot_conditional_densities <- function(var_name, dataset, n_quantiles = 5){
 
   #2.
   names_var <- names(dataset)
-  g <- ggplot(data_help, aes(fill = quantile)) + theme_minimal()
+  g <- ggplot2::ggplot(data_help, ggplot2::aes(fill = quantile)) + ggplot2::theme_minimal()
   lapply(names_var, function(a){
     if(is.factor(data_help[,a]) & is.factor(data_help[,var_name])){
-      g + geom_bar(aes_string(x = a,fill = var_name)) +
-        ggtitle(paste0(a, " conditional on ", var_name))
-    }
-    else if(is.factor(data_help[,a])){
-      g + geom_boxplot(aes_string(x = a,y = var_name)) +
-        ggtitle(paste0(a, " conditional on ", var_name))
+      g + ggplot2::geom_bar(ggplot2::aes_string(x = a,fill = var_name)) +
+        ggplot2::ggtitle(paste0(a, " conditional on ", var_name))
+    }else if(is.factor(data_help[,a])){
+      g + ggplot2::geom_boxplot(ggplot2::aes_string(x = a,y = var_name)) +
+        ggplot2::ggtitle(paste0(a, " conditional on ", var_name))
     }else{
-    g + geom_density(alpha = 0.5) + aes_string(x = a) +
-      ggtitle(paste0(a, " conditional on ", var_name))
+    g + ggplot2::geom_density(alpha = 0.5) + ggplot2::aes_string(x = a) +
+      ggplot2::ggtitle(paste0(a, " conditional on ", var_name))
   }
   })
 }
