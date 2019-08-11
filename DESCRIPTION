@@ -15,4 +15,8 @@ LazyData: true
 RoxygenNote: 6.1.1
 Imports: 
     ggplot2,
-    dplyr
+    dplyr,
+    stats,
+    moments
+Suggests: 
+    testthat (>= 2.1.0)
