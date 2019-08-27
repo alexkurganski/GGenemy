@@ -16,6 +16,8 @@ ui <- shiny::navbarPage("Conditional Densities", theme = shinythemes::shinytheme
                                                      ".csv")),
 
                                 # Input: Checkbox if file has header
+                                shiny::tags$b("Header"),
+                                
                                 shiny::checkboxInput("header",
                                                      label = "Header",
                                                      TRUE),
@@ -34,14 +36,21 @@ ui <- shiny::navbarPage("Conditional Densities", theme = shinythemes::shinytheme
                                                                 "Single Quote" = "'"),
                                                     selected = '"'),
                                 
+                                shiny::tags$b("Rownames"),
+                                
                                 shiny::checkboxInput("rownames",
-                                                     label = "First row as rownames",
-                                                     FALSE)
+                                                 label = "First column as rownames",
+                                                 FALSE)
                                 
                                 ),
                             
                             shiny::mainPanel(
-                              shiny::tableOutput("contents")
+                              shiny::tableOutput("contents"),
+                              
+                              shiny::tableOutput("na1"),
+                              
+                              shiny::tableOutput("na2")
+                              
                               )
                             )
                       ),
@@ -108,6 +117,10 @@ ui <- shiny::navbarPage("Conditional Densities", theme = shinythemes::shinytheme
                                                min = 1,
                                                max = 10,
                                                value = 5),
+                            
+                            # Help Text
+                            shiny::helpText("When conditioning to a factor variable,
+                                            the number of quantiles is set to the number of factors."),
 
                             # Select conditional variable
                             shiny::radioButtons("var_name2",
@@ -184,7 +197,8 @@ server <- function(input, output, session){
                    header = input$header,
                    sep = input$sep,
                    quote = input$quote,
-                   row.names = if(input$rownames){1} else {NULL})
+                   row.names = if(input$rownames){1} else {NULL}
+                   )
     
     for(i in unlist(input$as.factor,use.names = FALSE)){
       df[,i] <- as.factor(df[,i])
@@ -201,11 +215,11 @@ server <- function(input, output, session){
     })
         
   output$na1 <- shiny::renderPrint({
-    nrow(data1())
+    paste("The dataset contains", nrow(data1()))
     })
         
   output$na2 <- shiny::renderPrint({
-    nrow(data2())
+    paste("With deleting NA's, the dataset has",nrow(data2()),"rows")
     })
   
 ####################################################################        
@@ -233,12 +247,12 @@ server <- function(input, output, session){
 #Cond Plot Densities
 
   shiny::observeEvent(input$clicks, {
-    len <- length(as.numeric(input$var_to_cond_on))
+    len <- length(as.numeric(input$var_to_cond_on)) #### THIS CREATES A WARNING: SEE 11
     lapply(1:len,function(i) {
       output[[paste0("condplot",i)]] <- shiny::renderPlot({
-        plot_single_conditional_density(data2(),
-                                        input$var_name2,
-                                        input$quantiles,
+        plot_single_conditional_density(shiny::isolate(data2()),
+                                        shiny::isolate(input$var_name2),
+                                        shiny::isolate(input$quantiles),
                                         shiny::isolate(input$var_to_cond_on[i])
                                         )
         })
@@ -259,7 +273,7 @@ shiny::shinyApp(ui = ui, server = server)
 # Eather I try it in the df part - reloades Input without values
 # Or outside of it but it does not affect the dataset
 # FIXED THIS! 
-# I have already solved it, but I have to leave it as motivation
+# I have already solved it, but I have to leave it for motivational aspects
 # so that I know that I can get everything solved. *Sonnenbrillensmiley*
 
 # (2.)
@@ -267,7 +281,7 @@ shiny::shinyApp(ui = ui, server = server)
 # Would make many things way more complicated for a low value.
 
 # 3.
-# fixed length number of plots. Is fixed at 20 now, can not be chosen with an input$
+# fixed length number of plots. Is fixed at 10 now, can not be chosen with an input$
 # I do not have an Idea how to fix this. Is it a big problem?
 
 # 4.
@@ -279,11 +293,11 @@ shiny::shinyApp(ui = ui, server = server)
 # Better looking outputs for Data-Upload, Data-Management and sum stats
 # Furthermore choose theme
 
-# 6. Stop warnings
+# 6. Stop warnings (See 11)
 
 # 7. What to do with NA's?
 
-# 8. Spacing relevent? Example: Dataset with many variables won't fit with head().
+# 8. Spacing relevant? Example: Dataset with many variables won't fit with head().
 
 # 9. obtain Code function?
 
@@ -291,4 +305,10 @@ shiny::shinyApp(ui = ui, server = server)
 # RDs? raw?
 # readr
 
-# 11. CheckboxInput does not show the label. Bug..
+# 11. as.numeric creates a warning "NAs introduced by coercion".
+# Three solutions stated here: 
+# https://stackoverflow.com/questions/14984989/how-to-avoid-warning-when-introducing-nas-by-coercion
+# 1. suppressWarnings() #not a good solution, because we don't get a warning anymore.
+# other package (would not do that)
+# write own function: Possible function is provided.
+
