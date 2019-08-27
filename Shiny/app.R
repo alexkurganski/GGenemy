@@ -1,5 +1,5 @@
-source("shiny/conditional_densities.R")
-source("R/sum_stats.R")
+source("conditional_densities.R")
+source("../R/sum_stats.R")
 
 # UI
 ui <- shiny::navbarPage("Conditional Densities", theme = shinythemes::shinytheme("flatly"),
@@ -35,7 +35,7 @@ ui <- shiny::navbarPage("Conditional Densities", theme = shinythemes::shinytheme
                                                     selected = '"'),
                                 
                                 shiny::checkboxInput("rownames",
-                                                     label = "First row as rownames",
+                                                     label = "First column as rownames",
                                                      FALSE)
                                 
                                 ),
@@ -46,6 +46,8 @@ ui <- shiny::navbarPage("Conditional Densities", theme = shinythemes::shinytheme
                             )
                       ),
 #############################################################################
+
+    #Second Tab-Data Structure
 
     shiny::tabPanel("Data-Structure",
                     
@@ -62,11 +64,13 @@ ui <- shiny::navbarPage("Conditional Densities", theme = shinythemes::shinytheme
             shiny::verbatimTextOutput("summary1"),
             
             shiny::verbatimTextOutput("str1")
-            ),
+            )
         )
         ),
 
-#####################################################################################    
+##################################################################################### 
+
+    #Third Tab - Summary Stats
     shiny::tabPanel("Summary_Stats",
                 
                     shiny::sidebarLayout(
@@ -91,12 +95,12 @@ ui <- shiny::navbarPage("Conditional Densities", theme = shinythemes::shinytheme
                     
                         shiny::mainPanel(
                             shiny::verbatimTextOutput("sum_stats1")
-                        ),
+                        )
                     )
         ),
 #####################################################################################    
 
-
+    #Fourth Tab - Plots
     shiny::tabPanel("Plot",
 
                     shiny::sidebarLayout(
@@ -212,7 +216,8 @@ server <- function(input, output, session){
 # Data-Management Tab
 
   output$summary1 <- shiny::renderPrint({
-    summary(data2())
+    prettyR::describe(data2(), xname = "Data Set")
+    #summary(data2())
     })
     
   output$str1 <- shiny::renderPrint({
