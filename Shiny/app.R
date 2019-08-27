@@ -128,7 +128,7 @@ ui <- shiny::navbarPage("Conditional Densities", theme = shinythemes::shinytheme
                             
                         # Show a plot of the generated distribution
                         shiny::mainPanel(
-                            lapply(1:20, function(i) {
+                            lapply(1:10, function(i) {
                                 shiny::plotOutput(paste0('condplot', i))
                                 })
                             )
@@ -239,7 +239,7 @@ server <- function(input, output, session){
         plot_single_conditional_density(data2(),
                                         input$var_name2,
                                         input$quantiles,
-                                        isolate(input$var_to_cond_on[i])
+                                        shiny::isolate(input$var_to_cond_on[i])
                                         )
         })
       })
@@ -288,6 +288,7 @@ shiny::shinyApp(ui = ui, server = server)
 # 9. obtain Code function?
 
 # 10. Which Data do we allow to read into our dataset? We have now csv and txt.
-# RDs?
+# RDs? raw?
+# readr
 
 # 11. CheckboxInput does not show the label. Bug..
