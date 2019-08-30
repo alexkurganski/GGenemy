@@ -17,6 +17,7 @@ Imports:
     ggplot2,
     dplyr,
     stats,
-    moments
+    moments,
+    shiny
 Suggests: 
     testthat (>= 2.1.0)
