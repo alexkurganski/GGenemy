@@ -294,6 +294,8 @@ shiny::shinyApp(ui = ui, server = server)
 # The 4th argument of sum stats only works properly.
 # The function has big problems with factorial variables. Did not look into it,
 # why it is not working properly
+# UPDATE: fixed the problem with categorical variables, it should work now
+# We only get our self-made warning when conditioning on categorical variables.
 
 # 5.
 # Better looking outputs for Data-Upload, Data-Management and sum stats
