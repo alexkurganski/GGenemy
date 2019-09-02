@@ -317,3 +317,9 @@ shiny::shinyApp(ui = ui, server = server)
 # 12. Progress of calulation
 
 # 13. Varselectinput() instead of checkboxgroupinput()
+
+# 14. unrelated to shiny but still relevant: we should rename the quantile column in 
+# data_help to avoid confusing it with the actual stats::quantile() function we use later
+# R shows this as a note when applying check(): plot_conditional_densities: no visible binding for global variable
+#'quantile'.
+
