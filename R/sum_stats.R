@@ -25,7 +25,7 @@ sum_stats <- function(var_name, dataset, n_quantiles = 5, n_sum_stats = 3){
       warning(paste0(var_name," is a categorical variable. The number of categories will be defined as a condition."))
     }
     data_help <- dataset
-    data_help$quantile <- as.factor(as.numeric(dataset[,var_name]))
+    data_help$quant <- as.factor(as.numeric(dataset[,var_name]))
     
   }
   
@@ -35,8 +35,8 @@ sum_stats <- function(var_name, dataset, n_quantiles = 5, n_sum_stats = 3){
     quantiles <- stats::quantile(var_goal, 1:(n_quantiles-1)/(n_quantiles))
     quantiles <- as.numeric(quantiles)
     data_help <- dataset
-    data_help$quantile <- 1 + findInterval(var_goal, quantiles)
-    data_help$quantile <- as.factor(data_help$quantile)
+    data_help$quant <- 1 + findInterval(var_goal, quantiles)
+    data_help$quant <- as.factor(data_help$quant)
     names_var <- names(dataset)
   }
   
@@ -67,7 +67,7 @@ sum_stats <- function(var_name, dataset, n_quantiles = 5, n_sum_stats = 3){
       if(class(data_help[, j]) != "numeric"){
         sum_stats$conditional_mean[i, j] <- NA
       } else {
-        sub <- subset(data_help, quantile == as.character(i), select = names_var[j])
+        sub <- subset(data_help, quant == as.character(i), select = names_var[j])
         sum_stats$conditional_mean[i, j] <- round(mean(sub[,1]), 5)
       }
     }
@@ -82,7 +82,7 @@ sum_stats <- function(var_name, dataset, n_quantiles = 5, n_sum_stats = 3){
         if(class(data_help[, j]) != "numeric"){
           sum_stats$conditional_variance[i, j] <- NA
         } else {
-          sub <- subset(data_help, quantile == as.character(i), select = names_var[j])
+          sub <- subset(data_help, quant == as.character(i), select = names_var[j])
           sum_stats$conditional_variance[i, j] <- round(stats::var(sub[,1]), 5)
         }
       }
@@ -99,7 +99,7 @@ sum_stats <- function(var_name, dataset, n_quantiles = 5, n_sum_stats = 3){
         if(class(data_help[, j]) != "numeric"){
           sum_stats$conditional_skewness[i, j] <- NA
         } else {
-          sub <- subset(data_help, quantile == as.character(i), select = names_var[j])
+          sub <- subset(data_help, quant == as.character(i), select = names_var[j])
           sum_stats$conditional_skewness[i, j] <- round(moments::skewness(sub[,1]),5)
         }
       }
@@ -116,7 +116,7 @@ sum_stats <- function(var_name, dataset, n_quantiles = 5, n_sum_stats = 3){
         if(class(data_help[, j]) != "numeric"){
           sum_stats$conditional_kurtosis[i, j] <- NA
         } else {
-          sub <- subset(data_help, quantile == as.character(i), select = names_var[j])
+          sub <- subset(data_help, quant == as.character(i), select = names_var[j])
           sum_stats$conditional_kurtosis[i, j] <- round(moments::kurtosis(sub[,1]),5)
         }
       }
