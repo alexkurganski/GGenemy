@@ -320,3 +320,7 @@ shiny::shinyApp(ui = ui, server = server)
 # other package (would not do that)
 # write own function: Possible function is provided.
 
+# 12. unrelated to shiny but still relevant: we should rename the quantile column in 
+# data_help to avoid confusing it with the actual stats::quantile() function we use later
+# R shows this as a note when applying check(): plot_conditional_densities: no visible binding for global variable
+#'quantile'.
