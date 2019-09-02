@@ -32,7 +32,7 @@ sum_stats <- function(var_name, dataset, n_quantiles = 5, n_sum_stats = 3){
   #1.2 continuous var_name
   else{
     var_goal <- dplyr::select(dataset, var_name)[,1]
-    quantiles <- quantile(var_goal, 1:(n_quantiles-1)/(n_quantiles))
+    quantiles <- stats::quantile(var_goal, 1:(n_quantiles-1)/(n_quantiles))
     quantiles <- as.numeric(quantiles)
     data_help <- dataset
     data_help$quantile <- 1 + findInterval(var_goal, quantiles)
@@ -83,7 +83,7 @@ sum_stats <- function(var_name, dataset, n_quantiles = 5, n_sum_stats = 3){
           sum_stats$conditional_variance[i, j] <- NA
         } else {
           sub <- subset(data_help, quantile == as.character(i), select = names_var[j])
-          sum_stats$conditional_variance[i, j] <- round(var(sub[,1]), 5)
+          sum_stats$conditional_variance[i, j] <- round(stats::var(sub[,1]), 5)
         }
       }
     }
