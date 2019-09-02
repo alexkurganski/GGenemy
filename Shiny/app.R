@@ -2,7 +2,7 @@ source("conditional_densities.R")
 source("../R/sum_stats.R")
 
 # UI
-ui <- shiny::navbarPage("Conditional Densities", theme = shinythemes::shinytheme("flatly"),
+ui <- shiny::navbarPage("Conditional Densities", theme = shinythemes::shinytheme("superhero"),
 
     #First Tab - Reading Data
       shiny::tabPanel("Data-Upload",
@@ -268,34 +268,10 @@ shiny::shinyApp(ui = ui, server = server)
 # to do:
 #########################################################################################
 
-# 1.!!!!!!
-# Fix categorical variables - can not fix it - Help Tabea:
-# Eather I try it in the df part - reloades Input without values
-# Or outside of it but it does not affect the dataset
-# FIXED THIS! 
-# I have already solved it, but I have to leave it for motivational aspects
-# so that I know that I can get everything solved. *Sonnenbrillensmiley*
-
-# (2.)
-# multiple Datasets? Is it necessary? One Dataset loaded should be enough or?
-# Would make many things way more complicated for a low value.
-
-# 3.
-# fixed length number of plots. Is fixed at 10 now, can not be chosen with an input$
-# I do not have an Idea how to fix this. Is it a big problem?
-
-# 4.
-# The 4th argument of sum stats only works properly.
-# The function has big problems with factorial variables. Did not look into it,
-# why it is not working properly
-# UPDATE: fixed the problem with categorical variables, it should work now
-# We only get our self-made warning when conditioning on categorical variables.
 
 # 5.
 # Better looking outputs for Data-Upload, Data-Management and sum stats
 # Furthermore choose theme
-
-# 6. Stop warnings (See 11)
 
 # 7. What to do with NA's? #good looking solutions
 
@@ -317,9 +293,3 @@ shiny::shinyApp(ui = ui, server = server)
 # 12. Progress of calulation
 
 # 13. Varselectinput() instead of checkboxgroupinput()
-
-# 14. unrelated to shiny but still relevant: we should rename the quantile column in 
-# data_help to avoid confusing it with the actual stats::quantile() function we use later
-# R shows this as a note when applying check(): plot_conditional_densities: no visible binding for global variable
-#'quantile'.
-
