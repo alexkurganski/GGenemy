@@ -1,5 +1,5 @@
-source("shiny/conditional_densities.R")
-source("R/sum_stats.R")
+source("conditional_densities.R")
+source("../R/sum_stats.R")
 
 # UI
 ui <- shiny::navbarPage("Conditional Densities", theme = shinythemes::shinytheme("flatly"),
@@ -92,9 +92,9 @@ ui <- shiny::navbarPage("Conditional Densities", theme = shinythemes::shinytheme
                                                value = 5),
                             
                             shiny::radioButtons("n_sum_stats",
-                                                label = "Number of sum stats",
-                                                choices = list("1. Derivative" = 1, "2. Derivative" = 2,
-                                                               "3. Derivative" = 3, "4. Derivative" = 4),
+                                                label = "Choice of sum stats",
+                                                choices = list("Conditional Mean" = 1, "Conditional Variance" = 2,
+                                                               "Conditional Skewness" = 3, "Conditional Kurtosis" = 4),
                                                 selected = 3)
                         ),
                     
