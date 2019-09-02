@@ -41,13 +41,19 @@ plot_conditional_densities <- function(var_name, dataset, n_quantiles = 5){
 
   #1.2 continuous var_name
   else{
-    var_goal <- dplyr::select(dataset, var_name)[,1]
-    quantiles <- quantile(var_goal, 1:(n_quantiles-1)/(n_quantiles))
-    quantiles <- as.numeric(quantiles)
-    data_help <- dataset
-    data_help$quantile <- 1 + findInterval(var_goal, quantiles)
-    data_help$quantile <- as.factor(data_help$quantile)
-    names_var <- names(dataset)
+    if(n_quantiles == 1){
+      data_help <- dataset
+      data_help$quantile <- 1
+      data_help$quantile <- as.factor(data_help$quantile)
+    }else{
+      var_goal <- dplyr::select(dataset, var_name)[,1]
+      quantiles <- quantile(var_goal, 1:(n_quantiles-1)/(n_quantiles))
+      quantiles <- as.numeric(quantiles)
+      data_help <- dataset
+      data_help$quantile <- 1 + findInterval(var_goal, quantiles)
+      data_help$quantile <- as.factor(data_help$quantile)
+      names_var <- names(dataset)
+      }
   }
 
   #2.
@@ -65,6 +71,8 @@ plot_conditional_densities <- function(var_name, dataset, n_quantiles = 5){
       ggplot2::ggtitle(paste0(a, " conditional on ", var_name))
   }
   })
+
+
 }
 
 
@@ -82,13 +90,19 @@ plot_single_conditional_density <- function(dataset, var_name, n_quantiles = 5, 
 
   #1.2 continuous var_name
   else{
-    var_goal <- dplyr::select(dataset, var_name)[,1]
-    quantiles <- quantile(var_goal, 1:(n_quantiles-1)/(n_quantiles))
-    quantiles <- as.numeric(quantiles)
-    data_help <- dataset
-    data_help$quantile <- 1 + findInterval(var_goal, quantiles)
-    data_help$quantile <- as.factor(data_help$quantile)
-  }
+    if(n_quantiles == 1){
+      data_help <- dataset
+      data_help$quantile <- 1
+      data_help$quantile <- as.factor(data_help$quantile)
+      }else{ 
+        var_goal <- dplyr::select(dataset, var_name)[,1]
+        quantiles <- quantile(var_goal, 1:(n_quantiles-1)/(n_quantiles))
+        quantiles <- as.numeric(quantiles)
+        data_help <- dataset
+        data_help$quantile <- 1 + findInterval(var_goal, quantiles)
+        data_help$quantile <- as.factor(data_help$quantile)
+      }
+    }
 
   #2.
   g <- ggplot2::ggplot(data_help, ggplot2::aes(fill = quantile)) + ggplot2::theme_minimal()
