@@ -4,19 +4,33 @@
 # 2. Calculate a number of summary statistics for all other variables conditioned on the 
 # selected variable and print them in a list with an entry for each summary statistic.
 
-#' Title
+#' Summary Statistics
+#' 
+#' Calculates the means, variances, skewness and kurtosis for a range of quantiles
+#' of continuous variables. 
 #'
 #' @param var_name A variable from your \code{dataset}.
 #' @param dataset A dataframe. 
 #' @param n_quantiles Number of quantiles you want to partition \code{var_name} into.
-#' @param n_sum_stats Number of summary statistics you want to print. Order of the 
-#' statistics is: conditional mean, conditional variance, conditional skewness, 
+#' @param n_sum_stats Number of summary statistics you want to print. The order of the 
+#' statistics is as follows: conditional mean, conditional variance, conditional skewness, 
 #' conditional kurtosis. 
 #'
 #' @return A list with one entry for each summary statistic.
 #' @export
 #'
 #' @examples 
+#' n <- 500
+#' number_variables <- 5
+#' n_quantiles <- 4
+#' 
+#' set.seed(42)
+#' variables <- as.data.frame(sapply(1:number_variables, function(a){
+#'   if (runif(1) < 0.5) rnorm(n)
+#'     else rgamma(n, 0.5)
+#'}))
+#'  
+#' sum_stats("V1", variables, n_quantiles, n_sum_stats = 4)  
 sum_stats <- function(var_name, dataset, n_quantiles = 5, n_sum_stats = 3){
   
   #1.1 categorical var_name
@@ -37,7 +51,7 @@ sum_stats <- function(var_name, dataset, n_quantiles = 5, n_sum_stats = 3){
       data_help$quant <- as.factor(data_help$quant)
     } else {
       var_goal <- dplyr::select(dataset, var_name)[,1]
-      quantiles <- quantile(var_goal, 1:(n_quantiles-1)/(n_quantiles))
+      quantiles <- stats::quantile(var_goal, 1:(n_quantiles-1)/(n_quantiles))
       quantiles <- as.numeric(quantiles)
       data_help <- dataset
       data_help$quant <- 1 + findInterval(var_goal, quantiles)
@@ -71,7 +85,7 @@ sum_stats <- function(var_name, dataset, n_quantiles = 5, n_sum_stats = 3){
     for (j in 1:ncol(dataset)) {
       
       #do not calculate means for non-continuous variables
-      if(class(data_help[, j]) != "numeric"){
+      if(class(data_help[, j]) == "factor"){
         sum_stats$conditional_mean[i, j] <- NA
       } else {
         sub <- subset(data_help, quant == as.character(i), select = names_var[j])
@@ -86,7 +100,7 @@ sum_stats <- function(var_name, dataset, n_quantiles = 5, n_sum_stats = 3){
       for (j in 1:ncol(dataset)) {
         
         #do not calculate variance for non-continuous variables
-        if(class(data_help[, j]) != "numeric"){
+        if(class(data_help[, j]) == "factor"){
           sum_stats$conditional_variance[i, j] <- NA
         } else {
           sub <- subset(data_help, quant == as.character(i), select = names_var[j])
@@ -103,7 +117,7 @@ sum_stats <- function(var_name, dataset, n_quantiles = 5, n_sum_stats = 3){
       for (j in 1:ncol(dataset)) {
         
         #do not calculate skewness for non-continuous variables
-        if(class(data_help[, j]) != "numeric"){
+        if(class(data_help[, j]) == "factor"){
           sum_stats$conditional_skewness[i, j] <- NA
         } else {
           sub <- subset(data_help, quant == as.character(i), select = names_var[j])
@@ -120,7 +134,7 @@ sum_stats <- function(var_name, dataset, n_quantiles = 5, n_sum_stats = 3){
       for (j in 1:ncol(dataset)) {
         
         #do not calculate kurtosis for non-continuous variables
-        if(class(data_help[, j]) != "numeric"){
+        if(class(data_help[, j]) == "factor"){
           sum_stats$conditional_kurtosis[i, j] <- NA
         } else {
           sub <- subset(data_help, quant == as.character(i), select = names_var[j])
