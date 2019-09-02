@@ -2,7 +2,11 @@ source("conditional_densities.R")
 source("../R/sum_stats.R")
 
 # UI
+<<<<<<< HEAD
 ui <- shiny::navbarPage("Conditional Densities", theme = shinythemes::shinytheme("superhero"),
+=======
+ui <- shiny::navbarPage("GGenemy", theme = shinythemes::shinytheme("superhero"),
+>>>>>>> f68f30a87e51cdd14a6a5973fdc1a35e0b3ddab8
 
     #First Tab - Reading Data
       shiny::tabPanel("Data-Upload",
@@ -141,7 +145,7 @@ ui <- shiny::navbarPage("Conditional Densities", theme = shinythemes::shinytheme
                             
                         # Show a plot of the generated distribution
                         shiny::mainPanel(
-                            lapply(1:10, function(i) {
+                            lapply(1:25, function(i) {
                                 shiny::plotOutput(paste0('condplot', i))
                                 })
                             )
@@ -247,7 +251,7 @@ server <- function(input, output, session){
 #Cond Plot Densities
 
   shiny::observeEvent(input$clicks, {
-    len <- length(as.numeric(input$var_to_cond_on)) #### THIS CREATES A WARNING: SEE 11
+    len <- length(input$var_to_cond_on)
     lapply(1:len,function(i) {
       output[[paste0("condplot",i)]] <- shiny::renderPlot({
         plot_single_conditional_density(shiny::isolate(data2()),
@@ -268,11 +272,14 @@ shiny::shinyApp(ui = ui, server = server)
 # to do:
 #########################################################################################
 
+<<<<<<< HEAD
 
 # 5.
 # Better looking outputs for Data-Upload, Data-Management and sum stats
 # Furthermore choose theme
 
+=======
+>>>>>>> f68f30a87e51cdd14a6a5973fdc1a35e0b3ddab8
 # 7. What to do with NA's? #good looking solutions
 
 # 8. Spacing relevant? Example: Dataset with many variables won't fit with head().
@@ -283,13 +290,11 @@ shiny::shinyApp(ui = ui, server = server)
 # RDs? raw?
 # readr
 
-# 11. as.numeric creates a warning "NAs introduced by coercion".
-# Three solutions stated here: 
-# https://stackoverflow.com/questions/14984989/how-to-avoid-warning-when-introducing-nas-by-coercion
-# 1. suppressWarnings() #not a good solution, because we don't get a warning anymore.
-# other package (would not do that)
-# write own function: Possible function is provided.
-
 # 12. Progress of calulation
 
 # 13. Varselectinput() instead of checkboxgroupinput()
+<<<<<<< HEAD
+=======
+
+# 14. actionbutton in colour
+>>>>>>> f68f30a87e51cdd14a6a5973fdc1a35e0b3ddab8
