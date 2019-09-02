@@ -1,15 +1,11 @@
-source("conditional_densities.R")
+source("../R/plot_single_conditional_density.R")
 source("../R/sum_stats.R")
 
 # UI
-<<<<<<< HEAD
-ui <- shiny::navbarPage("Conditional Densities", theme = shinythemes::shinytheme("superhero"),
-=======
 ui <- shiny::navbarPage("GGenemy", theme = shinythemes::shinytheme("superhero"),
->>>>>>> f68f30a87e51cdd14a6a5973fdc1a35e0b3ddab8
 
     #First Tab - Reading Data
-      shiny::tabPanel("Data-Upload",
+      shiny::tabPanel("1. Data Upload",
                       shiny::sidebarLayout(
                             shiny::sidebarPanel(
                                 # Input: Read CSV-Data
@@ -60,7 +56,7 @@ ui <- shiny::navbarPage("GGenemy", theme = shinythemes::shinytheme("superhero"),
                       ),
 #############################################################################
 
-    shiny::tabPanel("Data-Structure",
+    shiny::tabPanel("2. Data Structure",
                     
                     shiny::sidebarLayout(
                         shiny::sidebarPanel(
@@ -75,12 +71,12 @@ ui <- shiny::navbarPage("GGenemy", theme = shinythemes::shinytheme("superhero"),
             shiny::verbatimTextOutput("summary1"),
             
             shiny::verbatimTextOutput("str1")
-            ),
+            )
         )
         ),
 
 #####################################################################################    
-    shiny::tabPanel("Summary_Stats",
+    shiny::tabPanel("3. Summary Stats",
                 
                     shiny::sidebarLayout(
                         shiny::sidebarPanel(
@@ -110,7 +106,7 @@ ui <- shiny::navbarPage("GGenemy", theme = shinythemes::shinytheme("superhero"),
 #####################################################################################    
 
 
-    shiny::tabPanel("Plot",
+    shiny::tabPanel("4. Plots",
 
                     shiny::sidebarLayout(
                         shiny::sidebarPanel(
@@ -219,18 +215,18 @@ server <- function(input, output, session){
     })
         
   output$na1 <- shiny::renderPrint({
-    paste("The dataset contains", nrow(data1()))
+    paste("The raw dataset consists of", nrow(data1()), "rows.")
     })
         
   output$na2 <- shiny::renderPrint({
-    paste("With deleting NA's, the dataset has",nrow(data2()),"rows")
+    paste("After deleting NA's, the dataset has",nrow(data2()),"rows.")
     })
   
 ####################################################################        
 # Data-Management Tab
 
   output$summary1 <- shiny::renderPrint({
-    summary(data2())
+    prettyR::describe(data2(), xname = "Dataset")
     })
     
   output$str1 <- shiny::renderPrint({
@@ -272,14 +268,6 @@ shiny::shinyApp(ui = ui, server = server)
 # to do:
 #########################################################################################
 
-<<<<<<< HEAD
-
-# 5.
-# Better looking outputs for Data-Upload, Data-Management and sum stats
-# Furthermore choose theme
-
-=======
->>>>>>> f68f30a87e51cdd14a6a5973fdc1a35e0b3ddab8
 # 7. What to do with NA's? #good looking solutions
 
 # 8. Spacing relevant? Example: Dataset with many variables won't fit with head().
@@ -293,8 +281,6 @@ shiny::shinyApp(ui = ui, server = server)
 # 12. Progress of calulation
 
 # 13. Varselectinput() instead of checkboxgroupinput()
-<<<<<<< HEAD
-=======
 
 # 14. actionbutton in colour
->>>>>>> f68f30a87e51cdd14a6a5973fdc1a35e0b3ddab8
+
