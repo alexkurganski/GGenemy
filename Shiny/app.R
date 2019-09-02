@@ -1,5 +1,5 @@
-source("conditional_densities.R")
-source("../R/sum_stats.R")
+source("shiny/conditional_densities.R")
+source("R/sum_stats.R")
 
 # UI
 ui <- shiny::navbarPage("Conditional Densities", theme = shinythemes::shinytheme("flatly"),
@@ -39,7 +39,6 @@ ui <- shiny::navbarPage("Conditional Densities", theme = shinythemes::shinytheme
                                 shiny::tags$b("Rownames"),
                                 
                                 shiny::checkboxInput("rownames",
-
                                                  label = "First column as rownames",
                                                  FALSE)
                                 
@@ -57,8 +56,6 @@ ui <- shiny::navbarPage("Conditional Densities", theme = shinythemes::shinytheme
                       ),
 #############################################################################
 
-    #Second Tab-Data Structure
-
     shiny::tabPanel("Data-Structure",
                     
                     shiny::sidebarLayout(
@@ -74,13 +71,11 @@ ui <- shiny::navbarPage("Conditional Densities", theme = shinythemes::shinytheme
             shiny::verbatimTextOutput("summary1"),
             
             shiny::verbatimTextOutput("str1")
-            )
+            ),
         )
         ),
 
-##################################################################################### 
-
-    #Third Tab - Summary Stats
+#####################################################################################    
     shiny::tabPanel("Summary_Stats",
                 
                     shiny::sidebarLayout(
@@ -110,7 +105,7 @@ ui <- shiny::navbarPage("Conditional Densities", theme = shinythemes::shinytheme
         ),
 #####################################################################################    
 
-    #Fourth Tab - Plots
+
     shiny::tabPanel("Plot",
 
                     shiny::sidebarLayout(
@@ -231,8 +226,7 @@ server <- function(input, output, session){
 # Data-Management Tab
 
   output$summary1 <- shiny::renderPrint({
-    prettyR::describe(data2(), xname = "Data Set")
-    #summary(data2())
+    summary(data2())
     })
     
   output$str1 <- shiny::renderPrint({
@@ -303,7 +297,7 @@ shiny::shinyApp(ui = ui, server = server)
 
 # 6. Stop warnings (See 11)
 
-# 7. What to do with NA's?
+# 7. What to do with NA's? #good looking solutions
 
 # 8. Spacing relevant? Example: Dataset with many variables won't fit with head().
 
@@ -320,7 +314,12 @@ shiny::shinyApp(ui = ui, server = server)
 # other package (would not do that)
 # write own function: Possible function is provided.
 
-# 12. unrelated to shiny but still relevant: we should rename the quantile column in 
+# 12. Progress of calulation
+
+# 13. Varselectinput() instead of checkboxgroupinput()
+
+# 14. unrelated to shiny but still relevant: we should rename the quantile column in 
 # data_help to avoid confusing it with the actual stats::quantile() function we use later
 # R shows this as a note when applying check(): plot_conditional_densities: no visible binding for global variable
 #'quantile'.
+
