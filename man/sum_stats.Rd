@@ -2,7 +2,7 @@
 % Please edit documentation in R/sum_stats.R
 \name{sum_stats}
 \alias{sum_stats}
-\title{Title}
+\title{Summary Statistics}
 \usage{
 sum_stats(var_name, dataset, n_quantiles = 5, n_sum_stats = 3)
 }
@@ -13,13 +13,27 @@ sum_stats(var_name, dataset, n_quantiles = 5, n_sum_stats = 3)
 
 \item{n_quantiles}{Number of quantiles you want to partition \code{var_name} into.}
 
-\item{n_sum_stats}{Number of summary statistics you want to print. Order of the 
-statistics is: conditional mean, conditional variance, conditional skewness, 
+\item{n_sum_stats}{Number of summary statistics you want to print. The order of the 
+statistics is as follows: conditional mean, conditional variance, conditional skewness, 
 conditional kurtosis.}
 }
 \value{
 A list with one entry for each summary statistic.
 }
 \description{
-Title
+Calculates the means, variances, skewness and kurtosis for a range of quantiles
+of continuous variables.
+}
+\examples{
+n <- 500
+number_variables <- 5
+n_quantiles <- 4
+
+set.seed(42)
+variables <- as.data.frame(sapply(1:number_variables, function(a){
+  if (runif(1) < 0.5) rnorm(n)
+    else rgamma(n, 0.5)
+}))
+ 
+sum_stats("V1", variables, n_quantiles, n_sum_stats = 4)  
 }

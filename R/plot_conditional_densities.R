@@ -5,15 +5,18 @@
 
 #' Plot conditional densities
 #' 
-#' Plot densities of continuous or categorical variables conditioned on quantiles of continuous
-#' or categories of categorical variables.
+#' Plots densities of continuous variables, conditioned on quantiles of 
+#' continuous variables or categories of categorical variables. 
+#' For categorical variables, boxplots or barplots will be created, depending on whether
+#' the variable to be conditioned on is continuous or categorical.
 #'   
 #'
 #' @param var_name A variable from your \code{dataset}.
 #' @param dataset A dataframe. 
 #' @param n_quantiles Number of quantiles you want to partition \code{var_name} into.
 #'
-#' @return  
+#' @return Several ggplot graphics. The total number of plots will equal the number of
+#' variables in your \code{dataset}.
 #' @export
 #'
 #' @examples
