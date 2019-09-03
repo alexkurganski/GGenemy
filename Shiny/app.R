@@ -14,6 +14,8 @@ ui <- shiny::navbarPage("GGenemy", theme = shinythemes::shinytheme("superhero"),
                                                      "txt/csv",
                                                      "text/comma-separated-values,text/plain",
                                                      ".csv")),
+                                tags$style(".btn-file {background-color:#FF7F50; border-color: black;}"),
+                            
 
                                 # Input: Checkbox if file has header
                                 shiny::tags$b("Header"),
@@ -134,7 +136,9 @@ ui <- shiny::navbarPage("GGenemy", theme = shinythemes::shinytheme("superhero"),
                             
                             
                             shiny::actionButton(inputId = "clicks",
-                                                label = "Calculate!")
+                                                label = "Calculate!",
+                                                icon("paper-plane"), 
+                                                style="color: white; background-color: #FF7F50; border-color: black")
                             
 
                             ),
