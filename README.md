@@ -1,7 +1,7 @@
 # GGenemy
 
 This is a line from RStudio.
-This is a line from GitHub.
+This is a line from GitHub.\\
 ![Upload Data Demo](Image/1.Gif_Data_Upload.gif)
 
 <!-- badges: start -->
