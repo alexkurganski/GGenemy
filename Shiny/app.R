@@ -18,7 +18,7 @@ ui <- shiny::navbarPage("GGenemy",
             ".csv"
           )
         ),
-        tags$style(".btn-file {background-color:#FF7F50; border-color: black;}"),
+        shiny::tags$style(".btn-file {background-color:#FF7F50; border-color: black;}"),
 
 
         # Input: Checkbox if file has header
@@ -141,7 +141,7 @@ ui <- shiny::navbarPage("GGenemy",
 
         # Help Text
         shiny::helpText("When conditioning to a factor variable,
-                                            the number of quantiles is set to the number of factors."),
+                        the number of quantiles is set to the number of factors."),
 
         # Select conditional variable
         shiny::radioButtons("var_name2",
@@ -159,7 +159,7 @@ ui <- shiny::navbarPage("GGenemy",
         shiny::actionButton(
           inputId = "clicks",
           label = "Calculate!",
-          icon("paper-plane"),
+          shiny::icon("paper-plane"),
           style = "color: white; background-color: #FF7F50; border-color: black"
         )
       ),
