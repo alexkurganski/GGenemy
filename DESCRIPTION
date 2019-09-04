@@ -2,8 +2,8 @@ Package: GGenemy
 Title: Visualization of multidimensional data by multiple conditioning
 Version: 0.0.0.9000
 Authors@R: c(
-    person("Tabea", "Hüllen", email="tabea.huellen@gmx.de", role = "aut"),
-    person("Alex", "Kurganski", email="alex.kurganski@stud.uni-goettingen.de", role = c("aut", "cre")))
+    person("Tabea", "Hüllen", email = "tabea.huellen@gmx.de", role = "aut"),
+    person("Alex", "Kurganski", email = "alex.kurganski@stud.uni-goettingen.de", role = c("aut", "cre")))
 Description: GGenemy allows you to analyze multidimensional data by providing tools to
     visualize densities with multiple conditions both interactively with Shiny and as 
     regular plots using the ggplot2 framework. Moreover, the data structure can be explored
