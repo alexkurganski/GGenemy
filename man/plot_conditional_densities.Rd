@@ -11,27 +11,31 @@ plot_conditional_densities(var_name, dataset, n_quantiles = 5)
 
 \item{dataset}{A dataframe.}
 
-\item{n_quantiles}{Number of quantiles you want to partition \code{var_name} into.}
+\item{n_quantiles}{Number of quantiles you want to partition \code{var_name}
+into.}
 }
 \value{
-Several ggplot graphics. The total number of plots will equal the number of
-variables in your \code{dataset}.
+Several ggplot graphics. The total number of plots will equal the
+  number of variables in your \code{dataset}.
 }
 \description{
-Plots densities of continuous variables, conditioned on quantiles of 
-continuous variables or categories of categorical variables. 
-For categorical variables, boxplots or barplots will be created, depending on whether
-the variable to be conditioned on is continuous or categorical.
+Plots densities of continuous variables, conditioned on quantiles of
+continuous variables or categories of categorical variables. For categorical
+variables, boxplots or barplots will be created, depending on whether the
+variable to be conditioned on is continuous or categorical.
 }
 \examples{
 n <- 500
 number_variables <- 5
 
 set.seed(42)
-variables <- as.data.frame(sapply(1:number_variables, function(a){
-  if (runif(1) < 0.5) rnorm(n)
-    else rgamma(n, 0.5)
+variables <- as.data.frame(sapply(1:number_variables, function(a) {
+  if (runif(1) < 0.5) {
+    rnorm(n)
+  } else {
+    rgamma(n, 0.5)
+  }
 }))
 
-plot_conditional_densities("V1", variables)     
+plot_conditional_densities("V1", variables)
 }
