@@ -102,6 +102,8 @@ GGenemy <- function() {
 
       shiny::sidebarLayout(
         shiny::sidebarPanel(
+          shiny::helpText("Factors will not be displayed."),
+          
           shiny::radioButtons("var_name",
             label = "",
             choices = c("Dataset is missing")
@@ -148,7 +150,7 @@ GGenemy <- function() {
 
           # Help Text
           shiny::helpText("When conditioning to a factor variable,
-                                                the number of quantiles is set to the number of factors."),
+                          the number of quantiles is set to the number of factors."),
 
           # Select conditional variable
           shiny::radioButtons("var_name2",
@@ -242,12 +244,52 @@ GGenemy <- function() {
       )
 
       for (i in unlist(input$as.factor, use.names = FALSE)) {
-        df[, i] <- as.factor(df[, i])
+        df[,i] <- as.factor(df[,i])
       }
       df_reduced <- stats::na.omit(df)
+      
+      df_reduced2 <- df_reduced
+      
+      colnum <- which(sapply(df_reduced,is.factor))
+      
+      df_reduced2[colnum] <- NULL
+      
+      shiny::updateRadioButtons(session,
+                                inputId = "var_name",
+                                label = "Condition variable",
+                                choices = names(df_reduced2)
+      )
+      return(df_reduced)
+    })
+    
+    data3 <- shiny::reactive({
+      shiny::req(input$file1) # require that the input is available
+      
+      inFile <- input$file1
+      df <- utils::read.csv(inFile$datapath,
+                            header = input$header,
+                            sep = input$sep,
+                            quote = input$quote,
+                            row.names = if (input$rownames) {
+                              1
+                            } else {
+                              NULL
+                            }
+      )
+      
+      for (i in unlist(input$as.factor, use.names = FALSE)) {
+        df[,i] <- as.factor(df[,i])
+      }
+      df_reduced <- stats::na.omit(df)
+      
+      colnum <- which(sapply(df_reduced,is.factor))
+      
+      df_reduced[colnum] <- NULL
+      
       return(df_reduced)
     })
 
+    
     ####################################################################
     # Data-Upload Tab
 
@@ -280,7 +322,7 @@ GGenemy <- function() {
     output$sum_stats1 <- shiny::renderPrint({
       sum_stats(
         input$var_name,
-        data2(),
+        data3(),
         input$quantiles_sum_stats,
         input$n_sum_stats
       )
