@@ -18,7 +18,7 @@ ui <- shiny::navbarPage("GGenemy",
             ".csv"
           )
         ),
-        tags$style(".btn-file {background-color:#FF7F50; border-color: black;}"),
+        shiny::tags$style(".btn-file {background-color:#FF7F50; border-color: black;}"),
 
 
         # Input: Checkbox if file has header
