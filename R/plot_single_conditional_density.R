@@ -1,12 +1,12 @@
-# Plot Single Conditional densities
-
-# 1.Calculate the quantiles for selected variable
-# 2.Plot densities of one variable based on the calculated quantiles
-
 #' Plot a single conditional density
 #'
 #' Plots the conditional density of a continuous variable conditioned on quantiles of
-#' another continuous variable or categories of a categorical variable.
+#' another continuous variable or categories of a categorical variable. Other plot types for other classes of variables.
+#' 
+#' If the variable of interest is continuous, the function will create 
+#' a conditional density plot. Depending on whether the variable to be conditioned
+#' on is continuous itself or a factor, the dependent variable will be
+#' conditioned on its quantiles or categories.
 #' If the variable of interest is categorical, a boxplot or barplot will be created,
 #' depending on whether the conditional variable is continuous or categorical.
 #'
@@ -32,6 +32,12 @@
 #' }))
 #'
 #' plot_single_conditional_density(variables, "V1", 5, "V2")
+
+# Plot Single Conditional densities
+
+# 1.Calculate the quantiles for selected variable
+# 2.Plot densities of one variable based on the calculated quantiles
+
 plot_single_conditional_density <- function(dataset, var_name, n_quantiles = 5, var_to_cond_on) {
 
   # 1.1 categorial var_name

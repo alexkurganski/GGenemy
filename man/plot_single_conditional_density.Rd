@@ -12,8 +12,7 @@ plot_single_conditional_density(dataset, var_name, n_quantiles = 5,
 
 \item{var_name}{The variable of interest from your \code{dataset}.}
 
-\item{n_quantiles}{Number of quantiles you want to partition \code{var_name}
-into.}
+\item{n_quantiles}{Number of quantiles you want to partition \code{var_name} into.}
 
 \item{var_to_cond_on}{A variable to condition on from your \code{dataset}.}
 }
@@ -21,17 +20,16 @@ into.}
 A ggplot graphic.
 }
 \description{
-Plots the conditional density of a continuous variable conditioned on
-quantiles of another continuous variable or categories of a categorical
-variable. Other plot types for other classes of variables.
+Plots the conditional density of a continuous variable conditioned on quantiles of
+another continuous variable or categories of a categorical variable. Other plot types for other classes of variables.
 }
 \details{
-If the variable of interest is continuous, the function will create a
-conditional density plot. Depending on whether the variable to be conditioned
+If the variable of interest is continuous, the function will create 
+a conditional density plot. Depending on whether the variable to be conditioned
 on is continuous itself or a factor, the dependent variable will be
-conditioned on its quantiles or categories. If the variable of interest is
-categorical, a boxplot or barplot will be created, depending on whether the
-conditional variable is continuous or categorical.
+conditioned on its quantiles or categories.
+If the variable of interest is categorical, a boxplot or barplot will be created,
+depending on whether the conditional variable is continuous or categorical.
 }
 \examples{
 n <- 500
