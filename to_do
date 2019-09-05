@@ -2,9 +2,11 @@ GGenemy - To Do:
 
 * Umzug von app.R nach GGenemy() --> löst Problem des überflüssigen Shiny Folders
   und erlaubt direkten Zugriff auf die Funktionen ohne source() nutzen zu müssen
+  ---> FERTIG
 * Tests für sum_stats() und plot_single_conditional_density() --> Test für plots
   über Abgleich der korrekten class() und ob alle Punktpaare am richtigen Platz sind
 * zzz.R schreiben mit globalVariables(c("quant")) um Note zu vermeiden
+  ---> FERTIG
 * NAs im Datensatz evtl. nicht direkt rauslöschen, sondern in den Funktionen einzeln
   mit na.rm = TRUE entfernen
 * für Data Structure:
@@ -17,3 +19,21 @@ GGenemy - To Do:
   - alle Boxen per Default checken
   - Möglichkeit zum speichern der Graphiken geben
   - Möglichkeit zum Code anzeigen geben
+  
+  
+* übrig gebliebene Notizen aus app.R:
+# 7. What to do with NA's? #good looking solutions
+
+# 8. Spacing relevant? Example: Dataset with many variables won't fit with head().
+
+# 9. obtain Code function?
+
+# 10. Which Data do we allow to read into our dataset? We have now csv and txt.
+# RDs? raw?
+# readr
+
+# 12. Progress of calculation
+
+# 13. Varselectinput() instead of checkboxgroupinput()
+
+# 14. actionbutton in colour
