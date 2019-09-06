@@ -170,7 +170,14 @@ GGenemy <- function() {
             label = "Calculate!",
             shiny::icon("paper-plane"),
             style = "color: white; background-color: #FF7F50; border-color: black"
+          ),
+          
+          shiny::downloadButton(
+            "downloadPlot",
+            label = "Download Plots",
+            style = "color: white; background-color: #FF7F50; border-color: black"
           )
+          
         ),
 
         # Show a plot of the generated distribution
@@ -345,8 +352,23 @@ GGenemy <- function() {
     },
     ignoreInit = TRUE
     )
+    
+  output$downloadPlot <- shiny::downloadHandler(
+    filename = function() {paste0("GGenemyPlot", i ,".pdf")},
+    content = function(file) {
+      pdf(file)
+      gridExtra::marrangeGrob(
+        print(plot_conditional_densities_saveshiny(
+        shiny::isolate(data2()),
+        shiny::isolate(input$var_name2),
+        shiny::isolate(input$quantiles),
+        shiny::isolate(input$var_to_cond_on)
+        )),
+        nrow = 1, ncol= 1)
+      dev.off()
+    }
+  )   
   }
-
   # Run the application
   shiny::shinyApp(ui = ui, server = server)
 }

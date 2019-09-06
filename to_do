@@ -1,4 +1,4 @@
-GGenemy - To Do:
+﻿GGenemy - To Do:
 
 * Umzug von app.R nach GGenemy() --> löst Problem des überflüssigen Shiny Folders
   und erlaubt direkten Zugriff auf die Funktionen ohne source() nutzen zu müssen
@@ -14,10 +14,12 @@ GGenemy - To Do:
   - für metrische Variablen min und max zusätzlich ausgeben lassen
 * für sum_stats:
   - Faktore entfernen, damit NA-Spalten nicht angezeigt werden
+  ---> FERTIG
   - Möglichkeit geben, auch als Plots ausgeben zu lassen
 * für die Plots:
   - alle Boxen per Default checken
   - Möglichkeit zum speichern der Graphiken geben
+  ---> FERTIG
   - Möglichkeit zum Code anzeigen geben
   
   
