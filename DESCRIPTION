@@ -20,6 +20,8 @@ Imports:
     moments,
     shiny,
     shinythemes,
-    utils
+    utils,
+    gridExtra,
+    grDevices
 Suggests: 
     testthat (>= 2.1.0)

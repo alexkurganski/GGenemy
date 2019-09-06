@@ -119,7 +119,7 @@ GGenemy <- function() {
           ),
 
           shiny::radioButtons("n_sum_stats",
-            label = "Choice of sum stats",
+            label = "Choice of summary statistics",
             choices = list(
               "Conditional Mean" = 1, "Conditional Variance" = 2,
               "Conditional Skewness" = 3, "Conditional Kurtosis" = 4
@@ -368,7 +368,7 @@ GGenemy <- function() {
   output$downloadPlot <- shiny::downloadHandler(
     filename = function() {paste0("GGenemyPlot", i ,".pdf")},
     content = function(file) {
-      pdf(file)
+      grDevices::pdf(file)
       gridExtra::marrangeGrob(
         print(plot_conditional_densities_saveshiny(
         shiny::isolate(data2()),
@@ -377,7 +377,7 @@ GGenemy <- function() {
         shiny::isolate(input$var_to_cond_on)
         )),
         nrow = 1, ncol= 1)
-      dev.off()
+      grDevices::dev.off()
     }
   )   
   }
