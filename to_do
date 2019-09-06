@@ -9,6 +9,8 @@ GGenemy - To Do:
   ---> FERTIG
 * NAs im Datensatz evtl. nicht direkt rauslöschen, sondern in den Funktionen einzeln
   mit na.rm = TRUE entfernen
+	-Kommentar: Sie sind ja nicht komplett rausgelöscht, in Data1() kann man jederzeit
+	drauf zugreifen.
 * für Data Structure:
   - nur einen Teil der Faktorstufen ausgeben lassen
   ---> FERRTIG
@@ -22,7 +24,10 @@ GGenemy - To Do:
   - alle Boxen per Default checken
   ---> FERTIG
   - Möglichkeit zum speichern der Graphiken geben
+  ---> FERTIG
   - Möglichkeit zum Code anzeigen geben
+  - Auswahl auch Plots als Boxplots? anzuzeigen
+  - Selber die Quantile auswählen
   
   
 * übrig gebliebene Notizen aus app.R:

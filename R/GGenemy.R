@@ -149,11 +149,12 @@ GGenemy <- function() {
             max = 10,
             value = 5
           ),
-
+          
           # Help Text
           shiny::helpText("When conditioning to a factor variable,
                           the number of quantiles is set to the number of factors."),
-
+          
+          
           # Select conditional variable
           shiny::radioButtons("var_name2",
             label = "",
@@ -165,22 +166,30 @@ GGenemy <- function() {
             label = "",
             choices = NULL
           ),
-
-
+          
           shiny::actionButton(
             inputId = "clicks",
             label = "Calculate!",
             shiny::icon("paper-plane"),
             style = "color: white; background-color: #FF7F50; border-color: black"
+          ),
+          
+          shiny::downloadButton(
+            "downloadPlot",
+            label = "Download Plots",
+            style = "color: white; background-color: #FF7F50; border-color: black"
           )
         ),
 
         # Show a plot of the generated distribution
+        
         shiny::mainPanel(
           lapply(1:25, function(i) {
             shiny::plotOutput(paste0("condplot", i))
           })
+        
         )
+        
       )
     )
   )
@@ -225,7 +234,8 @@ GGenemy <- function() {
       shiny::updateCheckboxGroupInput(session,
         inputId = "var_to_cond_on",
         label = "Variables to plot",
-        choices = names(df)
+        choices = names(df),
+        selected = names(df)
       )
       return(df)
     })
@@ -337,6 +347,9 @@ GGenemy <- function() {
     # Cond Plot Densities
 
     shiny::observeEvent(input$clicks, {
+      lapply(1:25, function(i) {
+        output[[paste0("condplot", i)]] <- NULL
+      })
       len <- length(input$var_to_cond_on)
       lapply(1:len, function(i) {
         output[[paste0("condplot", i)]] <- shiny::renderPlot({
@@ -351,8 +364,23 @@ GGenemy <- function() {
     },
     ignoreInit = TRUE
     )
+    
+  output$downloadPlot <- shiny::downloadHandler(
+    filename = function() {paste0("GGenemyPlot", i ,".pdf")},
+    content = function(file) {
+      pdf(file)
+      gridExtra::marrangeGrob(
+        print(plot_conditional_densities_saveshiny(
+        shiny::isolate(data2()),
+        shiny::isolate(input$var_name2),
+        shiny::isolate(input$quantiles),
+        shiny::isolate(input$var_to_cond_on)
+        )),
+        nrow = 1, ncol= 1)
+      dev.off()
+    }
+  )   
   }
-
   # Run the application
   shiny::shinyApp(ui = ui, server = server)
 }
