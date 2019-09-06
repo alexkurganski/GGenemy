@@ -147,11 +147,12 @@ GGenemy <- function() {
             max = 10,
             value = 5
           ),
-
+          
           # Help Text
           shiny::helpText("When conditioning to a factor variable,
                           the number of quantiles is set to the number of factors."),
-
+          
+          
           # Select conditional variable
           shiny::radioButtons("var_name2",
             label = "",
@@ -163,8 +164,7 @@ GGenemy <- function() {
             label = "",
             choices = NULL
           ),
-
-
+          
           shiny::actionButton(
             inputId = "clicks",
             label = "Calculate!",
@@ -177,15 +177,17 @@ GGenemy <- function() {
             label = "Download Plots",
             style = "color: white; background-color: #FF7F50; border-color: black"
           )
-          
         ),
 
         # Show a plot of the generated distribution
+        
         shiny::mainPanel(
           lapply(1:25, function(i) {
             shiny::plotOutput(paste0("condplot", i))
           })
+        
         )
+        
       )
     )
   )
@@ -230,7 +232,8 @@ GGenemy <- function() {
       shiny::updateCheckboxGroupInput(session,
         inputId = "var_to_cond_on",
         label = "Variables to condition on",
-        choices = names(df)
+        choices = names(df),
+        selected = names(df)
       )
       return(df)
     })
@@ -338,6 +341,9 @@ GGenemy <- function() {
     # Cond Plot Densities
 
     shiny::observeEvent(input$clicks, {
+      lapply(1:25, function(i) {
+        output[[paste0("condplot", i)]] <- NULL
+      })
       len <- length(input$var_to_cond_on)
       lapply(1:len, function(i) {
         output[[paste0("condplot", i)]] <- shiny::renderPlot({
