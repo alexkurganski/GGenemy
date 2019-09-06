@@ -6,8 +6,7 @@
 #' @return A Shiny App.
 #' @export
 #'
-#' @examples
-#' # coming soon.
+
 GGenemy <- function() {
   ui <- shiny::navbarPage("GGenemy",
     theme = shinythemes::shinytheme("superhero"),
@@ -85,7 +84,10 @@ GGenemy <- function() {
           shiny::checkboxGroupInput("as.factor",
             label = "",
             choices = NULL
-          )
+          ),
+          
+          shiny::helpText("For factors, only the 10 most common categories
+                          will be displayed.")
         ),
 
         shiny::mainPanel(
@@ -110,7 +112,7 @@ GGenemy <- function() {
           ),
 
           shiny::sliderInput("quantiles_sum_stats",
-            "Number of Quantiles:",
+            "Number of Quantiles to condition on:",
             min = 1,
             max = 10,
             value = 5
@@ -122,7 +124,7 @@ GGenemy <- function() {
               "Conditional Mean" = 1, "Conditional Variance" = 2,
               "Conditional Skewness" = 3, "Conditional Kurtosis" = 4
             ),
-            selected = 3
+            selected = 4
           )
         ),
 
@@ -222,7 +224,7 @@ GGenemy <- function() {
 
       shiny::updateCheckboxGroupInput(session,
         inputId = "var_to_cond_on",
-        label = "Variables to condition on",
+        label = "Variables to plot",
         choices = names(df)
       )
       return(df)
@@ -309,8 +311,12 @@ GGenemy <- function() {
     # Data-Management Tab
 
     output$summary1 <- shiny::renderPrint({
-      prettyR::describe(data2(), xname = "Dataset", horizontal = TRUE)
+      describe(data2(), num.desc = c("min", "quantile0.25",
+                                     "median", "mean", "quantile0.75",
+                                     "max", "sd", "var", "valid.n"),
+                        xname = "Dataset")
     })
+    
 
     output$str1 <- shiny::renderPrint({
       utils::str(data2())
