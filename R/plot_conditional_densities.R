@@ -55,7 +55,7 @@ plot_conditional_densities <- function(dataset, var_name, n_quantiles = 5) {
   # 2.
   names_var <- names(dataset)
   g <- ggplot2::ggplot(data_help, ggplot2::aes(fill = quant)) + ggplot2::theme_minimal()
-  lapply(names_var, function() {
+  lapply(names_var, function(a) {
     if (is.factor(data_help[, a]) & is.factor(data_help[, var_name])) {
       g + ggplot2::geom_bar(ggplot2::aes_string(x = a, fill = var_name)) +
         ggplot2::ggtitle(paste0(a, " conditional on ", var_name))
