@@ -366,18 +366,18 @@ GGenemy <- function() {
     )
     
   output$downloadPlot <- shiny::downloadHandler(
-    filename = function() {paste0("GGenemyPlot", i ,".pdf")},
+    filename = function() {paste0("GGenemyPlot.pdf")},
     content = function(file) {
       pdf(file)
       gridExtra::marrangeGrob(
-        print(plot_conditional_densities_saveshiny(
+        print(plot_multiple_conditional_densities(
         shiny::isolate(data2()),
         shiny::isolate(input$var_name2),
         shiny::isolate(input$quantiles),
         shiny::isolate(input$var_to_cond_on)
         )),
         nrow = 1, ncol= 1)
-      dev.off()
+      grDevices::dev.off()
     }
   )   
   }
