@@ -20,7 +20,6 @@ Imports:
     moments,
     shiny,
     shinythemes,
-    prettyR,
     utils
 Suggests: 
     testthat (>= 2.1.0)

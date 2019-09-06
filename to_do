@@ -11,12 +11,16 @@ GGenemy - To Do:
   mit na.rm = TRUE entfernen
 * für Data Structure:
   - nur einen Teil der Faktorstufen ausgeben lassen
+  ---> FERRTIG
   - für metrische Variablen min und max zusätzlich ausgeben lassen
+  ---> FERTIG
 * für sum_stats:
-  - Faktore entfernen, damit NA-Spalten nicht angezeigt werden
+  - Faktoren entfernen, damit NA-Spalten nicht angezeigt werden
+  ---> FERTIG
   - Möglichkeit geben, auch als Plots ausgeben zu lassen
 * für die Plots:
   - alle Boxen per Default checken
+  ---> FERTIG
   - Möglichkeit zum speichern der Graphiken geben
   - Möglichkeit zum Code anzeigen geben
   
