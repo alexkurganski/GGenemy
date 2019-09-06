@@ -2,6 +2,7 @@
 
 export(GGenemy)
 export(plot_conditional_densities)
+export(plot_multiple_conditional_densities)
 export(plot_single_conditional_density)
 export(sum_stats)
 import(stats)
