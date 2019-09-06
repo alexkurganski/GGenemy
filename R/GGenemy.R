@@ -17,7 +17,7 @@ GGenemy <- function() {
       shiny::sidebarLayout(
         shiny::sidebarPanel(
           # Input: Read CSV-Data
-          shiny::fileInput("file1", "Choose txt/csv File",
+          shiny::fileInput("file1", "Choose a txt/csv File",
             accept = c(
               "txt/csv",
               "text/comma-separated-values,text/plain",
@@ -46,11 +46,11 @@ GGenemy <- function() {
           ),
 
           # Input: Select quotes
-          shiny::radioButtons("quote", "Quote",
+          shiny::radioButtons("quote", "Which quotes are used?",
             choices = c(
               None = "",
-              "Double Quote" = '"',
-              "Single Quote" = "'"
+              "Double Quotes" = '"',
+              "Single Quotes" = "'"
             ),
             selected = '"'
           ),
@@ -58,7 +58,7 @@ GGenemy <- function() {
           shiny::tags$b("Rownames"),
 
           shiny::checkboxInput("rownames",
-            label = "First column as rownames",
+            label = "Treat values of the first column as rownames",
             FALSE
           )
         ),
@@ -86,8 +86,8 @@ GGenemy <- function() {
             choices = NULL
           ),
           
-          shiny::helpText("For factors, only the 10 most common categories
-                          will be displayed.")
+          shiny::helpText("For factors with a vast amount of levels, only 
+                          the 10 most common categories will be displayed.")
         ),
 
         shiny::mainPanel(
@@ -112,7 +112,7 @@ GGenemy <- function() {
           ),
 
           shiny::sliderInput("quantiles_sum_stats",
-            "Number of Quantiles to condition on:",
+            "Number of quantiles for the given variable",
             min = 1,
             max = 10,
             value = 5
@@ -144,18 +144,18 @@ GGenemy <- function() {
 
           # Input Number Quantiles
           shiny::sliderInput("quantiles",
-            "Number of Quantiles:",
+            "Number of quantiles for the given variable",
             min = 1,
             max = 10,
             value = 5
           ),
           
           # Help Text
-          shiny::helpText("When conditioning to a factor variable,
-                          the number of quantiles is set to the number of factors."),
+          shiny::helpText("When conditioning on a factor variable,
+                          the number of quantiles is set to the number of categories."),
           
           
-          # Select conditional variable
+          # Select given variable
           shiny::radioButtons("var_name2",
             label = "",
             choices = c("Dataset is missing")
@@ -215,19 +215,19 @@ GGenemy <- function() {
 
       shiny::updateCheckboxGroupInput(session,
         inputId = "as.factor",
-        label = "Which Variable is a factor?",
+        label = "Which variables are factors?",
         choices = names(df)
       )
 
       shiny::updateRadioButtons(session,
         inputId = "var_name",
-        label = "Condition variable",
+        label = "Given variable",
         choices = names(df)
       )
 
       shiny::updateRadioButtons(session,
         inputId = "var_name2",
-        label = "Condition variable",
+        label = "Given variable",
         choices = names(df)
       )
 
@@ -268,7 +268,7 @@ GGenemy <- function() {
       
       shiny::updateRadioButtons(session,
                                 inputId = "var_name",
-                                label = "Condition variable",
+                                label = "Given variable",
                                 choices = names(df_reduced2)
       )
       return(df_reduced)
@@ -368,7 +368,7 @@ GGenemy <- function() {
   output$downloadPlot <- shiny::downloadHandler(
     filename = function() {paste0("GGenemyPlot.pdf")},
     content = function(file) {
-      grDevices::pdf(file)
+      grDevices::pdf(file, width = 9)
       gridExtra::marrangeGrob(
         print(plot_multiple_conditional_densities(
         shiny::isolate(data2()),
