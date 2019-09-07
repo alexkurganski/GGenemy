@@ -127,3 +127,34 @@ describe <- function(x, num.desc = c("mean", "median", "var", "sd", "valid.n"),
     cat("describe: x must be a vector, matrix or data frame\n")
   }
 }
+
+
+print.desc<-function(x,ndec=2,...) {
+  desclen<-length(x)
+  descnames<-names(x)
+  for(desctype in 1:desclen) {
+    typelen<-length(x[[desctype]])
+    if(typelen) {
+      cat("\n",descnames[desctype],"\n")
+      nvar<-length(x[[desctype]])
+      if(descnames[desctype] == "Numeric") {
+        nrows<-length(x[[desctype]])
+        ncols<-length(x[[desctype]][[1]])
+        xmat<-matrix(round(unlist(x[[desctype]]),ndec),
+                     nrow=nrows,ncol=ncols,byrow=TRUE)
+        colnames(xmat)<-names(x[[desctype]][[1]])
+        rownames(xmat)<-names(x[[desctype]])
+        print(xmat)
+      }
+      else {
+        for(descvar in 1:nvar) {
+          print(round(x[[desctype]][[descvar]],2))
+          xmax<-max(x[[desctype]][[descvar]][1,])
+          nmax<-sum(x[[desctype]][[descvar]][1,]==xmax)
+          cat("Mode",ifelse(nmax > 1,">1 mode",
+                            names(which.max(x[[desctype]][[descvar]][1,]))),"\n")
+        }
+      }
+    }
+  }
+}
