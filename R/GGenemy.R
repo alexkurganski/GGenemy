@@ -27,8 +27,7 @@ GGenemy <- function() {
             )
           ),
           tags$style(".btn-file {background-color:#FF7F50; border-color: black;}"),
-
-
+          
           # Input: Checkbox if file has header
           tags$b("Header"),
 
@@ -37,6 +36,9 @@ GGenemy <- function() {
             TRUE
           ),
 
+          tags$hr(style="border-color: #white;"),
+          
+          
           # Input: Select separator
           radioButtons("sep", "Separator",
             choices = c(
@@ -47,6 +49,8 @@ GGenemy <- function() {
             selected = ","
           ),
 
+          tags$hr(style="border-color: #white;"),
+          
           # Input: Select quotes
           radioButtons("quote", "Which quotes are used?",
             choices = c(
@@ -56,6 +60,8 @@ GGenemy <- function() {
             ),
             selected = '"'
           ),
+          
+          tags$hr(style="border-color: #white;"),
 
           tags$b("Rownames"),
 
@@ -81,12 +87,15 @@ GGenemy <- function() {
 
       sidebarLayout(
         sidebarPanel(
-
+          
+          
           # Input Number Quantiles
           checkboxGroupInput("as.factor",
             label = "",
             choices = NULL
           ),
+          
+          tags$hr(style="border-color: #white;"),
           
           helpText("For factors with a vast amount of levels, only 
                           the 10 most common categories will be displayed.")
@@ -108,10 +117,14 @@ GGenemy <- function() {
         sidebarPanel(
           helpText("Factors will not be displayed."),
           
+          tags$hr(style="border-color: #white;"),
+          
           radioButtons("given_var",
             label = "",
             choices = c("Dataset is missing")
           ),
+          
+          tags$hr(style="border-color: #white;"),
 
           sliderInput("quantiles_sum_stats",
             "Number of quantiles for the given variable",
@@ -119,6 +132,8 @@ GGenemy <- function() {
             max = 10,
             value = 5
           ),
+          
+          tags$hr(style="border-color: #white;"),
 
           radioButtons("n_sum_stats",
             label = "Choice of summary statistics",
@@ -128,6 +143,8 @@ GGenemy <- function() {
             ),
             selected = 1
           ),
+          
+          tags$hr(style="border-color: #white;"),
           
           tags$b("Plot"),
           
@@ -164,18 +181,23 @@ GGenemy <- function() {
           helpText("When conditioning on a factor variable,
                           the number of quantiles is set to the number of categories."),
           
+          tags$hr(style="border-color: #white;"),
           
           # Select given variable
           radioButtons("given_var2",
             label = "",
             choices = c("Dataset is missing")
           ),
+          
+          tags$hr(style="border-color: #white;"),
 
           # Select Variables you want to plot
           checkboxGroupInput("var_to_plot",
             label = "",
             choices = NULL
           ),
+          
+          tags$hr(style="border-color: #white;"),
           
           actionButton(
             inputId = "clicks",
@@ -207,43 +229,80 @@ GGenemy <- function() {
       shiny::sidebarLayout(
         shiny::sidebarPanel(
           
+          helpText("Quantiles for factors cannot be chosen."),
+          
           shiny::radioButtons("var_name3",
                           label = "",
                           choices = c("Dataset is missing")
                           ),
-      
+          
+          tags$hr(style="border-color: #white;"),
+          
+          div(style="display:inline-block; width: 300px;height: 25px;",
+          tags$b("First Quantile")),
+          
+          div(style="display: inline-block;vertical-align:top; width: 150px;",
           shiny::numericInput("firstquant1",
-                         "First Quantile:",
-                         value = 1
-                         ),
+                              "From:",
+                              value = 1,
+          )),
+          
+          div(style="display: inline-block;vertical-align:top; width: 10px;",HTML("<br>")),
+          
+          div(style="display: inline-block;vertical-align:top; width: 150px;",
           shiny::numericInput("firstquant2",
-                              "First Quantile:",
-                              value = 10
-          ),
+                              "To:",
+                              value = 10,
+          )),
           
+          tags$hr(style="border-color: #white;"),
+          
+          div(style="display:inline-block; width: 300px;height: 25px;",
+          tags$b("Second Quantile"
+                 )),
+          
+          div(style="display: inline-block;vertical-align:top; width: 150px;",
           shiny::numericInput("secondquant1",
-                              "Second Quantile:",
+                              "From:",
                               value = NULL
-          ),
-          shiny::numericInput("secondquant2",
-                              "Second Quantile:",
-                              value = NULL
-          ),
+          )),
           
+          div(style="display: inline-block;vertical-align:top; width: 10px;",HTML("<br>")),
+          
+          div(style="display: inline-block;vertical-align:top; width: 150px;",
+          shiny::numericInput("secondquant2",
+                              "To:",
+                              value = NULL
+          )),
+          
+          tags$hr(style="border-color: #white;"),
+          
+          div(style="display:inline-block; width: 300px;height: 25px;",
+          tags$b("Third Quantile")),
+          
+          div(style="display: inline-block;vertical-align:top; width: 150px;",
           shiny::numericInput("thirdquant1",
-                              "Third Quantile:",
+                              "From:",
                               value = NULL
-          ),
+          )),
+          div(style="display: inline-block;vertical-align:top; width: 10px;",HTML("<br>")),
+          
+          div(style="display: inline-block;vertical-align:top; width: 150px;",
           shiny::numericInput("thirdquant2",
-                              "Third Quantile:",
+                              "To:",
                               value = NULL
-          ),
+          )),
+          
+          tags$hr(style="border-color: #white;"),
           
           shiny::checkboxGroupInput("var_to_cond_on2",
                                 label = "",
                                 choices = NULL
                                 ),
+          tags$hr(style="border-color: #white;"),
           
+        div(style="display: inline-block;vertical-align:top; width: 50px;",HTML("<br>")),
+        
           shiny::actionButton(
             inputId = "clicks2",
             label = "Calculate!",
@@ -251,11 +310,12 @@ GGenemy <- function() {
             style = "color: white; background-color: #FF7F50; border-color: black"
           ),
           
+          div(style="display: inline-block;vertical-align:top; width: 150px;",
           shiny::downloadButton(
             "downloadPlot2",
             label = "Download Plots",
             style = "color: white; background-color: #FF7F50; border-color: black"
-          )
+          ))
           
         ),
         shiny::mainPanel(
@@ -360,6 +420,12 @@ GGenemy <- function() {
       updateRadioButtons(session,
                                 inputId = "given_var",
                                 label = "Given variable",
+                                choices = names(df_reduced2)
+      )
+      
+      shiny::updateRadioButtons(session,
+                                inputId = "var_name3",
+                                label = "Condition variable",
                                 choices = names(df_reduced2)
       )
       
