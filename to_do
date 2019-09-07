@@ -1,4 +1,4 @@
-GGenemy - To Do:
+﻿GGenemy - To Do:
 
 * Tests für sum_stats() und plot_single_conditional_density() --> Test für plots
   über Abgleich der korrekten class() und ob alle Punktpaare am richtigen Platz sind
@@ -32,3 +32,7 @@ GGenemy - To Do:
 # 13. Varselectinput() instead of checkboxgroupinput()
 
 # 14. actionbutton in colour
+
+#some extra things to do for Alex:
+- try to create one function for all?
+- delete unnecessary parts in function
