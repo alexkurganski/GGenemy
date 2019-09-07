@@ -134,10 +134,11 @@ GGenemy <- function() {
       )
     ),
     #####################################################################################
-
-
-    shiny::tabPanel(
+    shiny::navbarMenu(
       "4. Plots",
+      
+      shiny::tabPanel(
+      "Equal Quantiles",
 
       shiny::sidebarLayout(
         shiny::sidebarPanel(
@@ -191,6 +192,71 @@ GGenemy <- function() {
         )
         
       )
+    ),
+    shiny::tabPanel(
+      "Self Selected quantiles",
+      shiny::sidebarLayout(
+        shiny::sidebarPanel(
+          
+          shiny::radioButtons("var_name3",
+                          label = "",
+                          choices = c("Dataset is missing")
+                          ),
+      
+          shiny::numericInput("firstquant1",
+                         "First Quantile:",
+                         value = 1
+                         ),
+          shiny::numericInput("firstquant2",
+                              "First Quantile:",
+                              value = 10
+          ),
+          
+          shiny::numericInput("secondquant1",
+                              "Second Quantile:",
+                              value = NULL
+          ),
+          shiny::numericInput("secondquant2",
+                              "Second Quantile:",
+                              value = NULL
+          ),
+          
+          shiny::numericInput("thirdquant1",
+                              "Third Quantile:",
+                              value = NULL
+          ),
+          shiny::numericInput("thirdquant2",
+                              "Third Quantile:",
+                              value = NULL
+          ),
+          
+          shiny::checkboxGroupInput("var_to_cond_on2",
+                                label = "",
+                                choices = NULL
+                                ),
+          
+          shiny::actionButton(
+            inputId = "clicks2",
+            label = "Calculate!",
+            shiny::icon("paper-plane"),
+            style = "color: white; background-color: #FF7F50; border-color: black"
+          ),
+          
+          shiny::downloadButton(
+            "downloadPlot2",
+            label = "Download Plots",
+            style = "color: white; background-color: #FF7F50; border-color: black"
+          )
+          
+        ),
+        shiny::mainPanel(
+          lapply(1:25, function(i) {
+            shiny::plotOutput(paste0("selfcondplot", i))
+          })
+        )
+        )
+      
+      )
     )
   )
   #################################################################################
@@ -230,6 +296,12 @@ GGenemy <- function() {
         label = "Condition variable",
         choices = names(df)
       )
+      
+      shiny::updateRadioButtons(session,
+        inputId = "var_name3",
+        label = "Condition variable",
+        choices = names(df)
+      )
 
       shiny::updateCheckboxGroupInput(session,
         inputId = "var_to_cond_on",
@@ -237,6 +309,16 @@ GGenemy <- function() {
         choices = names(df),
         selected = names(df)
       )
+      
+      shiny::updateCheckboxGroupInput(session,
+        inputId = "var_to_cond_on2",
+        label = "Variables to plot",
+        choices = names(df),
+        selected = names(df)
+      )
+      
+      
+      
       return(df)
     })
 
@@ -271,6 +353,8 @@ GGenemy <- function() {
                                 label = "Condition variable",
                                 choices = names(df_reduced2)
       )
+      
+      
       return(df_reduced)
     })
     
@@ -297,6 +381,12 @@ GGenemy <- function() {
       colnum <- which(sapply(df_reduced,is.factor))
       
       df_reduced[colnum] <- NULL
+      
+      df_reduced2 <- df_reduced
+      
+      colnum <- which(sapply(df_reduced,is.factor))
+      
+      df_reduced2[colnum] <- NULL
       
       return(df_reduced)
     })
@@ -365,6 +455,27 @@ GGenemy <- function() {
     ignoreInit = TRUE
     )
     
+    shiny::observeEvent(input$clicks2, {
+      lapply(1:25, function(i) {
+        output[[paste0("selfcondplot", i)]] <- NULL
+      })
+      len <- length(input$var_to_cond_on)
+      lapply(1:len, function(i) {
+        output[[paste0("selfcondplot", i)]] <- shiny::renderPlot({
+          plot_single_selected_quantile_density(
+            shiny::isolate(data2()),
+            shiny::isolate(input$var_name3),
+            shiny::isolate(c(input$firstquant1,input$firstquant2)),
+            shiny::isolate(c(input$secondquant1,input$secondquant2)),
+            shiny::isolate(c(input$thirdquant1,input$thirdquant2)),
+            shiny::isolate(input$var_to_cond_on2[i])
+          )
+        })
+      })
+    },
+    ignoreInit = TRUE
+    )
+    
   output$downloadPlot <- shiny::downloadHandler(
     filename = function() {paste0("GGenemyPlot.pdf")},
     content = function(file) {
@@ -379,7 +490,25 @@ GGenemy <- function() {
         nrow = 1, ncol= 1)
       grDevices::dev.off()
     }
-  )   
+  )
+  
+  output$downloadPlot2 <- shiny::downloadHandler(
+    filename = function() {paste0("GGenemyPlot.pdf")},
+    content = function(file) {
+      grDevices::pdf(file)
+      gridExtra::marrangeGrob(
+        print(plot_multiple_selected_quantile_densities(
+          shiny::isolate(data2()),
+          shiny::isolate(input$var_name3),
+          shiny::isolate(c(input$firstquant1,input$firstquant2)),
+          shiny::isolate(c(input$secondquant1,input$secondquant2)),
+          shiny::isolate(c(input$thirdquant1,input$thirdquant2)),
+          shiny::isolate(input$var_to_cond_on2))
+        ),
+        nrow = 1, ncol= 1)
+      grDevices::dev.off()
+    }
+  )
   }
   # Run the application
   shiny::shinyApp(ui = ui, server = server)

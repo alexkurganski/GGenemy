@@ -1,4 +1,4 @@
-GGenemy - To Do:
+﻿GGenemy - To Do:
 
 * Umzug von app.R nach GGenemy() --> löst Problem des überflüssigen Shiny Folders
   und erlaubt direkten Zugriff auf die Funktionen ohne source() nutzen zu müssen
@@ -46,3 +46,7 @@ GGenemy - To Do:
 # 13. Varselectinput() instead of checkboxgroupinput()
 
 # 14. actionbutton in colour
+
+#some extra things to do for Alex:
+- try to create one function for all?
+- delete unnecessary parts in function
