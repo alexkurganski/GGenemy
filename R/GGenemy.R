@@ -299,6 +299,7 @@ GGenemy <- function() {
                                 label = "",
                                 choices = NULL
                                 ),
+          
           tags$hr(style="border-color: #white;"),
           
         div(style="display: inline-block;vertical-align:top; width: 50px;",HTML("<br>")),
@@ -534,7 +535,7 @@ GGenemy <- function() {
       lapply(1:25, function(i) {
         output[[paste0("selfcondplot", i)]] <- NULL
       })
-      len <- length(input$var_to_cond_on)
+      len <- length(input$var_to_cond_on2)
       lapply(1:len, function(i) {
         output[[paste0("selfcondplot", i)]] <- shiny::renderPlot({
           plot_single_selected_quantile_density(
