@@ -73,6 +73,15 @@ describe.logical <- function(x, varname = "") {
   return(logjam)
 }
 
+#' Describe continuous variables, factors and logicals
+#'
+#' @param x 
+#' @param num.desc 
+#' @param xname 
+#' @param horizontal 
+#'
+#' @return
+#' @export
 describe <- function(x, num.desc = c("mean", "median", "var", "sd", "valid.n"),
                      xname = NA, horizontal = FALSE) {
   if (missing(x)) {
