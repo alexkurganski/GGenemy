@@ -26,9 +26,11 @@
 #'   } else {
 #'     rgamma(n, 0.5)
 #'   }
-#' }))
+#' }
+#' ))
 #'
-#' plot_single_selected_quantile_density(variables, "V1", c(0,1), c(1.2,1.8), c(2,3), var_to_plot = "V2)
+#' plot_single_selected_quantile_density(variables, "V1", c(0,1), c(1.2,1.8),
+#' c(2,3), var_to_plot = "V2")
 
 # Plot single selected quantile densitiy
 

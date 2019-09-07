@@ -1,1 +1,1 @@
-globalVariables(c("quant"))
+globalVariables(c("quant", "n_quantiles"))

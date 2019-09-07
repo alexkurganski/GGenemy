@@ -29,7 +29,8 @@
 #'   }
 #' }))
 #'
-#' plot_multiple_selected_quantile_densities(variables, "V1", c(0,1),c(2,3), var_to_plot = c("V2","V3"))
+#' plot_multiple_selected_quantile_densities(variables, "V1", c(0,1),c(2,3),
+#' var_to_plot = c("V2","V3"))
 
 # Plot single selected quantile densitiy
 

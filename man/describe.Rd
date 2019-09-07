@@ -2,20 +2,47 @@
 % Please edit documentation in R/data_structure.R
 \name{describe}
 \alias{describe}
-\title{Describe continuous variables, factors and logicals}
+\title{Description of variables}
 \usage{
 describe(x, num.desc = c("mean", "median", "var", "sd", "valid.n"),
   xname = NA, horizontal = FALSE)
 }
 \arguments{
-\item{x}{}
+\item{x}{A vector, matrix or data frame.}
 
-\item{num.desc}{}
+\item{num.desc}{The names of the functions to apply to numeric data.}
 
-\item{xname}{}
+\item{xname}{A name for the object x, mostly where this would be a very long 
+string describing its structure (e.g. if it was extracted by name from a data 
+frame).}
 
-\item{horizontal}{}
+\item{horizontal}{Whether to display the results of \code{describe.factor}
+across the page (TRUE) or down the page (FALSE).}
+}
+\value{
+A list with three components:
+ 
+\code{Numeric}	 A list of the values returned from describe.numeric for 
+each column described.
+
+\code{Factor}   A list of the tables for each column described.
+
+\code{Logical}  A list of the tables for each column described.
 }
 \description{
-Describe continuous variables, factors and logicals
+Describes a vector or the columns in a matrix or data frame.
+}
+\details{
+describe displays a table of descriptive statistics for numeric, factor and 
+logical variables in the object x. The summary measures for numeric variables 
+can easily be altered with the argument num.desc. Pass a character vector with 
+the names of the desired summary measures and these will be displayed at the 
+top of the numeric block with their results beneath them. If quantiles are 
+desired, the user will have to write wrapper functions that call quantile with 
+the appropriate type or probabilities and use the names of the wrapper 
+functions in num.desc. Remember that any function called by describe must have 
+an na.rm argument.
+
+Percentages are now always displayed and returned in the tables for factor and 
+logical variables.
 }
