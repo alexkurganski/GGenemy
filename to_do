@@ -1,30 +1,16 @@
 ﻿GGenemy - To Do:
 
-* Umzug von app.R nach GGenemy() --> löst Problem des überflüssigen Shiny Folders
-  und erlaubt direkten Zugriff auf die Funktionen ohne source() nutzen zu müssen
-  ---> FERTIG
 * Tests für sum_stats() und plot_single_conditional_density() --> Test für plots
   über Abgleich der korrekten class() und ob alle Punktpaare am richtigen Platz sind
-* zzz.R schreiben mit globalVariables(c("quant")) um Note zu vermeiden
-  ---> FERTIG
 * NAs im Datensatz evtl. nicht direkt rauslöschen, sondern in den Funktionen einzeln
   mit na.rm = TRUE entfernen
 	-Kommentar: Sie sind ja nicht komplett rausgelöscht, in Data1() kann man jederzeit
 	drauf zugreifen.
-* für Data Structure:
-  - nur einen Teil der Faktorstufen ausgeben lassen
-  ---> FERRTIG
-  - für metrische Variablen min und max zusätzlich ausgeben lassen
-  ---> FERTIG
+* für Data Upload:
+  - alle Überschriften gleich groß machen
 * für sum_stats:
-  - Faktoren entfernen, damit NA-Spalten nicht angezeigt werden
-  ---> FERTIG
   - Möglichkeit geben, auch als Plots ausgeben zu lassen
 * für die Plots:
-  - alle Boxen per Default checken
-  ---> FERTIG
-  - Möglichkeit zum speichern der Graphiken geben
-  ---> FERTIG
   - Möglichkeit zum Code anzeigen geben
   - Auswahl auch Plots als Boxplots? anzuzeigen
   - Selber die Quantile auswählen

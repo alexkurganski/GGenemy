@@ -4,39 +4,41 @@
 #' calculated and conditional plots can be drawn.
 #'
 #' @return A Shiny App.
+#' 
+#' @import shiny
 #' @export
 #'
 
 GGenemy <- function() {
-  ui <- shiny::navbarPage("GGenemy",
+  ui <- navbarPage("GGenemy",
     theme = shinythemes::shinytheme("superhero"),
 
     # First Tab - Reading Data
-    shiny::tabPanel(
+    tabPanel(
       "1. Data Upload",
-      shiny::sidebarLayout(
-        shiny::sidebarPanel(
+      sidebarLayout(
+        sidebarPanel(
           # Input: Read CSV-Data
-          shiny::fileInput("file1", "Choose txt/csv File",
+          fileInput("file1", "Choose a txt/csv File",
             accept = c(
               "txt/csv",
               "text/comma-separated-values,text/plain",
               ".csv"
             )
           ),
-          shiny::tags$style(".btn-file {background-color:#FF7F50; border-color: black;}"),
+          tags$style(".btn-file {background-color:#FF7F50; border-color: black;}"),
 
 
           # Input: Checkbox if file has header
-          shiny::tags$b("Header"),
+          tags$b("Header"),
 
-          shiny::checkboxInput("header",
+          checkboxInput("header",
             label = "Header",
             TRUE
           ),
 
           # Input: Select separator
-          shiny::radioButtons("sep", "Separator",
+          radioButtons("sep", "Separator",
             choices = c(
               Comma = ",",
               Semicolon = ";",
@@ -46,90 +48,97 @@ GGenemy <- function() {
           ),
 
           # Input: Select quotes
-          shiny::radioButtons("quote", "Quote",
+          radioButtons("quote", "Which quotes are used?",
             choices = c(
               None = "",
-              "Double Quote" = '"',
-              "Single Quote" = "'"
+              "Double Quotes" = '"',
+              "Single Quotes" = "'"
             ),
             selected = '"'
           ),
 
-          shiny::tags$b("Rownames"),
+          tags$b("Rownames"),
 
-          shiny::checkboxInput("rownames",
-            label = "First column as rownames",
+          checkboxInput("rownames",
+            label = "Treat values of the first column as rownames",
             FALSE
           )
         ),
 
-        shiny::mainPanel(
-          shiny::tableOutput("contents"),
+        mainPanel(
+          tableOutput("contents"),
 
-          shiny::tableOutput("na1"),
+          tableOutput("na1"),
 
-          shiny::tableOutput("na2")
+          tableOutput("na2")
         )
       )
     ),
     #############################################################################
 
-    shiny::tabPanel(
+    tabPanel(
       "2. Data Structure",
 
-      shiny::sidebarLayout(
-        shiny::sidebarPanel(
+      sidebarLayout(
+        sidebarPanel(
 
           # Input Number Quantiles
-          shiny::checkboxGroupInput("as.factor",
+          checkboxGroupInput("as.factor",
             label = "",
             choices = NULL
           ),
           
-          shiny::helpText("For factors, only the 10 most common categories
-                          will be displayed.")
+          helpText("For factors with a vast amount of levels, only 
+                          the 10 most common categories will be displayed.")
         ),
 
-        shiny::mainPanel(
-          shiny::verbatimTextOutput("summary1"),
+        mainPanel(
+          verbatimTextOutput("summary1"),
 
-          shiny::verbatimTextOutput("str1")
+          verbatimTextOutput("str1")
         )
       )
     ),
 
     #####################################################################################
-    shiny::tabPanel(
+    tabPanel(
       "3. Summary Stats",
 
-      shiny::sidebarLayout(
-        shiny::sidebarPanel(
-          shiny::helpText("Factors will not be displayed."),
+      sidebarLayout(
+        sidebarPanel(
+          helpText("Factors will not be displayed."),
           
-          shiny::radioButtons("var_name",
+          radioButtons("given_var",
             label = "",
             choices = c("Dataset is missing")
           ),
 
-          shiny::sliderInput("quantiles_sum_stats",
-            "Number of Quantiles to condition on:",
+          sliderInput("quantiles_sum_stats",
+            "Number of quantiles for the given variable",
             min = 1,
             max = 10,
             value = 5
           ),
 
-          shiny::radioButtons("n_sum_stats",
+          radioButtons("n_sum_stats",
             label = "Choice of summary statistics",
             choices = list(
               "Conditional Mean" = 1, "Conditional Variance" = 2,
               "Conditional Skewness" = 3, "Conditional Kurtosis" = 4
             ),
-            selected = 4
-          )
+            selected = 1
+          ),
+          
+          tags$b("Plot"),
+          
+          checkboxInput("plotstats",
+                        label = "Show summary statistics in a plot",
+                        FALSE
+          )              
         ),
 
-        shiny::mainPanel(
-          shiny::verbatimTextOutput("sum_stats1")
+        mainPanel(
+          verbatimTextOutput("sum_stats1")
         )
       )
     ),
@@ -140,42 +149,42 @@ GGenemy <- function() {
       shiny::tabPanel(
       "Equal Quantiles",
 
-      shiny::sidebarLayout(
-        shiny::sidebarPanel(
+      sidebarLayout(
+        sidebarPanel(
 
           # Input Number Quantiles
-          shiny::sliderInput("quantiles",
-            "Number of Quantiles:",
+          sliderInput("quantiles",
+            "Number of quantiles for the given variable",
             min = 1,
             max = 10,
             value = 5
           ),
           
           # Help Text
-          shiny::helpText("When conditioning to a factor variable,
-                          the number of quantiles is set to the number of factors."),
+          helpText("When conditioning on a factor variable,
+                          the number of quantiles is set to the number of categories."),
           
           
-          # Select conditional variable
-          shiny::radioButtons("var_name2",
+          # Select given variable
+          radioButtons("given_var2",
             label = "",
             choices = c("Dataset is missing")
           ),
 
-          # Select Variables to condition on
-          shiny::checkboxGroupInput("var_to_cond_on",
+          # Select Variables you want to plot
+          checkboxGroupInput("var_to_plot",
             label = "",
             choices = NULL
           ),
           
-          shiny::actionButton(
+          actionButton(
             inputId = "clicks",
             label = "Calculate!",
-            shiny::icon("paper-plane"),
+            icon("paper-plane"),
             style = "color: white; background-color: #FF7F50; border-color: black"
           ),
           
-          shiny::downloadButton(
+          downloadButton(
             "downloadPlot",
             label = "Download Plots",
             style = "color: white; background-color: #FF7F50; border-color: black"
@@ -184,9 +193,9 @@ GGenemy <- function() {
 
         # Show a plot of the generated distribution
         
-        shiny::mainPanel(
+        mainPanel(
           lapply(1:25, function(i) {
-            shiny::plotOutput(paste0("condplot", i))
+            plotOutput(paste0("condplot", i))
           })
         
         )
@@ -263,8 +272,8 @@ GGenemy <- function() {
   #################################################################################
   # server
   server <- function(input, output, session) {
-    data1 <- shiny::reactive({
-      shiny::req(input$file1) # require that the input is available
+    data1 <- reactive({
+      req(input$file1) # require that the input is available
 
       inFile <- input$file1
 
@@ -279,21 +288,21 @@ GGenemy <- function() {
         }
       )
 
-      shiny::updateCheckboxGroupInput(session,
+      updateCheckboxGroupInput(session,
         inputId = "as.factor",
-        label = "Which Variable is a factor?",
+        label = "Which variables are factors?",
         choices = names(df)
       )
 
-      shiny::updateRadioButtons(session,
-        inputId = "var_name",
-        label = "Condition variable",
+      updateRadioButtons(session,
+        inputId = "given_var",
+        label = "Given variable",
         choices = names(df)
       )
 
-      shiny::updateRadioButtons(session,
-        inputId = "var_name2",
-        label = "Condition variable",
+      updateRadioButtons(session,
+        inputId = "given_var2",
+        label = "Given variable",
         choices = names(df)
       )
       
@@ -303,8 +312,8 @@ GGenemy <- function() {
         choices = names(df)
       )
 
-      shiny::updateCheckboxGroupInput(session,
-        inputId = "var_to_cond_on",
+      updateCheckboxGroupInput(session,
+        inputId = "var_to_plot",
         label = "Variables to plot",
         choices = names(df),
         selected = names(df)
@@ -322,8 +331,8 @@ GGenemy <- function() {
       return(df)
     })
 
-    data2 <- shiny::reactive({
-      shiny::req(input$file1) # require that the input is available
+    data2 <- reactive({
+      req(input$file1) # require that the input is available
 
       inFile <- input$file1
       df <- utils::read.csv(inFile$datapath,
@@ -348,9 +357,9 @@ GGenemy <- function() {
       
       df_reduced2[colnum] <- NULL
       
-      shiny::updateRadioButtons(session,
-                                inputId = "var_name",
-                                label = "Condition variable",
+      updateRadioButtons(session,
+                                inputId = "given_var",
+                                label = "Given variable",
                                 choices = names(df_reduced2)
       )
       
@@ -358,8 +367,8 @@ GGenemy <- function() {
       return(df_reduced)
     })
     
-    data3 <- shiny::reactive({
-      shiny::req(input$file1) # require that the input is available
+    data3 <- reactive({
+      req(input$file1) # require that the input is available
       
       inFile <- input$file1
       df <- utils::read.csv(inFile$datapath,
@@ -395,39 +404,39 @@ GGenemy <- function() {
     ####################################################################
     # Data-Upload Tab
 
-    output$contents <- shiny::renderTable({
+    output$contents <- renderTable({
       utils::head(data1())
     })
 
-    output$na1 <- shiny::renderPrint({
+    output$na1 <- renderPrint({
       paste("The raw dataset consists of", nrow(data1()), "rows.")
     })
 
-    output$na2 <- shiny::renderPrint({
+    output$na2 <- renderPrint({
       paste("After deleting NA's, the dataset has", nrow(data2()), "rows.")
     })
 
     ####################################################################
     # Data-Management Tab
 
-    output$summary1 <- shiny::renderPrint({
-      describe(data2(), num.desc = c("min", "quantile0.25",
+    output$summary1 <- renderPrint({
+      print.desc(describe(data2(), num.desc = c("min", "quantile0.25",
                                      "median", "mean", "quantile0.75",
                                      "max", "sd", "var", "valid.n"),
-                        xname = "Dataset")
+                        xname = "Dataset"))
     })
     
 
-    output$str1 <- shiny::renderPrint({
+    output$str1 <- renderPrint({
       utils::str(data2())
     })
 
     ####################################################################
     # Sum-stats Tab
 
-    output$sum_stats1 <- shiny::renderPrint({
+    output$sum_stats1 <- renderPrint({
       sum_stats(
-        input$var_name,
+        input$given_var,
         data3(),
         input$quantiles_sum_stats,
         input$n_sum_stats
@@ -436,18 +445,18 @@ GGenemy <- function() {
     #####################################################################
     # Cond Plot Densities
 
-    shiny::observeEvent(input$clicks, {
+    observeEvent(input$clicks, {
       lapply(1:25, function(i) {
         output[[paste0("condplot", i)]] <- NULL
       })
-      len <- length(input$var_to_cond_on)
+      len <- length(input$var_to_plot)
       lapply(1:len, function(i) {
-        output[[paste0("condplot", i)]] <- shiny::renderPlot({
+        output[[paste0("condplot", i)]] <- renderPlot({
           plot_single_conditional_density(
-            shiny::isolate(data2()),
-            shiny::isolate(input$var_name2),
-            shiny::isolate(input$quantiles),
-            shiny::isolate(input$var_to_cond_on[i])
+            isolate(data2()),
+            isolate(input$given_var2),
+            isolate(input$quantiles),
+            isolate(input$var_to_plot[i])
           )
         })
       })
@@ -479,13 +488,13 @@ GGenemy <- function() {
   output$downloadPlot <- shiny::downloadHandler(
     filename = function() {paste0("GGenemyPlot.pdf")},
     content = function(file) {
-      grDevices::pdf(file)
+      grDevices::pdf(file, width = 11)
       gridExtra::marrangeGrob(
         print(plot_multiple_conditional_densities(
-        shiny::isolate(data2()),
-        shiny::isolate(input$var_name2),
-        shiny::isolate(input$quantiles),
-        shiny::isolate(input$var_to_cond_on)
+        isolate(data2()),
+        isolate(input$given_var2),
+        isolate(input$quantiles),
+        isolate(input$var_to_plot)
         )),
         nrow = 1, ncol= 1)
       grDevices::dev.off()
@@ -511,5 +520,5 @@ GGenemy <- function() {
   )
   }
   # Run the application
-  shiny::shinyApp(ui = ui, server = server)
+  shinyApp(ui = ui, server = server)
 }

@@ -4,17 +4,17 @@
 \alias{plot_single_conditional_density}
 \title{Plot a single conditional density}
 \usage{
-plot_single_conditional_density(dataset, var_name, n_quantiles = 5,
-  var_to_cond_on)
+plot_single_conditional_density(dataset, given_var, n_quantiles = 5,
+  var_to_plot)
 }
 \arguments{
 \item{dataset}{A dataframe.}
 
-\item{var_name}{The variable of interest from your \code{dataset}.}
+\item{given_var}{A variable from your \code{dataset} which you want to set as a condition.}
 
-\item{n_quantiles}{Number of quantiles you want to partition \code{var_name} into.}
+\item{n_quantiles}{Number of quantiles you want to partition \code{given_var} into.}
 
-\item{var_to_cond_on}{A variable to condition on from your \code{dataset}.}
+\item{var_to_plot}{A variable to condition on from your \code{dataset}.}
 }
 \value{
 A ggplot graphic.

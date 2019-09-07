@@ -4,17 +4,17 @@
 \alias{plot_multiple_conditional_densities}
 \title{Plot multiple conditional densities}
 \usage{
-plot_multiple_conditional_densities(dataset, var_name, n_quantiles = 5,
-  var_to_cond_on)
+plot_multiple_conditional_densities(dataset, given_var, n_quantiles = 5,
+  var_to_plot)
 }
 \arguments{
 \item{dataset}{A dataframe.}
 
-\item{var_name}{A variable from your \code{dataset}.}
+\item{given_var}{A variable from your \code{dataset} which you want to set as a condition.}
 
-\item{n_quantiles}{Number of quantiles you want to partition \code{var_name} into.}
+\item{n_quantiles}{Number of quantiles you want to partition \code{given_var} into.}
 
-\item{var_to_cond_on}{Vector of Variables to condition on from your \code{dataset}.}
+\item{var_to_plot}{Vector of variables from your \code{dataset} which you want to plot.}
 }
 \value{
 Several ggplot graphics. The total number of plots will equal the
