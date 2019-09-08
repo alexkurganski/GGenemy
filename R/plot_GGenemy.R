@@ -1,0 +1,69 @@
+plot_GGenemy <- function(dataset, given_var, var_to_plot = NA, n_quantiles = 5, selfquantiles = NA, secondquant = NA, thirdquant = NA) {
+  
+  # 1.1 categorial given_var
+  if (is.factor(dataset[, given_var])) {
+    if (n_quantiles != length(levels(dataset[, given_var]))) {
+      warning(paste0(given_var, " is a categorical variable. The number of categories will be defined as a condition."))
+    }
+    data_help <- dataset
+    data_help$quant <- as.factor(as.numeric(dataset[, given_var]))
+  } else { # 1.2 continuous given_var
+    if(any(!is.na(selfquantiles))){
+      data_help <- dataset
+      data_help$quant <- "remaining"
+      if(is.vector(selfquantiles)){
+        matrixquant <- matrix(selfquantiles, ncol = 2, byrow = TRUE)
+      }else if(is.matrix(selfquantiles)){
+        matrixquant <- selfquantiles 
+      } else {
+        stop("For selfquantiles: Insert a Vector of quantiles or a matrix with the quantiles ordered by row")
+      }
+      ### STOP MISSING
+      for(i in 1:nrow(matrixquant)){
+        quanthelp <- which(dataset[,given_var] >= matrixquant[i,1] & dataset[,given_var] <= matrixquant[i,2])
+        data_help$quant[quanthelp] <- paste(matrixquant[i,1], "to", matrixquant[i,2])  
+      }
+    }else{
+      var_goal <- dplyr::select(dataset, given_var)[, 1]
+      quantiles <- stats::quantile(var_goal, 1:(n_quantiles - 1) / (n_quantiles))
+      quantiles <- as.numeric(quantiles)
+      data_help <- dataset
+      data_help$quant <- 1 + findInterval(var_goal, quantiles)
+      data_help$quant <- as.factor(data_help$quant)
+    }
+    
+
+    
+    data_help$quant <- as.factor(data_help$quant)
+  }
+  
+  # 2.
+  g <- ggplot2::ggplot(data_help, ggplot2::aes(fill = quant)) + ggplot2::theme_minimal()
+  
+  plotit <- function(a){
+  if (is.factor(data_help[, a]) & is.factor(data_help[, given_var])) {
+    g + ggplot2::geom_bar(ggplot2::aes_string(x = a, fill = given_var)) +
+      ggplot2::ggtitle(paste0(a, " conditional on ", given_var))
+  } else if (is.factor(data_help[, a])) {
+    g + ggplot2::geom_boxplot(ggplot2::aes_string(x = a, y = given_var)) +
+      ggplot2::ggtitle(paste0(a, " conditional on ", given_var))
+  } else {
+    g + ggplot2::geom_density(alpha = 0.5) + ggplot2::aes_string(x = a) +
+      ggplot2::ggtitle(paste0(a, " conditional on ", given_var))
+  }
+  }
+  
+  if(all(c(!is.character(var_to_plot),!is.na(var_to_plot)))){
+    stop(paste0(var_to_plot," has to be a character or leave it as NA to calculate
+                   conditional densities for all other variables of the dataset."))
+    } else if(any(is.na(var_to_plot))){
+      names_var <- names(dataset)
+      lapply(names_var,plotit)
+      
+    } else if(length(var_to_plot) == 1){
+      plotit(var_to_plot)
+        } else {
+          lapply(var_to_plot,plotit)
+    }
+}
+
