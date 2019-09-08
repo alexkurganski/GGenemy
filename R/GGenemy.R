@@ -351,7 +351,7 @@ GGenemy <- function() {
 
       updateCheckboxGroupInput(session,
         inputId = "as.factor",
-        label = "Which variables are factors?",
+        label = "Which numeric variables are actually factors?",
         choices = names(df)
       )
 
@@ -502,12 +502,12 @@ GGenemy <- function() {
     # Sum-stats Tab
 
     output$sum_stats1 <- renderPrint({
-      sum_stats(
-        input$given_var,
+      print_sum_stats(sum_stats(
         data3(),
-        input$quantiles_sum_stats,
-        input$n_sum_stats
-      )
+        input$given_var,
+        input$n_sum_stats,
+        input$quantiles_sum_stats
+      ), input$given_var)
     })
     #####################################################################
     # Cond Plot Densities
