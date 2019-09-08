@@ -39,7 +39,7 @@ plot_GGenemy <- function(dataset, given_var, var_to_plot = NULL, n_quantiles = 5
             warning(paste0(given_var, " is a categorical variable. The number of categories will be defined as a condition."))
           }
           data_help <- dataset
-          data_help$quant <- as.factor(as.numeric(dataset[, given_var]))
+          data_help$quant <- dataset[, given_var]
         }else{
       var_goal <- dplyr::select(dataset, given_var)[, 1]
       quantiles <- stats::quantile(var_goal, 1:(n_quantiles - 1) / (n_quantiles))
