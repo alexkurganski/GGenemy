@@ -185,7 +185,7 @@ print.desc<-function(x,ndec=2,...) {
           print(round(x[[desctype]][[descvar]],2))
           xmax<-max(x[[desctype]][[descvar]][1,])
           nmax<-sum(x[[desctype]][[descvar]][1,]==xmax)
-          cat("Mode",ifelse(nmax > 1,">1 mode",
+          cat("Mode:",ifelse(nmax > 1,"more than one mode",
                             names(which.max(x[[desctype]][[descvar]][1,]))),"\n")
         }
       }
