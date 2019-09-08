@@ -519,11 +519,11 @@ GGenemy <- function() {
       len <- length(input$var_to_plot)
       lapply(1:len, function(i) {
         output[[paste0("condplot", i)]] <- renderPlot({
-          plot_single_conditional_density(
+          plot_GGenemy(
             isolate(data2()),
             isolate(input$given_var2),
-            isolate(input$quantiles),
-            isolate(input$var_to_plot[i])
+            isolate(input$var_to_plot[i]),
+            isolate(input$quantiles)
           )
         })
       })
@@ -538,13 +538,14 @@ GGenemy <- function() {
       len <- length(input$var_to_cond_on2)
       lapply(1:len, function(i) {
         output[[paste0("selfcondplot", i)]] <- shiny::renderPlot({
-          plot_single_selected_quantile_density(
+          plot_GGenemy(
             shiny::isolate(data2()),
             shiny::isolate(input$var_name3),
-            shiny::isolate(c(input$firstquant1,input$firstquant2)),
-            shiny::isolate(c(input$secondquant1,input$secondquant2)),
-            shiny::isolate(c(input$thirdquant1,input$thirdquant2)),
-            shiny::isolate(input$var_to_cond_on2[i])
+            shiny::isolate(input$var_to_cond_on2[i]),
+            selfquantiles = shiny::isolate(
+              c(input$firstquant1,input$firstquant2,
+                input$secondquant1,input$secondquant2,
+                input$thirdquant1,input$thirdquant2))
           )
         })
       })
@@ -557,11 +558,11 @@ GGenemy <- function() {
     content = function(file) {
       grDevices::pdf(file, width = 11)
       gridExtra::marrangeGrob(
-        print(plot_multiple_conditional_densities(
+        print(plot_GGenemy(
         isolate(data2()),
         isolate(input$given_var2),
-        isolate(input$quantiles),
-        isolate(input$var_to_plot)
+        isolate(input$var_to_plot),
+        isolate(input$quantiles)
         )),
         nrow = 1, ncol= 1)
       grDevices::dev.off()
@@ -573,13 +574,14 @@ GGenemy <- function() {
     content = function(file) {
       grDevices::pdf(file)
       gridExtra::marrangeGrob(
-        print(plot_multiple_selected_quantile_densities(
+        print(plot_GGenemy(
           shiny::isolate(data2()),
           shiny::isolate(input$var_name3),
-          shiny::isolate(c(input$firstquant1,input$firstquant2)),
-          shiny::isolate(c(input$secondquant1,input$secondquant2)),
-          shiny::isolate(c(input$thirdquant1,input$thirdquant2)),
-          shiny::isolate(input$var_to_cond_on2))
+          shiny::isolate(input$var_to_cond_on2),
+          selfquantiles = shiny::isolate(
+            c(input$firstquant1,input$firstquant2,
+              input$secondquant1,input$secondquant2,
+              input$thirdquant1,input$thirdquant2)))
         ),
         nrow = 1, ncol= 1)
       grDevices::dev.off()
