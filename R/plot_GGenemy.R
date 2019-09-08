@@ -1,4 +1,4 @@
-plot_GGenemy <- function(dataset, given_var, var_to_plot = NA, n_quantiles = 5, selfquantiles = NA, secondquant = NA, thirdquant = NA) {
+plot_GGenemy <- function(dataset, given_var, var_to_plot = NA, n_quantiles = 5, selfquantiles = NA) {
   
   # 1.1 categorial given_var
   if (is.factor(dataset[, given_var])) {
