@@ -2,6 +2,8 @@
 # We wanted to use the describe() function, but had to alter the describe.factor()
 # function to create a fitting output for our Shiny app.
 
+# Function to use in describe.factor() and describe.numeric()
+# Not to be exported
 Mode <- function(x, na.rm = FALSE) {
   xtab <- table(x, useNA = ifelse(na.rm, "no", "ifany"))
   xmode <- names(which(xtab == max(xtab)))
