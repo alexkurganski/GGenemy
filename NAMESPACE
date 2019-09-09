@@ -2,6 +2,7 @@
 
 export(GGenemy)
 export(describe)
+export(plot_GGenemy)
 export(plot_conditional_densities)
 export(plot_multiple_conditional_densities)
 export(plot_multiple_selected_quantile_densities)
