@@ -203,6 +203,15 @@ GGenemy <- function() {
             selectize = TRUE
           ),
           
+          selectInput("boxplots",
+                      label = "",
+                      choices = NULL,
+                      multiple = TRUE,
+                      selectize = TRUE
+          ),
+          
+          
+          
           tags$hr(style="border-color: #white;"),
           
           actionButton(
@@ -239,7 +248,8 @@ GGenemy <- function() {
           
           selectInput("var_name3",
                       label = "",
-                      choices = c("Dataset is missing")
+                      choices = c("Dataset is missing"),
+                      selectize = TRUE
                       ),
           
           tags$hr(style="border-color: #white;"),
@@ -406,6 +416,7 @@ GGenemy <- function() {
         selected = names(df)
       )
       
+      
       return(df)
     })
 
@@ -436,9 +447,16 @@ GGenemy <- function() {
       df_reduced2[colnum] <- NULL
 
       updateSelectInput(session,
-                                inputId = "given_var4",
-                                label = "Given variable",
-                                choices = names(df_reduced2)
+                        inputId = "given_var4",
+                        label = "Given variable",
+                        choices = names(df_reduced2)
+      )
+      
+      updateSelectInput(session,
+                        inputId = "boxplots",
+                        label = "Boxplots instead of densities for numerical variables?",
+                        choices = names(df_reduced),
+                        selected = ""
       )
       
       return(df_reduced)
@@ -549,7 +567,11 @@ GGenemy <- function() {
             isolate(data2()),
             isolate(input$given_var2),
             isolate(input$var_to_plot[i]),
-            isolate(input$quantiles)
+            isolate(input$quantiles),
+            isolate(
+              if(any(i == match(input$boxplots,input$var_to_plot))){
+              boxplot = TRUE}
+              else{boxplot = FALSE})
           )
         })
       })
@@ -595,6 +617,10 @@ GGenemy <- function() {
         isolate(input$given_var2),
         isolate(input$var_to_plot),
         isolate(input$quantiles)
+    #    isolate(
+    #      if(any(i == match(input$boxplots,input$var_to_plot))){
+    #        boxplot = TRUE}
+    #      else{boxplot = FALSE})
         )),
         nrow = 1, ncol= 1)
       grDevices::dev.off()
