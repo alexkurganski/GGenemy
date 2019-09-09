@@ -505,7 +505,7 @@ GGenemy <- function() {
     # Data-Upload Tab
 
     output$contents <- renderTable({
-      utils::head(data1())
+      utils::head(data1(), 10)
     })
 
     output$na1 <- renderPrint({
