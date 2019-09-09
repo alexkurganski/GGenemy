@@ -406,14 +406,6 @@ GGenemy <- function() {
         selected = names(df)
       )
       
-      shiny::updateRadioButtons(session,
-        inputId = "var_name3",
-        label = "Condition variable",
-        choices = names(df)
-      )
-      
-      
-      
       return(df)
     })
 
@@ -536,12 +528,11 @@ GGenemy <- function() {
 
     output$sum_stats1 <- renderPrint({
       sum_stats(
-        input$given_var4,
         data3(),
-        input$given_var,
+        input$given_var4,
         input$n_sum_stats,
         input$quantiles_sum_stats
-      ), input$given_var)
+      )
     })
     #####################################################################
     # Cond Plot Densities
