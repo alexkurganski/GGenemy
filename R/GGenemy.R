@@ -363,7 +363,7 @@ GGenemy <- function() {
 
       inFile <- input$file1
 
-      df <- utils::read.csv(inFile$datapath,
+      df <- utils::read.table(inFile$datapath,
         header = input$header,
         sep = input$sep,
         quote = input$quote,
@@ -376,7 +376,7 @@ GGenemy <- function() {
 
       updateSelectInput(session,
         inputId = "as.factor",
-        label = "Which numeric variables are actually factors?",
+        label = "Which numerics or logicals should be treated as factors?",
         choices = names(df)
       )
 
@@ -421,7 +421,7 @@ GGenemy <- function() {
       req(input$file1) # require that the input is available
 
       inFile <- input$file1
-      df <- utils::read.csv(inFile$datapath,
+      df <- utils::read.table(inFile$datapath,
         header = input$header,
         sep = input$sep,
         quote = input$quote,
@@ -456,7 +456,7 @@ GGenemy <- function() {
       req(input$file1) # require that the input is available
       
       inFile <- input$file1
-      df <- utils::read.csv(inFile$datapath,
+      df <- utils::read.table(inFile$datapath,
                             header = input$header,
                             sep = input$sep,
                             quote = input$quote,
