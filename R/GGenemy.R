@@ -90,9 +90,11 @@ GGenemy <- function() {
           
           
           # Input Number Quantiles
-          checkboxGroupInput("as.factor",
+          selectInput("as.factor",
             label = "",
-            choices = NULL
+            choices = NULL,
+            multiple = TRUE,
+            selectize = TRUE
           ),
           
           tags$hr(style="border-color: #white;"),
@@ -119,9 +121,10 @@ GGenemy <- function() {
           
           tags$hr(style="border-color: #white;"),
           
-          radioButtons("given_var",
+          selectInput("given_var4",
             label = "",
-            choices = c("Dataset is missing")
+            choices = c("Dataset is missing"),
+            selectize = TRUE
           ),
           
           tags$hr(style="border-color: #white;"),
@@ -184,17 +187,20 @@ GGenemy <- function() {
           tags$hr(style="border-color: #white;"),
           
           # Select given variable
-          radioButtons("given_var2",
+          selectInput("given_var2",
             label = "",
-            choices = c("Dataset is missing")
+            choices = "",
+            selectize = TRUE
           ),
           
           tags$hr(style="border-color: #white;"),
 
           # Select Variables you want to plot
-          checkboxGroupInput("var_to_plot",
+          selectInput("var_to_plot",
             label = "",
-            choices = NULL
+            choices = NULL,
+            multiple = TRUE,
+            selectize = TRUE
           ),
           
           tags$hr(style="border-color: #white;"),
@@ -231,10 +237,10 @@ GGenemy <- function() {
           
           helpText("Quantiles for factors cannot be chosen."),
           
-          shiny::radioButtons("var_name3",
-                          label = "",
-                          choices = c("Dataset is missing")
-                          ),
+          selectInput("var_name3",
+                      label = "",
+                      choices = c("Dataset is missing")
+                      ),
           
           tags$hr(style="border-color: #white;"),
           
@@ -295,10 +301,29 @@ GGenemy <- function() {
           
           tags$hr(style="border-color: #white;"),
           
-          shiny::checkboxGroupInput("var_to_cond_on2",
-                                label = "",
-                                choices = NULL
-                                ),
+          #tags$b("For Factor Variables"),
+          
+          #shiny::selectInput("factorvariable", label = "Insert the categories of the given variable.",
+          #                   choices = NULL,
+          #                   width = "310px"),
+          
+          #tags$hr(style="border-color: #white;"),
+          
+          selectInput("var_to_cond_on2",
+                      label = "",
+                      choices = NULL,
+                      multiple = TRUE,
+                      selectize = TRUE
+                      ),
+          
+          tags$hr(style="border-color: #white;"),
+          
+          tags$b("Remaining data points as an additional quantile?"),
+          
+          checkboxInput("remaining",
+                        label = "Remaining",
+                        TRUE
+          ),
           
           tags$hr(style="border-color: #white;"),
           
@@ -349,42 +374,42 @@ GGenemy <- function() {
         }
       )
 
-      updateCheckboxGroupInput(session,
+      updateSelectInput(session,
         inputId = "as.factor",
         label = "Which numeric variables are actually factors?",
         choices = names(df)
       )
 
-      updateRadioButtons(session,
-        inputId = "given_var",
-        label = "Given variable",
-        choices = names(df)
-      )
-
-      updateRadioButtons(session,
+      updateSelectInput(session,
         inputId = "given_var2",
         label = "Given variable",
         choices = names(df)
       )
       
-      shiny::updateRadioButtons(session,
+      updateSelectInput(session,
         inputId = "var_name3",
         label = "Condition variable",
         choices = names(df)
       )
 
-      updateCheckboxGroupInput(session,
+      updateSelectInput(session,
         inputId = "var_to_plot",
         label = "Variables to plot",
         choices = names(df),
         selected = names(df)
       )
       
-      shiny::updateCheckboxGroupInput(session,
+      updateSelectInput(session,
         inputId = "var_to_cond_on2",
         label = "Variables to plot",
         choices = names(df),
         selected = names(df)
+      )
+      
+      shiny::updateRadioButtons(session,
+        inputId = "var_name3",
+        label = "Condition variable",
+        choices = names(df)
       )
       
       
@@ -417,19 +442,12 @@ GGenemy <- function() {
       colnum <- which(sapply(df_reduced,is.factor))
       
       df_reduced2[colnum] <- NULL
-      
-      updateRadioButtons(session,
-                                inputId = "given_var",
+
+      updateSelectInput(session,
+                                inputId = "given_var4",
                                 label = "Given variable",
                                 choices = names(df_reduced2)
       )
-      
-      shiny::updateRadioButtons(session,
-                                inputId = "var_name3",
-                                label = "Condition variable",
-                                choices = names(df_reduced2)
-      )
-      
       
       return(df_reduced)
     })
@@ -467,6 +485,21 @@ GGenemy <- function() {
       return(df_reduced)
     })
 
+    #inputfactorvar <- reactive({
+    #  varchanging <- input$var_name3
+    #})
+    
+  #  inputlevel <- reactive({
+  #    level_factor <- list() 
+  #    for(i in 1:length(input$as.factor)){
+  #      level_factor[[i]] <- levels(data()[,input$as.factor[i]])
+  #    }
+  #  })
+    
+  #  observeEvent(inputfactorvar()){
+  #    updateSelectInput(session,"factorvariable",choices = inputlevel())
+  #  }
+    
     
     ####################################################################
     # Data-Upload Tab
@@ -502,7 +535,8 @@ GGenemy <- function() {
     # Sum-stats Tab
 
     output$sum_stats1 <- renderPrint({
-      print_sum_stats(sum_stats(
+      sum_stats(
+        input$given_var4,
         data3(),
         input$given_var,
         input$n_sum_stats,
@@ -512,6 +546,7 @@ GGenemy <- function() {
     #####################################################################
     # Cond Plot Densities
 
+    
     observeEvent(input$clicks, {
       lapply(1:25, function(i) {
         output[[paste0("condplot", i)]] <- NULL
@@ -543,15 +578,21 @@ GGenemy <- function() {
             shiny::isolate(input$var_name3),
             shiny::isolate(input$var_to_cond_on2[i]),
             selfquantiles = shiny::isolate(
+              if(is.factor(input$varname3)){
+                strsplit(unlist(input$factorvariable),",")[[1]][2]
+              }else{
               c(input$firstquant1,input$firstquant2,
                 input$secondquant1,input$secondquant2,
-                input$thirdquant1,input$thirdquant2))
+                input$thirdquant1,input$thirdquant2)}),
+            remaining = shiny::isolate(input$remaining)
           )
         })
       })
     },
     ignoreInit = TRUE
     )
+
+    #####################################################################
     
   output$downloadPlot <- shiny::downloadHandler(
     filename = function() {paste0("GGenemyPlot.pdf")},
@@ -579,9 +620,13 @@ GGenemy <- function() {
           shiny::isolate(input$var_name3),
           shiny::isolate(input$var_to_cond_on2),
           selfquantiles = shiny::isolate(
-            c(input$firstquant1,input$firstquant2,
-              input$secondquant1,input$secondquant2,
-              input$thirdquant1,input$thirdquant2)))
+            if(is.factor(input$varname3)){
+              strsplit(unlist(input$factorvariable),",")[[1]] #not implemented yet
+              }else{
+                c(input$firstquant1,input$firstquant2,
+                  input$secondquant1,input$secondquant2,
+                  input$thirdquant1,input$thirdquant2)}),
+          remaining = shiny::isolate(input$remaining))
         ),
         nrow = 1, ncol= 1)
       grDevices::dev.off()
