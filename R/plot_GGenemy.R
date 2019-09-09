@@ -1,4 +1,53 @@
-plot_GGenemy <- function(dataset, given_var, var_to_plot = NULL, n_quantiles = 5, selfquantiles = NULL, remaining = TRUE) {
+#' Plot GGenemy
+#'
+#' Plots densities of continuous variables, conditioned on quantiles of
+#' continuous variables or categories of categorical variables. For categorical
+#' variables, boxplots or barplots will be created, depending on whether the
+#' variable to be conditioned on is continuous or categorical.
+#' Either the user can use a number of same sized quantiles or 
+#' can select the size of own quantiles
+#'
+#'
+#' @param dataset A dataframe.
+#' @param given_var A variable from your \code{dataset}.
+#' @param var_to_plot The variables to plot. When not selecting any variable, all variables from your \code{dataset}
+#'   will be plotted.
+#' @param n_quantiles Number of quantiles you want to partition \code{given_var}
+#'   into.
+#' @param boxplot logical. If TRUE boxplots will be presented instead of densities
+#' @param selfquantiles Vector of n times two Values or matrix with 2 columns.
+#' The first value as min and the second value as max of the self selected quantile.
+#' @param remaining logical. If TRUE the remaining values not within selfquantiles will be plotted to
+#' category remaining.
+#' 
+#'  
+#'
+#' @return Several ggplot graphics. The total number of plots will equal the
+#'   number of variables in your \code{dataset} or selected variables from \code{var_to_plot}
+#' @export
+#'
+#' @examples
+#' n <- 500
+#' number_variables <- 5
+#'
+#' set.seed(42)
+#' variables <- as.data.frame(sapply(1:number_variables, function(a) {
+#'   if (runif(1) < 0.5) {
+#'     rnorm(n)
+#'   } else {
+#'     rgamma(n, 0.5)
+#'   }
+#' }))
+#'
+#'
+#' plot_GGenemy(variables, "V1")
+
+# Plot GGenemy
+
+# 1.Calculate the quantiles for selected variable 
+# 2.Plot densities of all or selected variables based on the calculated quantiles
+
+plot_GGenemy <- function(dataset, given_var, var_to_plot = NULL, n_quantiles = 5, boxplot = FALSE,selfquantiles = NULL, remaining = TRUE) {
   
   if(!is.null(selfquantiles)){
       if(is.factor(dataset[, given_var])){
@@ -59,6 +108,9 @@ plot_GGenemy <- function(dataset, given_var, var_to_plot = NULL, n_quantiles = 5
       ggplot2::ggtitle(paste0(a, " conditional on ", given_var))
   } else if (is.factor(data_help[, a])) {
     g + ggplot2::geom_boxplot(ggplot2::aes_string(x = a, y = given_var)) +
+      ggplot2::ggtitle(paste0(a, " conditional on ", given_var))
+  } else if(boxplot == TRUE){
+    g + ggplot2::geom_boxplot(ggplot2::aes_string(x = given_var, y = a)) +
       ggplot2::ggtitle(paste0(a, " conditional on ", given_var))
   } else {
     g + ggplot2::geom_density(alpha = 0.5) + ggplot2::aes_string(x = a) +
