@@ -545,12 +545,12 @@ GGenemy <- function() {
     # Sum-stats Tab
 
     output$sum_stats1 <- renderPrint({
-      sum_stats(
+      print_sum_stats(sum_stats(
         data3(),
         input$given_var4,
         input$n_sum_stats,
         input$quantiles_sum_stats
-      )
+      ), input$given_var4)
     })
     #####################################################################
     # Cond Plot Densities
