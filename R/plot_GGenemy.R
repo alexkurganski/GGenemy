@@ -51,6 +51,11 @@
 plot_GGenemy <- function(dataset, given_var, var_to_plot = NULL, n_quantiles = 5,
                          boxplot = FALSE, selfquantiles = NULL, remaining = TRUE) {
   
+  if (length(class(dataset)) > 1) {
+    dataset <- unclass(dataset)
+    dataset <- as.data.frame(dataset)
+  }
+  
   if(!is.null(selfquantiles)){
       if(is.factor(dataset[, given_var])){
         data_help <- dataset

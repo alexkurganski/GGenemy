@@ -18,7 +18,8 @@ will be plotted.}
 \item{n_quantiles}{Number of quantiles you want to partition \code{given_var}
 into.}
 
-\item{boxplot}{logical. If TRUE boxplots will be presented instead of densities}
+\item{boxplot}{logical. If TRUE boxplots will be presented instead of densities
+Also possible to use a vector with the names of variables, which should be plotted as boxplots instead of the density.}
 
 \item{selfquantiles}{Vector of n times two Values or matrix with 2 columns.
 The first value as min and the second value as max of the self selected quantile.}
@@ -35,7 +36,7 @@ Plots densities of continuous variables, conditioned on quantiles of
 continuous variables or categories of categorical variables. For categorical
 variables, boxplots or barplots will be created, depending on whether the
 variable to be conditioned on is continuous or categorical.
-Either the user can use a number of same sized quantiles or 
+Either the user can use a number of same sized quantiles or
 can select the size of own quantiles
 }
 \examples{

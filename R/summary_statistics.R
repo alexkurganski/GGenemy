@@ -25,15 +25,19 @@
 sum_stats <- function(dataset, given_var, n_stats = 1, n_quantiles = 5){
   
   # Checking for correct input of arguments
-  if(n_stats < 0 | n_stats > 4){
-    stop("You can only choose to display one to four summary statistics.")
-  }
+  #if(n_stats < 0 | n_stats > 4){
+    #stop("You can only choose to display one to four summary statistics.")
+  #}
   
   if(n_quantiles < 1 | n_quantiles > 10){
     stop("You can only partition your given_var into one to ten quantiles.")
   }
   
   if (!is.data.frame(dataset)) dataset <- as.data.frame(dataset)
+  if (length(class(dataset)) > 1) {
+    dataset <- unclass(dataset)
+    dataset <- as.data.frame(dataset)
+  }
   
   facnum <- which(sapply(dataset,is.factor))
   if(length(facnum) > 0) {
@@ -78,19 +82,20 @@ sum_stats <- function(dataset, given_var, n_stats = 1, n_quantiles = 5){
   kurtres <- NULL
   
   # Calculate conditional means
-  for (i in 1:n_quantiles) {
-    for (j in 1:nnum) {
-      sub <- subset(data_help, quant == as.character(i), select = varnames[j])
-      meanres[i, j] <- mean(sub[, 1])
+  if (n_stats >= 1| n_stats == "mean") {
+    for (i in 1:n_quantiles) {
+      for (j in 1:nnum) {
+        sub <- subset(data_help, quant == as.character(i), select = varnames[j])
+        meanres[i, j] <- mean(sub[, 1])
+      }
     }
+    
+    colnames(meanres) <- varnames[num.index]
+    rownames(meanres) <- paste0("quantile", 1:n_quantiles)
   }
   
-  colnames(meanres) <- varnames[num.index]
-  rownames(meanres) <- paste0("quantile", 1:n_quantiles)
-  
-  
   # Calculate conditional variances
-  if(n_stats > 1) {
+  if(n_stats > 1 | n_stats == "var") {
     varres <- matrix(nrow = n_quantiles, ncol = nnum)
     
     for (i in 1:n_quantiles) {
@@ -105,7 +110,7 @@ sum_stats <- function(dataset, given_var, n_stats = 1, n_quantiles = 5){
   }
   
   # Calculate conditional skewness
-  if(n_stats > 2) {
+  if(n_stats > 2 | n_stats == "skew") {
     skewres <- matrix(nrow = n_quantiles, ncol = nnum)
     
     for (i in 1:n_quantiles) {
@@ -120,7 +125,7 @@ sum_stats <- function(dataset, given_var, n_stats = 1, n_quantiles = 5){
   }
   
   # Calculate conditional kurtosis
-  if(n_stats > 3) {
+  if(n_stats > 3 | n_stats == "kurt") {
     kurtres <- matrix(nrow = n_quantiles, ncol = nnum)
     
     for (i in 1:n_quantiles) {
