@@ -149,16 +149,26 @@ GGenemy <- function() {
                          
                          tags$hr(style = "border-color: #white;"),
                          
-                         tags$b("Plot"),
+                         actionButton(
+                           inputId = "clicks3",
+                           label = "Calculate!",
+                           icon("paper-plane"),
+                           style = "color: white; background-color: #FF7F50; border-color: black"
+                         ),
                          
-                         checkboxInput("plotstats",
-                                       label = "Show summary statistics in a plot",
-                                       FALSE
+                         downloadButton(
+                           "downloadPlot3",
+                           label = "Download Plots",
+                           style = "color: white; background-color: #FF7F50; border-color: black"
                          )
                        ),
                        
                        mainPanel(
-                         verbatimTextOutput("sum_stats1")
+                         verbatimTextOutput("sum_stats1"),
+                         
+                         lapply(1:4, function(i) {
+                           shiny::plotOutput(paste0("summary_stats_plot", i))
+                           })
                        )
                      )
                    ),
@@ -581,14 +591,55 @@ GGenemy <- function() {
     ####################################################################
     # Sum-stats Tab
     
+    observeEvent(input$clicks3, {
     output$sum_stats1 <- renderPrint({
       print_sum_stats(sum_stats(
-        data3(),
-        input$given_var4,
-        input$n_sum_stats,
-        input$quantiles_sum_stats
-      ), input$given_var4)
+        isolate(data3()),
+        isolate(input$given_var4),
+        isolate(input$n_sum_stats),
+        isolate(input$quantiles_sum_stats)
+      ), isolate(input$given_var4))
     })
+    
+      lapply(1:4, function(i) {
+        output[[paste0("summary_stats_plot", i)]] <- NULL
+      })
+      len <- 1:input$n_sum_stats
+      lapply(1:input$n_sum_stats, function(i) {
+        output[[paste0("summary_stats_plot", i)]] <- renderPlot({
+          plot_sum_stats(
+            isolate(data3()),
+            isolate(input$given_var4),
+            isolate(input$n_sum_stats),
+            isolate(input$quantiles_sum_stats),
+            single = TRUE,
+            whichstat = isolate(i)
+          )
+        })
+      })
+    },
+    ignoreInit = TRUE
+    )
+    
+    output$downloadPlot3 <- shiny::downloadHandler(
+      filename = function() {
+        paste0("GGenemyPlot.pdf")
+      },
+      content = function(file) {
+        grDevices::pdf(file, width = 11)
+        gridExtra::marrangeGrob(
+          print(plot_sum_stats(
+            isolate(data3()),
+            isolate(input$given_var4),
+            isolate(input$n_sum_stats),
+            isolate(input$quantiles_sum_stats)
+          )),
+          nrow = 1, ncol = 1
+        )
+        grDevices::dev.off()
+      }
+    )
+    
     #####################################################################
     # Cond Plot Densities
     
