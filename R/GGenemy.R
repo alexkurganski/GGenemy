@@ -51,6 +51,7 @@ GGenemy <- function() {
 
           tags$hr(style="border-color: #white;"),
           
+          
           # Input: Select quotes
           radioButtons("quote", "Which quotes are used?",
             choices = c(
@@ -62,7 +63,18 @@ GGenemy <- function() {
           ),
           
           tags$hr(style="border-color: #white;"),
+          
+          # Input: Select decimal points
+          tags$b("Decimal Character"),
+          
+          checkboxInput("decimals",
+                        label = "File uses comma as the decimal character",
+                        FALSE
+          ),
+          
+          tags$hr(style="border-color: #white;"),
 
+          # Input: Does the first column show rownames?
           tags$b("Rownames"),
 
           checkboxInput("rownames",
@@ -72,11 +84,11 @@ GGenemy <- function() {
         ),
 
         mainPanel(
-          tableOutput("contents"),
+          tableOutput("contents")#,
 
-          tableOutput("na1"),
+          #tableOutput("na1"),
 
-          tableOutput("na2")
+          #tableOutput("na2")
         )
       )
     ),
@@ -147,14 +159,7 @@ GGenemy <- function() {
             selected = 1
           ),
           
-          tags$hr(style="border-color: #white;"),
-          
-          tags$b("Plot"),
-          
-          checkboxInput("plotstats",
-                        label = "Show summary statistics in a plot",
-                        FALSE
-          )              
+          tags$hr(style="border-color: #white;")
         ),
 
         mainPanel(
@@ -163,10 +168,10 @@ GGenemy <- function() {
       )
     ),
     #####################################################################################
-    shiny::navbarMenu(
+    navbarMenu(
       "4. Plots",
       
-      shiny::tabPanel(
+      tabPanel(
       "Equal Quantiles",
 
       sidebarLayout(
@@ -241,10 +246,10 @@ GGenemy <- function() {
         
       )
     ),
-    shiny::tabPanel(
+    tabPanel(
       "Self Selected quantiles",
-      shiny::sidebarLayout(
-        shiny::sidebarPanel(
+      sidebarLayout(
+        sidebarPanel(
           
           helpText("Quantiles for factors cannot be chosen."),
           
@@ -260,17 +265,17 @@ GGenemy <- function() {
           tags$b("First Quantile")),
           
           div(style="display: inline-block;vertical-align:top; width: 150px;",
-          shiny::numericInput("firstquant1",
+          numericInput("firstquant1",
                               "From:",
-                              value = 1,
+                              value = 1
           )),
           
           div(style="display: inline-block;vertical-align:top; width: 10px;",HTML("<br>")),
           
           div(style="display: inline-block;vertical-align:top; width: 150px;",
-          shiny::numericInput("firstquant2",
+          numericInput("firstquant2",
                               "To:",
-                              value = 10,
+                              value = 10
           )),
           
           div(style="display:inline-block; width: 300px;height: 25px;",
@@ -278,7 +283,7 @@ GGenemy <- function() {
                  )),
           
           div(style="display: inline-block;vertical-align:top; width: 150px;",
-          shiny::numericInput("secondquant1",
+          numericInput("secondquant1",
                               "From:",
                               value = NULL
           )),
@@ -286,7 +291,7 @@ GGenemy <- function() {
           div(style="display: inline-block;vertical-align:top; width: 10px;",HTML("<br>")),
           
           div(style="display: inline-block;vertical-align:top; width: 150px;",
-          shiny::numericInput("secondquant2",
+          numericInput("secondquant2",
                               "To:",
                               value = NULL
           )),
@@ -295,14 +300,14 @@ GGenemy <- function() {
           tags$b("Third Quantile")),
           
           div(style="display: inline-block;vertical-align:top; width: 150px;",
-          shiny::numericInput("thirdquant1",
+          numericInput("thirdquant1",
                               "From:",
                               value = NULL
           )),
           div(style="display: inline-block;vertical-align:top; width: 10px;",HTML("<br>")),
           
           div(style="display: inline-block;vertical-align:top; width: 150px;",
-          shiny::numericInput("thirdquant2",
+          numericInput("thirdquant2",
                               "To:",
                               value = NULL
           )),
@@ -311,7 +316,7 @@ GGenemy <- function() {
           
           tags$b("For Factor Variables"),
           
-          shiny::textInput("factorvariable", label = "Insert the categories of the given variable.",
+          textInput("factorvariable", label = "Insert the categories of the given variable.",
                              width = "310px"),
           
           tags$hr(style="border-color: #white;"),
@@ -345,24 +350,24 @@ GGenemy <- function() {
           
         div(style="display: inline-block;vertical-align:top; width: 50px;",HTML("<br>")),
         
-          shiny::actionButton(
+          actionButton(
             inputId = "clicks2",
             label = "Calculate!",
-            shiny::icon("paper-plane"),
+            icon("paper-plane"),
             style = "color: white; background-color: #FF7F50; border-color: black"
           ),
           
           div(style="display: inline-block;vertical-align:top; width: 150px;",
-          shiny::downloadButton(
+          downloadButton(
             "downloadPlot2",
             label = "Download Plots",
             style = "color: white; background-color: #FF7F50; border-color: black"
           ))
           
         ),
-        shiny::mainPanel(
+        mainPanel(
           lapply(1:25, function(i) {
-            shiny::plotOutput(paste0("selfcondplot", i))
+            plotOutput(paste0("selfcondplot", i))
           })
         )
         )
@@ -383,6 +388,11 @@ GGenemy <- function() {
         header = input$header,
         sep = input$sep,
         quote = input$quote,
+        dec = if (input$decimals) {
+          ","
+        } else {
+          "."
+        },
         row.names = if (input$rownames) {
           1
         } else {
@@ -392,7 +402,7 @@ GGenemy <- function() {
 
       updateSelectInput(session,
         inputId = "as.factor",
-        label = "Which numerics or logicals should be treated as factors?",
+        label = "Choose numerics or logicals that should be treated as factors",
         choices = names(df)
       )
 
@@ -428,6 +438,11 @@ GGenemy <- function() {
         header = input$header,
         sep = input$sep,
         quote = input$quote,
+        dec = if (input$decimals) {
+          ","
+        } else {
+          "."
+        },
         row.names = if (input$rownames) {
           1
         } else {
@@ -483,6 +498,11 @@ GGenemy <- function() {
                             header = input$header,
                             sep = input$sep,
                             quote = input$quote,
+                            dec = if (input$decimals) {
+                              ","
+                            } else {
+                              "."
+                            },
                             row.names = if (input$rownames) {
                               1
                             } else {
@@ -531,13 +551,13 @@ GGenemy <- function() {
       utils::head(data1(), 10)
     })
 
-    output$na1 <- renderPrint({
-      paste("The raw dataset consists of", nrow(data1()), "rows.")
-    })
+    #output$na1 <- renderPrint({
+      #paste("The raw dataset consists of", nrow(data1()), "rows.")
+    #})
 
-    output$na2 <- renderPrint({
-      paste("After deleting NA's, the dataset has", nrow(data2()), "rows.")
-    })
+    #output$na2 <- renderPrint({
+      #paste("After deleting NA's, the dataset has", nrow(data2()), "rows.")
+    #})
 
     ####################################################################
     # Data-Management Tab
@@ -591,25 +611,25 @@ GGenemy <- function() {
     ignoreInit = TRUE
     )
     
-    shiny::observeEvent(input$clicks2, {
+    observeEvent(input$clicks2, {
       lapply(1:25, function(i) {
         output[[paste0("selfcondplot", i)]] <- NULL
       })
       len <- length(input$var_to_cond_on2)
       lapply(1:len, function(i) {
-        output[[paste0("selfcondplot", i)]] <- shiny::renderPlot({
+        output[[paste0("selfcondplot", i)]] <- renderPlot({
           plot_GGenemy(
-            shiny::isolate(data2()),
-            shiny::isolate(input$var_name3),
-            shiny::isolate(input$var_to_cond_on2[i]),
-            selfquantiles = shiny::isolate(
+            isolate(data2()),
+            isolate(input$var_name3),
+            isolate(input$var_to_cond_on2[i]),
+            selfquantiles = isolate(
       #        if(is.factor(input$var_name3)){
                 strsplit(unlist(input$factorvariable),",")[[1]]),
       #        }else{
       #        c(input$firstquant1,input$firstquant2,
       #          input$secondquant1,input$secondquant2,
       #          input$thirdquant1,input$thirdquant2)}),
-            remaining = shiny::isolate(input$remaining),
+            remaining = isolate(input$remaining),
             boxplot = isolate(input$boxplots2)
           )
         })
@@ -620,7 +640,7 @@ GGenemy <- function() {
 
     #####################################################################
     
-  output$downloadPlot <- shiny::downloadHandler(
+  output$downloadPlot <- downloadHandler(
     filename = function() {paste0("GGenemyPlot.pdf")},
     content = function(file) {
       grDevices::pdf(file, width = 11)
@@ -637,23 +657,23 @@ GGenemy <- function() {
     }
   )
   
-  output$downloadPlot2 <- shiny::downloadHandler(
+  output$downloadPlot2 <- downloadHandler(
     filename = function() {paste0("GGenemyPlot.pdf")},
     content = function(file) {
       grDevices::pdf(file)
       gridExtra::marrangeGrob(
         print(plot_GGenemy(
-          shiny::isolate(data2()),
-          shiny::isolate(input$var_name3),
-          shiny::isolate(input$var_to_cond_on2),
-          selfquantiles = shiny::isolate(
+          isolate(data2()),
+          isolate(input$var_name3),
+          isolate(input$var_to_cond_on2),
+          selfquantiles = isolate(
        #     if(is.factor(input$var_name3)){
               strsplit(unlist(input$factorvariable),",")[[1]]), #not implemented yet
       #        }else{
       #          c(input$firstquant1,input$firstquant2,
       #            input$secondquant1,input$secondquant2,
       #            input$thirdquant1,input$thirdquant2)}),
-          remaining = shiny::isolate(input$remaining),
+          remaining = isolate(input$remaining),
           boxplot = isolate(input$boxplots2)
           )),
         nrow = 1, ncol= 1)
