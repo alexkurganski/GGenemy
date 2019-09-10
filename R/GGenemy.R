@@ -4,7 +4,7 @@
 #' calculated and conditional plots can be drawn.
 #'
 #' @return A Shiny App.
-#' 
+#'
 #' @import shiny
 #' @export
 #'
@@ -27,7 +27,7 @@ GGenemy <- function() {
             )
           ),
           tags$style(".btn-file {background-color:#FF7F50; border-color: black;}"),
-          
+
           # Input: Checkbox if file has header
           tags$b("Header"),
 
@@ -36,9 +36,9 @@ GGenemy <- function() {
             TRUE
           ),
 
-          tags$hr(style="border-color: #white;"),
-          
-          
+          tags$hr(style = "border-color: #white;"),
+
+
           # Input: Select separator
           radioButtons("sep", "Separator",
             choices = c(
@@ -49,9 +49,8 @@ GGenemy <- function() {
             selected = ","
           ),
 
-          tags$hr(style="border-color: #white;"),
-          
-          
+          tags$hr(style = "border-color: #white;"),
+
           # Input: Select quotes
           radioButtons("quote", "Which quotes are used?",
             choices = c(
@@ -61,7 +60,7 @@ GGenemy <- function() {
             ),
             selected = '"'
           ),
-          
+
           tags$hr(style="border-color: #white;"),
           
           # Input: Select decimal points
@@ -71,8 +70,9 @@ GGenemy <- function() {
                         label = "File uses comma as the decimal character",
                         FALSE
           ),
-          
-          tags$hr(style="border-color: #white;"),
+
+          tags$hr(style = "border-color: #white;"),
+
 
           # Input: Does the first column show rownames?
           tags$b("Rownames"),
@@ -99,8 +99,8 @@ GGenemy <- function() {
 
       sidebarLayout(
         sidebarPanel(
-          
-          
+
+
           # Input Number Quantiles
           selectInput("as.factor",
             label = "",
@@ -108,9 +108,9 @@ GGenemy <- function() {
             multiple = TRUE,
             selectize = TRUE
           ),
-          
-          tags$hr(style="border-color: #white;"),
-          
+
+          tags$hr(style = "border-color: #white;"),
+
           helpText("For factors with a vast amount of levels, only 
                           the 10 most common categories will be displayed.")
         ),
@@ -130,16 +130,16 @@ GGenemy <- function() {
       sidebarLayout(
         sidebarPanel(
           helpText("Factors will not be displayed."),
-          
-          tags$hr(style="border-color: #white;"),
-          
+
+          tags$hr(style = "border-color: #white;"),
+
           selectInput("given_var4",
             label = "",
             choices = c("Dataset is missing"),
             selectize = TRUE
           ),
-          
-          tags$hr(style="border-color: #white;"),
+
+          tags$hr(style = "border-color: #white;"),
 
           sliderInput("quantiles_sum_stats",
             "Number of quantiles for the given variable",
@@ -147,8 +147,8 @@ GGenemy <- function() {
             max = 10,
             value = 5
           ),
-          
-          tags$hr(style="border-color: #white;"),
+
+          tags$hr(style = "border-color: #white;"),
 
           radioButtons("n_sum_stats",
             label = "Choice of summary statistics",
@@ -158,8 +158,9 @@ GGenemy <- function() {
             ),
             selected = 1
           ),
+
+          tags$hr(style = "border-color: #white;")
           
-          tags$hr(style="border-color: #white;")
         ),
 
         mainPanel(
@@ -174,76 +175,75 @@ GGenemy <- function() {
       tabPanel(
       "Equal Quantiles",
 
-      sidebarLayout(
-        sidebarPanel(
+        sidebarLayout(
+          sidebarPanel(
 
-          # Input Number Quantiles
-          sliderInput("quantiles",
-            "Number of quantiles for the given variable",
-            min = 1,
-            max = 10,
-            value = 5
-          ),
-          
-          # Help Text
-          helpText("When conditioning on a factor variable,
+            # Input Number Quantiles
+            sliderInput("quantiles",
+              "Number of quantiles for the given variable",
+              min = 1,
+              max = 10,
+              value = 5
+            ),
+
+            # Help Text
+            helpText("When conditioning on a factor variable,
                           the number of quantiles is set to the number of categories."),
-          
-          tags$hr(style="border-color: #white;"),
-          
-          # Select given variable
-          selectInput("given_var2",
-            label = "",
-            choices = "",
-            selectize = TRUE
-          ),
-          
-          tags$hr(style="border-color: #white;"),
 
-          # Select Variables you want to plot
-          selectInput("var_to_plot",
-            label = "",
-            choices = NULL,
-            multiple = TRUE,
-            selectize = TRUE
+            tags$hr(style = "border-color: #white;"),
+
+            # Select given variable
+            selectInput("given_var2",
+              label = "",
+              choices = "",
+              selectize = TRUE
+            ),
+
+            tags$hr(style = "border-color: #white;"),
+
+            # Select Variables you want to plot
+            selectInput("var_to_plot",
+              label = "",
+              choices = NULL,
+              multiple = TRUE,
+              selectize = TRUE
+            ),
+
+            tags$hr(style = "border-color: #white;"),
+
+            selectInput("boxplots",
+              label = "",
+              choices = NULL,
+              multiple = TRUE,
+              selectize = TRUE
+            ),
+
+
+
+            tags$hr(style = "border-color: #white;"),
+
+            actionButton(
+              inputId = "clicks",
+              label = "Calculate!",
+              icon("paper-plane"),
+              style = "color: white; background-color: #FF7F50; border-color: black"
+            ),
+
+            downloadButton(
+              "downloadPlot",
+              label = "Download Plots",
+              style = "color: white; background-color: #FF7F50; border-color: black"
+            )
           ),
-          
-          tags$hr(style="border-color: #white;"),
-          
-          selectInput("boxplots",
-                      label = "",
-                      choices = NULL,
-                      multiple = TRUE,
-                      selectize = TRUE
-          ),
-          
-          
-          
-          tags$hr(style="border-color: #white;"),
-          
-          actionButton(
-            inputId = "clicks",
-            label = "Calculate!",
-            icon("paper-plane"),
-            style = "color: white; background-color: #FF7F50; border-color: black"
-          ),
-          
-          downloadButton(
-            "downloadPlot",
-            label = "Download Plots",
-            style = "color: white; background-color: #FF7F50; border-color: black"
+
+          # Show a plot of the generated distribution
+
+          mainPanel(
+            lapply(1:25, function(i) {
+              plotOutput(paste0("condplot", i))
+            })
           )
-        ),
-
-        # Show a plot of the generated distribution
-        
-        mainPanel(
-          lapply(1:25, function(i) {
-            plotOutput(paste0("condplot", i))
-          })
-        
         )
-        
       )
     ),
     tabPanel(
@@ -370,8 +370,6 @@ GGenemy <- function() {
             plotOutput(paste0("selfcondplot", i))
           })
         )
-        )
-      
       )
     )
   )
@@ -400,8 +398,14 @@ GGenemy <- function() {
         }
       )
 
+      df_reduced <- df
+
+      colnum <- which(sapply(df_reduced, is.factor))
+      df_reduced[colnum] <- NULL
+
       updateSelectInput(session,
         inputId = "as.factor",
+
         label = "Choose numerics or logicals that should be treated as factors",
         choices = names(df)
       )
@@ -418,7 +422,7 @@ GGenemy <- function() {
         choices = names(df),
         selected = names(df)
       )
-      
+
       updateSelectInput(session,
         inputId = "var_to_cond_on2",
         label = "Variables to plot",
@@ -426,7 +430,13 @@ GGenemy <- function() {
         selected = names(df)
       )
       
-      
+      updateSelectInput(session,
+                        inputId = "var_name3",
+                        label = "Condition variable",
+                        choices = names(df)
+      )
+
+
       return(df)
     })
 
@@ -451,50 +461,45 @@ GGenemy <- function() {
       )
 
       for (i in unlist(input$as.factor, use.names = FALSE)) {
-        df[,i] <- as.factor(df[,i])
+        df[, i] <- as.factor(df[, i])
       }
       df_reduced <- stats::na.omit(df)
-      
+
       df_reduced2 <- df_reduced
-      
-      colnum <- which(sapply(df_reduced,is.factor))
-      
+
+      colnum <- which(sapply(df_reduced, is.factor))
+
       df_reduced2[colnum] <- NULL
 
       updateSelectInput(session,
-                        inputId = "given_var4",
-                        label = "Given variable",
-                        choices = names(df_reduced2)
+        inputId = "given_var4",
+        label = "Given variable",
+        choices = names(df_reduced2)
       )
-      
+
       updateSelectInput(session,
-                        inputId = "boxplots",
-                        label = "Boxplots instead of densities for numerical variables?",
-                        choices = names(df_reduced),
-                        selected = ""
+        inputId = "boxplots",
+        label = "Boxplots instead of densities for numerical variables?",
+        choices = names(df_reduced),
+        selected = ""
       )
-      
+
       updateSelectInput(session,
-                        inputId = "var_name3",
-                        label = "Condition variable",
-                        choices = names(df_reduced)
+        inputId = "boxplots2",
+        label = "Boxplots instead of densities for numerical variables?",
+        choices = names(df_reduced),
+        selected = ""
       )
-      
-      updateSelectInput(session,
-                        inputId = "boxplots2",
-                        label = "Boxplots instead of densities for numerical variables?",
-                        choices = names(df_reduced),
-                        selected = ""
-      )
-      
+
       return(df_reduced)
     })
-    
+
     data3 <- reactive({
       req(input$file1) # require that the input is available
-      
+
       inFile <- input$file1
       df <- utils::read.table(inFile$datapath,
+
                             header = input$header,
                             sep = input$sep,
                             quote = input$quote,
@@ -508,42 +513,43 @@ GGenemy <- function() {
                             } else {
                               NULL
                             }
+
       )
-      
+
       for (i in unlist(input$as.factor, use.names = FALSE)) {
-        df[,i] <- as.factor(df[,i])
+        df[, i] <- as.factor(df[, i])
       }
       df_reduced <- stats::na.omit(df)
-      
-      colnum <- which(sapply(df_reduced,is.factor))
-      
+
+      colnum <- which(sapply(df_reduced, is.factor))
+
       df_reduced[colnum] <- NULL
-      
+
       df_reduced2 <- df_reduced
-      
-      colnum <- which(sapply(df_reduced,is.factor))
-      
+
+      colnum <- which(sapply(df_reduced, is.factor))
+
       df_reduced2[colnum] <- NULL
-      
+
       return(df_reduced)
     })
 
-    #inputfactorvar <- reactive({
+    # inputfactorvar <- reactive({
     #  varchanging <- input$var_name3
-    #})
-    
-  #  inputlevel <- reactive({
-  #    level_factor <- list() 
-  #    for(i in 1:length(input$as.factor)){
-  #      level_factor[[i]] <- levels(data()[,input$as.factor[i]])
-  #    }
-  #  })
-    
-  #  observeEvent(inputfactorvar()){
-  #    updateSelectInput(session,"factorvariable",choices = inputlevel())
-  #  }
-    
-    
+    # })
+
+    #  inputlevel <- reactive({
+    #    level_factor <- list()
+    #    for(i in 1:length(input$as.factor)){
+    #      level_factor[[i]] <- levels(data()[,input$as.factor[i]])
+    #    }
+    #  })
+
+    #  observeEvent(inputfactorvar()){
+    #    updateSelectInput(session,"factorvariable",choices = inputlevel())
+    #  }
+
+
     ####################################################################
     # Data-Upload Tab
 
@@ -563,10 +569,14 @@ GGenemy <- function() {
     # Data-Management Tab
 
     output$summary1 <- renderPrint({
-      print.desc(describe(data2(), num.desc = c("min", "quantile0.25",
-                                     "median", "mean", "quantile0.75",
-                                     "max", "sd", "var", "valid.n"),
-                        xname = "Dataset"))
+      print.desc(describe(data2(),
+        num.desc = c(
+          "min", "quantile0.25",
+          "median", "mean", "quantile0.75",
+          "max", "sd", "var", "valid.n"
+        ),
+        xname = "Dataset"
+      ))
     })
 
     output$str1 <- renderPrint({
@@ -587,7 +597,7 @@ GGenemy <- function() {
     #####################################################################
     # Cond Plot Densities
 
-    
+
     observeEvent(input$clicks, {
       lapply(1:25, function(i) {
         output[[paste0("condplot", i)]] <- NULL
@@ -601,9 +611,13 @@ GGenemy <- function() {
             isolate(input$var_to_plot[i]),
             isolate(input$quantiles),
             isolate(
-              if(any(i == match(input$boxplots,input$var_to_plot))){
-              boxplot = TRUE}
-              else{boxplot = FALSE})
+              if (any(i == match(input$boxplots, input$var_to_plot))) {
+                boxplot <- TRUE
+              }
+              else {
+                boxplot <- FALSE
+              }
+            )
           )
         })
       })
@@ -619,17 +633,18 @@ GGenemy <- function() {
       lapply(1:len, function(i) {
         output[[paste0("selfcondplot", i)]] <- renderPlot({
           plot_GGenemy(
-            isolate(data2()),
-            isolate(input$var_name3),
-            isolate(input$var_to_cond_on2[i]),
-            selfquantiles = isolate(
-      #        if(is.factor(input$var_name3)){
-                strsplit(unlist(input$factorvariable),",")[[1]]),
-      #        }else{
-      #        c(input$firstquant1,input$firstquant2,
-      #          input$secondquant1,input$secondquant2,
-      #          input$thirdquant1,input$thirdquant2)}),
-            remaining = isolate(input$remaining),
+
+            shiny::isolate(data2()),
+            shiny::isolate(input$var_name3),
+            shiny::isolate(input$var_to_cond_on2[i]),
+            selfquantiles = shiny::isolate(
+                      if(is.factor(data2()[,input$var_name3])){
+              strsplit(input$factorvariable, ",")[[1]]
+                    }else{
+                    c(input$firstquant1,input$firstquant2,
+                      input$secondquant1,input$secondquant2,
+                      input$thirdquant1,input$thirdquant2)}),
+            remaining = shiny::isolate(input$remaining),
             boxplot = isolate(input$boxplots2)
           )
         })
@@ -638,48 +653,52 @@ GGenemy <- function() {
     ignoreInit = TRUE
     )
 
-    #####################################################################
-    
-  output$downloadPlot <- downloadHandler(
-    filename = function() {paste0("GGenemyPlot.pdf")},
-    content = function(file) {
-      grDevices::pdf(file, width = 11)
-      gridExtra::marrangeGrob(
-        print(plot_GGenemy(
-        isolate(data2()),
-        isolate(input$given_var2),
-        isolate(input$var_to_plot),
-        isolate(input$quantiles),
-        isolate(input$boxplots)
-        )),
-        nrow = 1, ncol= 1)
-      grDevices::dev.off()
-    }
-  )
-  
-  output$downloadPlot2 <- downloadHandler(
-    filename = function() {paste0("GGenemyPlot.pdf")},
-    content = function(file) {
-      grDevices::pdf(file)
-      gridExtra::marrangeGrob(
-        print(plot_GGenemy(
-          isolate(data2()),
-          isolate(input$var_name3),
-          isolate(input$var_to_cond_on2),
-          selfquantiles = isolate(
-       #     if(is.factor(input$var_name3)){
-              strsplit(unlist(input$factorvariable),",")[[1]]), #not implemented yet
-      #        }else{
-      #          c(input$firstquant1,input$firstquant2,
-      #            input$secondquant1,input$secondquant2,
-      #            input$thirdquant1,input$thirdquant2)}),
-          remaining = isolate(input$remaining),
-          boxplot = isolate(input$boxplots2)
+    output$downloadPlot <- shiny::downloadHandler(
+      filename = function() {
+        paste0("GGenemyPlot.pdf")
+      },
+      content = function(file) {
+        grDevices::pdf(file, width = 11)
+        gridExtra::marrangeGrob(
+          print(plot_GGenemy(
+            isolate(data2()),
+            isolate(input$given_var2),
+            isolate(input$var_to_plot),
+            isolate(input$quantiles),
+            isolate(input$boxplots)
           )),
-        nrow = 1, ncol= 1)
-      grDevices::dev.off()
-    }
-  )
+          nrow = 1, ncol = 1
+        )
+        grDevices::dev.off()
+      }
+    )
+
+    output$downloadPlot2 <- shiny::downloadHandler(
+      filename = function() {
+        paste0("GGenemyPlot.pdf")
+      },
+      content = function(file) {
+        grDevices::pdf(file)
+        gridExtra::marrangeGrob(
+          print(plot_GGenemy(
+            shiny::isolate(data2()),
+            shiny::isolate(input$var_name3),
+            shiny::isolate(input$var_to_cond_on2),
+            selfquantiles = shiny::isolate(
+                   if(is.factor(data2()[,input$var_name3])){
+              strsplit(unlist(input$factorvariable), ",")[[1]]
+                    }else{
+                      c(input$firstquant1,input$firstquant2,
+                        input$secondquant1,input$secondquant2,
+                        input$thirdquant1,input$thirdquant2)}),
+            remaining = shiny::isolate(input$remaining),
+            boxplot = isolate(input$boxplots2)
+          )),
+          nrow = 1, ncol = 1
+        )
+        grDevices::dev.off()
+      }
+    )
   }
   # Run the application
   shinyApp(ui = ui, server = server)

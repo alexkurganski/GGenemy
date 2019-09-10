@@ -54,4 +54,9 @@ variables <- as.data.frame(sapply(1:number_variables, function(a) {
 
 
 plot_GGenemy(variables, "V1")
+
+# Plot GGenemy
+
+# 1.Calculate the quantiles for selected variable
+# 2.Plot densities of all or selected variables based on the calculated quantiles
 }
