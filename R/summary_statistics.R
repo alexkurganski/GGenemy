@@ -86,7 +86,7 @@ sum_stats <- function(dataset, given_var, n_stats = 1, n_quantiles = 5){
   }
   
   colnames(meanres) <- varnames[num.index]
-  rownames(meanres) <- paste0("cond. on quantile", 1:n_quantiles)
+  rownames(meanres) <- paste0("quantile", 1:n_quantiles)
   
   
   # Calculate conditional variances
@@ -101,7 +101,7 @@ sum_stats <- function(dataset, given_var, n_stats = 1, n_quantiles = 5){
     }
     
     colnames(varres) <- varnames[num.index]
-    rownames(varres) <- paste0("cond. on quantile", 1:n_quantiles)
+    rownames(varres) <- paste0("quantile", 1:n_quantiles)
   }
   
   # Calculate conditional skewness
@@ -116,7 +116,7 @@ sum_stats <- function(dataset, given_var, n_stats = 1, n_quantiles = 5){
     }
     
     colnames(skewres) <- varnames[num.index]
-    rownames(skewres) <- paste0("cond. on quantile", 1:n_quantiles)
+    rownames(skewres) <- paste0("quantile", 1:n_quantiles)
   }
   
   # Calculate conditional kurtosis
@@ -131,7 +131,7 @@ sum_stats <- function(dataset, given_var, n_stats = 1, n_quantiles = 5){
     }
     
     colnames(kurtres) <- varnames[num.index]
-    rownames(kurtres) <- paste0("cond. on quantile", 1:n_quantiles)
+    rownames(kurtres) <- paste0("quantile", 1:n_quantiles)
   }
   # Collect results in a list
   stats_list <- list(meanres,

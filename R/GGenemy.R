@@ -113,7 +113,7 @@ GGenemy <- function() {
 
     #####################################################################################
     tabPanel(
-      "3. Summary Stats",
+      "3. Summary Statistics",
 
       sidebarLayout(
         sidebarPanel(
