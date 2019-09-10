@@ -87,7 +87,7 @@ plot_GGenemy <- function(dataset, given_var, var_to_plot = NULL, n_quantiles = 5
     }else{
       if (is.factor(dataset[, given_var])) {
           if (n_quantiles != length(levels(dataset[, given_var]))) {
-            warning(paste0(given_var, " is a categorical variable. The number of categories will be defined as a condition."))
+            message(paste0(given_var, " is a categorical variable. The number of categories will be defined as a condition."))
           }
           data_help <- dataset
           data_help$quant <- dataset[, given_var]

@@ -3,8 +3,4 @@
 language: R
 cache: packages
 
-install:
-  - R -e "install.packages('devtools')"
 
-script:
-- R CMD build .

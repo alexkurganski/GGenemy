@@ -379,7 +379,7 @@ GGenemy <- function() {
 
       inFile <- input$file1
 
-      df <- utils::read.csv(inFile$datapath,
+      df <- utils::read.table(inFile$datapath,
         header = input$header,
         sep = input$sep,
         quote = input$quote,
@@ -392,7 +392,7 @@ GGenemy <- function() {
 
       updateSelectInput(session,
         inputId = "as.factor",
-        label = "Which numeric variables are actually factors?",
+        label = "Which numerics or logicals should be treated as factors?",
         choices = names(df)
       )
 
@@ -424,7 +424,7 @@ GGenemy <- function() {
       req(input$file1) # require that the input is available
 
       inFile <- input$file1
-      df <- utils::read.csv(inFile$datapath,
+      df <- utils::read.table(inFile$datapath,
         header = input$header,
         sep = input$sep,
         quote = input$quote,
@@ -479,7 +479,7 @@ GGenemy <- function() {
       req(input$file1) # require that the input is available
       
       inFile <- input$file1
-      df <- utils::read.csv(inFile$datapath,
+      df <- utils::read.table(inFile$datapath,
                             header = input$header,
                             sep = input$sep,
                             quote = input$quote,
@@ -528,7 +528,7 @@ GGenemy <- function() {
     # Data-Upload Tab
 
     output$contents <- renderTable({
-      utils::head(data1())
+      utils::head(data1(), 10)
     })
 
     output$na1 <- renderPrint({
@@ -557,12 +557,12 @@ GGenemy <- function() {
     # Sum-stats Tab
 
     output$sum_stats1 <- renderPrint({
-      sum_stats(
+      print_sum_stats(sum_stats(
         data3(),
         input$given_var4,
         input$n_sum_stats,
         input$quantiles_sum_stats
-      )
+      ), input$given_var4)
     })
     #####################################################################
     # Cond Plot Densities
