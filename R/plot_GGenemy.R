@@ -15,6 +15,7 @@
 #' @param n_quantiles Number of quantiles you want to partition \code{given_var}
 #'   into.
 #' @param boxplot logical. If TRUE boxplots will be presented instead of densities
+#' Also possible to use a vector with the names of variables, which should be plotted as boxplots instead of the density.
 #' @param selfquantiles Vector of n times two Values or matrix with 2 columns.
 #' The first value as min and the second value as max of the self selected quantile.
 #' @param remaining logical. If TRUE the remaining values not within selfquantiles will be plotted to
@@ -47,7 +48,8 @@
 # 1.Calculate the quantiles for selected variable 
 # 2.Plot densities of all or selected variables based on the calculated quantiles
 
-plot_GGenemy <- function(dataset, given_var, var_to_plot = NULL, n_quantiles = 5, boxplot = FALSE,selfquantiles = NULL, remaining = TRUE) {
+plot_GGenemy <- function(dataset, given_var, var_to_plot = NULL, n_quantiles = 5,
+                         boxplot = FALSE, selfquantiles = NULL, remaining = TRUE) {
   
   if(!is.null(selfquantiles)){
       if(is.factor(dataset[, given_var])){
@@ -109,7 +111,10 @@ plot_GGenemy <- function(dataset, given_var, var_to_plot = NULL, n_quantiles = 5
   } else if (is.factor(data_help[, a])) {
     g + ggplot2::geom_boxplot(ggplot2::aes_string(x = a, y = given_var)) +
       ggplot2::ggtitle(paste0(a, " conditional on ", given_var))
-  } else if(boxplot == TRUE){
+  } else if(!is.logical(boxplot) & any(boxplot == a)) {
+    g + ggplot2::geom_boxplot(ggplot2::aes_string(x = given_var, y = a)) +
+      ggplot2::ggtitle(paste0(a, " conditional on ", given_var))
+  } else if(any(boxplot == TRUE)){
     g + ggplot2::geom_boxplot(ggplot2::aes_string(x = given_var, y = a)) +
       ggplot2::ggtitle(paste0(a, " conditional on ", given_var))
   } else {

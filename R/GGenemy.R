@@ -203,6 +203,8 @@ GGenemy <- function() {
             selectize = TRUE
           ),
           
+          tags$hr(style="border-color: #white;"),
+          
           selectInput("boxplots",
                       label = "",
                       choices = NULL,
@@ -271,8 +273,6 @@ GGenemy <- function() {
                               value = 10,
           )),
           
-          tags$hr(style="border-color: #white;"),
-          
           div(style="display:inline-block; width: 300px;height: 25px;",
           tags$b("Second Quantile"
                  )),
@@ -290,8 +290,6 @@ GGenemy <- function() {
                               "To:",
                               value = NULL
           )),
-          
-          tags$hr(style="border-color: #white;"),
           
           div(style="display:inline-block; width: 300px;height: 25px;",
           tags$b("Third Quantile")),
@@ -311,13 +309,12 @@ GGenemy <- function() {
           
           tags$hr(style="border-color: #white;"),
           
-          #tags$b("For Factor Variables"),
+          tags$b("For Factor Variables"),
           
-          #shiny::selectInput("factorvariable", label = "Insert the categories of the given variable.",
-          #                   choices = NULL,
-          #                   width = "310px"),
+          shiny::textInput("factorvariable", label = "Insert the categories of the given variable.",
+                             width = "310px"),
           
-          #tags$hr(style="border-color: #white;"),
+          tags$hr(style="border-color: #white;"),
           
           selectInput("var_to_cond_on2",
                       label = "",
@@ -325,6 +322,15 @@ GGenemy <- function() {
                       multiple = TRUE,
                       selectize = TRUE
                       ),
+          
+          tags$hr(style="border-color: #white;"),
+          
+          selectInput("boxplots2",
+                      label = "",
+                      choices = NULL,
+                      multiple = TRUE,
+                      selectize = TRUE
+          ),
           
           tags$hr(style="border-color: #white;"),
           
@@ -395,12 +401,6 @@ GGenemy <- function() {
         label = "Given variable",
         choices = names(df)
       )
-      
-      updateSelectInput(session,
-        inputId = "var_name3",
-        label = "Condition variable",
-        choices = names(df)
-      )
 
       updateSelectInput(session,
         inputId = "var_to_plot",
@@ -454,6 +454,19 @@ GGenemy <- function() {
       
       updateSelectInput(session,
                         inputId = "boxplots",
+                        label = "Boxplots instead of densities for numerical variables?",
+                        choices = names(df_reduced),
+                        selected = ""
+      )
+      
+      updateSelectInput(session,
+                        inputId = "var_name3",
+                        label = "Condition variable",
+                        choices = names(df_reduced)
+      )
+      
+      updateSelectInput(session,
+                        inputId = "boxplots2",
                         label = "Boxplots instead of densities for numerical variables?",
                         choices = names(df_reduced),
                         selected = ""
@@ -535,7 +548,6 @@ GGenemy <- function() {
                                      "max", "sd", "var", "valid.n"),
                         xname = "Dataset"))
     })
-    
 
     output$str1 <- renderPrint({
       utils::str(data2())
@@ -591,13 +603,14 @@ GGenemy <- function() {
             shiny::isolate(input$var_name3),
             shiny::isolate(input$var_to_cond_on2[i]),
             selfquantiles = shiny::isolate(
-              if(is.factor(input$varname3)){
-                strsplit(unlist(input$factorvariable),",")[[1]][2]
-              }else{
-              c(input$firstquant1,input$firstquant2,
-                input$secondquant1,input$secondquant2,
-                input$thirdquant1,input$thirdquant2)}),
-            remaining = shiny::isolate(input$remaining)
+      #        if(is.factor(input$var_name3)){
+                strsplit(unlist(input$factorvariable),",")[[1]]),
+      #        }else{
+      #        c(input$firstquant1,input$firstquant2,
+      #          input$secondquant1,input$secondquant2,
+      #          input$thirdquant1,input$thirdquant2)}),
+            remaining = shiny::isolate(input$remaining),
+            boxplot = isolate(input$boxplots2)
           )
         })
       })
@@ -616,11 +629,8 @@ GGenemy <- function() {
         isolate(data2()),
         isolate(input$given_var2),
         isolate(input$var_to_plot),
-        isolate(input$quantiles)
-    #    isolate(
-    #      if(any(i == match(input$boxplots,input$var_to_plot))){
-    #        boxplot = TRUE}
-    #      else{boxplot = FALSE})
+        isolate(input$quantiles),
+        isolate(input$boxplots)
         )),
         nrow = 1, ncol= 1)
       grDevices::dev.off()
@@ -637,14 +647,15 @@ GGenemy <- function() {
           shiny::isolate(input$var_name3),
           shiny::isolate(input$var_to_cond_on2),
           selfquantiles = shiny::isolate(
-            if(is.factor(input$varname3)){
-              strsplit(unlist(input$factorvariable),",")[[1]] #not implemented yet
-              }else{
-                c(input$firstquant1,input$firstquant2,
-                  input$secondquant1,input$secondquant2,
-                  input$thirdquant1,input$thirdquant2)}),
-          remaining = shiny::isolate(input$remaining))
-        ),
+       #     if(is.factor(input$var_name3)){
+              strsplit(unlist(input$factorvariable),",")[[1]]), #not implemented yet
+      #        }else{
+      #          c(input$firstquant1,input$firstquant2,
+      #            input$secondquant1,input$secondquant2,
+      #            input$thirdquant1,input$thirdquant2)}),
+          remaining = shiny::isolate(input$remaining),
+          boxplot = isolate(input$boxplots2)
+          )),
         nrow = 1, ncol= 1)
       grDevices::dev.off()
     }
