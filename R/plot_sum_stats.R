@@ -14,6 +14,8 @@
 #' @param n_stats Number of summary statistics you want to print.  
 #' @param n_quantiles Number of quantiles you want to partition \code{given_var}
 #'   into, with a maximum of 10.
+#' @param single If TRUE, summary statistics are plotted individually.
+#' @param whichstat Choice of summary statistics to be plotted.
 #'
 #' @return A list with one entry for each summary statistic. 
 #' @export
