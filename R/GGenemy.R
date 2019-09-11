@@ -154,7 +154,7 @@ GGenemy <- function() {
               "Conditional Variance" = 2,
               "Conditional Skewness" = 3,
               "Conditional Kurtosis" = 4
-            )
+            ), selected = c(1,2)
           ),
 
           tags$hr(style = "border-color: #white;"),
