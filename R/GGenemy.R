@@ -282,7 +282,7 @@ GGenemy <- function() {
               style = "display: inline-block;vertical-align:top; width: 150px;",
               numericInput("firstquant1",
                 "From:",
-                value = 1 # ,
+                value = 1,
               )
             ),
 
@@ -292,7 +292,7 @@ GGenemy <- function() {
               style = "display: inline-block;vertical-align:top; width: 150px;",
               numericInput("firstquant2",
                 "To:",
-                value = 10 # ,
+                value = 10,
               )
             ),
 
