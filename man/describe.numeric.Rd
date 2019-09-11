@@ -21,7 +21,7 @@ The vector of values returned from the functions in \code{num.desc}.
 Describes a numeric variable.
 }
 \details{
-\code{describe.numeric} displays the name of the vector and the results of the 
+\code{describe.numeric} displays the name of the vector and the results of the
 functions whose names are passed in \code{num.desc}. Note that any functions that are
 called by \code{describe.numeric} must have an \code{na.rm} argument, even if it is a dummy.
 }

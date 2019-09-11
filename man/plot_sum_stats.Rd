@@ -2,41 +2,36 @@
 % Please edit documentation in R/plot_sum_stats.R
 \name{plot_sum_stats}
 \alias{plot_sum_stats}
-\title{plot sum stats}
+\title{Plot Summary Statistics}
 \usage{
-plot_sum_stats(dataset, given_var, n_stats = 4, n_quantiles = 5,
-  single = FALSE, whichstat = NULL)
+plot_sum_stats(dataset, given_var, stats = 1, n_quantiles = 5)
 }
 \arguments{
 \item{dataset}{A data frame. Factors and logicals will be removed.}
 
 \item{given_var}{A variable from your \code{dataset} which you want to set as a condition.}
 
-\item{n_stats}{Number of summary statistics you want to print.}
+\item{stats}{Vector of summary statistics you want to plot.}
 
 \item{n_quantiles}{Number of quantiles you want to partition \code{given_var}
 into, with a maximum of 10.}
-
-\item{single}{If TRUE, summary statistics are plotted individually.}
-
-\item{whichstat}{Choice of summary statistics to be plotted.}
 }
 \value{
-A list with one entry for each summary statistic.
+One plot for each statistic, showing all variables conditioned on
+the given variable.
 }
 \description{
 Calculates the conditional mean, variance, skewness and kurtosis for continuous variables
-based on a range of quantiles of a given continuous variable.
+based on a range of quantiles of a given continuous variable and displays them
+as line plots.
 }
 \details{
-The function will return a list with one entry for each summary statistic. The 
-list entries themselves are matrices. Per default, only conditional means will
-be displayed. The order of the other statistics is as follows: conditional variance,
-conditional skewness and conditional kurtosis, which will be displayed by choosing
-n_stats to be 2, 3 or 4.
+The function will return one plot for each of the chosen summary statistics. The
+values will be displayed as line plots, each point representing the value of
+the statistic conditioned on a specific quantile of the given variable.
 }
 \examples{
 data(iris)
 iris <- iris[, -5]
-plot_sum_stats(iris, "Sepal.Length", n_stats = 4, n_quantiles = 5)
+plot_sum_stats(iris, "Sepal.Length", stats = c(1, 2, 3, 4), n_quantiles = 5)
 }

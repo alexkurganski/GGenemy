@@ -4,14 +4,14 @@
 \alias{sum_stats}
 \title{Summary Statistics}
 \usage{
-sum_stats(dataset, given_var, n_stats = 1, n_quantiles = 5)
+sum_stats(dataset, given_var, stats = 1, n_quantiles = 5)
 }
 \arguments{
 \item{dataset}{A data frame. Factors and logicals will be removed.}
 
 \item{given_var}{A variable from your \code{dataset} which you want to set as a condition.}
 
-\item{n_stats}{Number of summary statistics you want to print.}
+\item{stats}{A vector with the choice of summary statistics you want to print.}
 
 \item{n_quantiles}{Number of quantiles you want to partition \code{given_var}
 into, with a maximum of 10.}
@@ -21,17 +21,18 @@ A list with one entry for each summary statistic.
 }
 \description{
 Calculates the conditional mean, variance, skewness and kurtosis for continuous variables
-based on a range of quantiles of a given continuous variable.
+based on a set of quantiles of a given continuous variable.
 }
 \details{
-The function will return a list with one entry for each summary statistic. The 
+The function will return a list with one entry for each summary statistic. The
 list entries themselves are matrices. Per default, only conditional means will
-be displayed. The order of the other statistics is as follows: conditional variance,
-conditional skewness and conditional kurtosis, which will be displayed by choosing
-n_stats to be 2, 3 or 4.
+be displayed. You can choose the statistics you want to print with the input of
+\code{stats}. You can either name the statistics as a choice of \code{stats =
+c("mean", "var", "skewness", "kurtosis")} or as numbers \code{stats = c(1, 2,
+3, 4)}, which represent the single statistics.
 }
 \examples{
 data(iris)
 iris <- iris[, -5]
-sum_stats(iris, "Sepal.Length", n_stats = 4, n_quantiles = 5)
+sum_stats(iris, "Sepal.Length", stats = 4, n_quantiles = 5)
 }
