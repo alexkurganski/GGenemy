@@ -1,4 +1,4 @@
-#' Summary Statistics
+#' plot sum stats
 #'
 #'Calculates the conditional mean, variance, skewness and kurtosis for continuous variables
 #'based on a range of quantiles of a given continuous variable.
@@ -37,8 +37,8 @@ plot_sum_stats <- function(dataset, given_var, n_stats=4, n_quantiles = 5, singl
           ggplot2::theme_minimal() +
           ggplot2::geom_line(color=i) +
           ggplot2::geom_point() +
-          ylab(paste(stats[whichstat],"of",names(df)[i])) +
-          xlab(paste("Quantiles of",given_var))
+          ggplot2::ylab(paste(stats[whichstat],"of",names(df)[i])) +
+          ggplot2::xlab(paste("Quantiles of",given_var))
         
       }),
       ncol = 3, nrow = 3, top = (paste(stats[whichstat],"of all variables given",given_var)))
@@ -57,8 +57,8 @@ plot_sum_stats <- function(dataset, given_var, n_stats=4, n_quantiles = 5, singl
       ggplot2::theme_minimal() +
       ggplot2::geom_line(color=i) +
       ggplot2::geom_point() +
-      ylab(paste(stats[j],"of",names(df[[j]])[i])) +
-      xlab(paste("Quantiles of",given_var))
+      ggplot2::ylab(paste(stats[j],"of",names(df[[j]])[i])) +
+      ggplot2::xlab(paste("Quantiles of",given_var))
     
   }),
   ncol = 3, nrow = 3, top = (paste(stats[j],"of all variables given",given_var)))
