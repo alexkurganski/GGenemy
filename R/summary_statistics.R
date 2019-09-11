@@ -136,15 +136,15 @@ sum_stats <- function(dataset, given_var, stats = 1, n_quantiles = 5) {
   }
   # Collect results in a list
   stats_list <- list(
-    "Conditional Mean" = meanres,
-    "Conditional Variance" = varres,
-    "Conditional Skewness" = skewres,
-    "Conditional Kurtosis" = kurtres
+    "Cond. Mean" = meanres,
+    "Cond. Variance" = varres,
+    "Cond. Skewness" = skewres,
+    "Cond. Kurtosis" = kurtres
   )
 
   stats <- c(
-    "Conditional Mean", "Conditional Variance", "Conditional Skewness",
-    "Conditional Kurtosis"
+    "Cond. Mean", "Cond. Variance", "Cond. Skewness",
+    "Cond. Kurtosis"
   )
 
   for (i in stats) {
