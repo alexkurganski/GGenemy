@@ -147,10 +147,15 @@ sum_stats <- function(dataset, given_var, stats = 1, n_quantiles = 5) {
     "Cond. Kurtosis"
   )
 
+  # remove empty lists
   for (i in stats) {
     if (is.null(stats_list[[i]])) {
       stats_list[[i]] <- NULL
     }
+  }
+  
+  for (k in 1:length(stats_list)) {
+    stats_list[[k]] <- data.frame(stats_list[[k]])
   }
 
   return(stats_list)
@@ -172,6 +177,12 @@ sum_stats <- function(dataset, given_var, stats = 1, n_quantiles = 5) {
 #' @export
 #'
 print_sum_stats <- function(x, given_var) {
+  
+  #cat("Given variable:", given_var, "\n")
+  #for (i in 1:length(x)) {
+    #print(DT::datatable(x[[i]], caption = htmltools::tags$caption(
+      #htmltools::strong(names(x)[i]))))
+  #}
   nstats <- length(x)
   stat_names <- names(x)
   given_name <- names(given_var)
