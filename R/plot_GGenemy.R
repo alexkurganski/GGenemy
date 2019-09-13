@@ -77,7 +77,18 @@ plot_GGenemy <- function(dataset, given_var, var_to_plot = NULL, n_quantiles = 5
       data_help$quant <- "remaining"
       for (i in nrow(matrixquant):1) {
         quanthelp <- which(dataset[, given_var] >= matrixquant[i, 1] & dataset[, given_var] <= matrixquant[i, 2])
-        data_help$quant[quanthelp] <- paste(matrixquant[i, 1], "to", matrixquant[i, 2])
+        helper <- duplicated(as.vector(t(matrixquant)))[c(-1,0)+i*2]
+        if(any(helper)){
+          if(helper[1] & !all(helper)){
+            data_help$quant[quanthelp] <- paste(">",matrixquant[i, 1], "to", "<=",matrixquant[i, 2])
+          } else if(helper[2] & !all(helper)){
+            data_help$quant[quanthelp] <- paste(">=",matrixquant[i, 1], "to", "<",matrixquant[i, 2])
+          } else {
+            data_help$quant[quanthelp] <- paste(">",matrixquant[i, 1], "to", "<",matrixquant[i, 2])
+          }
+        }else{
+        data_help$quant[quanthelp] <- paste(">=",matrixquant[i, 1], "to", "<=",matrixquant[i, 2])
+        }
       }
       if (remaining == FALSE) {
         data_help <- data_help[-which(data_help$quant == "remaining"), ]
@@ -104,6 +115,15 @@ plot_GGenemy <- function(dataset, given_var, var_to_plot = NULL, n_quantiles = 5
       data_help <- dataset
       data_help$quant <- 1 + findInterval(var_goal, quantiles)
       data_help$quant <- as.factor(data_help$quant)
+      for(i in 1:n_quantiles){
+        if(i == 1){
+          levels(data_help$quant)[i] <- paste(round(min(var_goal),2),"to",round(quantiles[i],2))
+        } else if(!(i == length(levels(data_help$quant)))){
+          levels(data_help$quant)[i] <- paste(round(quantiles[i-1],2),"to",round(quantiles[i],2))
+        } else {
+          levels(data_help$quant)[i] <- paste(round(quantiles[i-1],2),"to",round(max(var_goal),2))
+        }
+      }
     }
   }
   
