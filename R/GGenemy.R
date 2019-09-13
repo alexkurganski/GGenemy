@@ -475,22 +475,7 @@ GGenemy <- function() {
     data2 <- reactive({
       req(input$file1) # require that the input is available
 
-      inFile <- input$file1
-      df <- utils::read.table(inFile$datapath,
-        header = input$header,
-        sep = input$sep,
-        quote = input$quote,
-        dec = if (input$decimals) {
-          ","
-        } else {
-          "."
-        },
-        row.names = if (input$rownames) {
-          1
-        } else {
-          NULL
-        }
-      )
+      df <- data1()
 
       for (i in unlist(input$as.factor, use.names = FALSE)) {
         df[, i] <- as.factor(df[, i])
@@ -522,44 +507,6 @@ GGenemy <- function() {
         choices = names(df_reduced),
         selected = ""
       )
-
-      return(df_reduced)
-    })
-
-    data3 <- reactive({
-      req(input$file1) # require that the input is available
-
-      inFile <- input$file1
-      df <- utils::read.table(inFile$datapath,
-        header = input$header,
-        sep = input$sep,
-        quote = input$quote,
-        dec = if (input$decimals) {
-          ","
-        } else {
-          "."
-        },
-        row.names = if (input$rownames) {
-          1
-        } else {
-          NULL
-        }
-      )
-
-      for (i in unlist(input$as.factor, use.names = FALSE)) {
-        df[, i] <- as.factor(df[, i])
-      }
-      df_reduced <- stats::na.omit(df)
-
-      colnum <- which(sapply(df_reduced, is.factor))
-
-      df_reduced[colnum] <- NULL
-
-      df_reduced2 <- df_reduced
-
-      colnum <- which(sapply(df_reduced, is.factor))
-
-      df_reduced2[colnum] <- NULL
 
       return(df_reduced)
     })
@@ -619,7 +566,7 @@ GGenemy <- function() {
     observeEvent(input$clicks3, {
       output$sum_stats1 <- renderPrint({
         print_sum_stats(sum_stats(
-          isolate(data3()),
+          isolate(data2()),
           isolate(input$given_var4),
           isolate(input$n_sum_stats),
           isolate(input$quantiles_sum_stats)
@@ -632,7 +579,7 @@ GGenemy <- function() {
       lapply(1:length(input$n_sum_stats), function(i) {
         output[[paste0("summary_stats_plot", i)]] <- renderPlot({
           plot_sum_stats(
-            isolate(data3()),
+            isolate(data2()),
             isolate(input$given_var4),
             isolate(input$n_sum_stats[i]),
             isolate(input$quantiles_sum_stats) # ,
@@ -653,7 +600,7 @@ GGenemy <- function() {
         grDevices::pdf(file, width = 11)
         gridExtra::marrangeGrob(
           print(plot_sum_stats(
-            isolate(data3()),
+            isolate(data2()),
             isolate(input$given_var4),
             isolate(input$n_sum_stats),
             isolate(input$quantiles_sum_stats)
