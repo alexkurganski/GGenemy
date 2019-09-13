@@ -8,8 +8,6 @@ GGenemy - To Do:
 	drauf zugreifen.
 * für Data Upload:
   - alle Überschriften gleich groß machen
-* für sum_stats:
-  - Möglichkeit geben, auch als Plots ausgeben zu lassen
 * für die Plots:
   - Möglichkeit zum Code anzeigen geben
 * Größe für Shiny Files hochsetzen
@@ -29,7 +27,6 @@ GGenemy - To Do:
 * test whether given_var in sum_stats is numeric
   
 * übrig gebliebene Notizen aus app.R:
-# 7. What to do with NA's? #good looking solutions
 
 # 8. Spacing relevant? Example: Dataset with many variables won't fit with head().
 
@@ -41,14 +38,15 @@ GGenemy - To Do:
 
 # 12. Progress of calculation
 
-# 13. Varselectinput() instead of checkboxgroupinput()
-
-# 14. actionbutton in colour
-
 #some extra things to do for Alex:
-- try to create one function for all?
-- delete unnecessary parts in function
+* try to create one function for all?
+* delete unnecessary parts in function
 
-- Allow extra inputs for the function with ...
-
+* Allow extra inputs for the function with ...
+* Quantiles out
+* >/< />=/<= missing in self plot
+* Download possibility of Datasets in Global Environment
+* Densities not so clear
+* Download Plots as GGplot part
+* Fix the rounding in plot_GGenemy
 # Bildschirmauflösung/Verschiebung der Eingabefelder mit Stani klären
