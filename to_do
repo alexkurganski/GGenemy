@@ -39,12 +39,10 @@ GGenemy - To Do:
 # 12. Progress of calculation
 
 #some extra things to do for Alex:
-* try to create one function for all?
 * delete unnecessary parts in function
 
 * Allow extra inputs for the function with ...
 * Quantiles out
-* >/< />=/<= missing in self plot
 * Download possibility of Datasets in Global Environment
 * Densities not so clear
 * Download Plots as GGplot part

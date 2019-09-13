@@ -467,6 +467,20 @@ GGenemy <- function() {
         label = "Condition variable",
         choices = names(df)
       )
+      
+      updateSelectInput(session,
+                        inputId = "boxplots",
+                        label = "Boxplots instead of densities for numerical variables?",
+                        choices = names(df_reduced),
+                        selected = ""
+      )
+      
+      updateSelectInput(session,
+                        inputId = "boxplots2",
+                        label = "Boxplots instead of densities for numerical variables?",
+                        choices = names(df_reduced),
+                        selected = ""
+      )
 
 
       return(df)
@@ -531,6 +545,7 @@ GGenemy <- function() {
     # Data-Upload Tab
 
     output$contents <- renderTable({
+      a <- data2()
       utils::head(data1(), 10)
     })
 
@@ -620,6 +635,7 @@ GGenemy <- function() {
         output[[paste0("condplot", i)]] <- NULL
       })
       len <- length(input$var_to_plot)
+      withProgress(message = 'Making plot', value = 0, {
       lapply(1:len, function(i) {
         output[[paste0("condplot", i)]] <- renderPlot({
           plot_GGenemy(
@@ -637,8 +653,9 @@ GGenemy <- function() {
             )
           )
         })
+        incProgress(1/len, detail = paste("Doing part", i))
       })
-    },
+    })},
     ignoreInit = TRUE
     )
 
@@ -647,6 +664,7 @@ GGenemy <- function() {
         output[[paste0("selfcondplot", i)]] <- NULL
       })
       len <- length(input$var_to_cond_on2)
+      withProgress(message = 'Making plot', value = 0, {
       lapply(1:len, function(i) {
         output[[paste0("selfcondplot", i)]] <- renderPlot({
           plot_GGenemy(
@@ -668,6 +686,8 @@ GGenemy <- function() {
             boxplot = isolate(input$boxplots2)
           )
         })
+        incProgress(1/len, detail = paste("Doing part", i))
+      })
       })
     },
     ignoreInit = TRUE
