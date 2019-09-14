@@ -46,7 +46,8 @@ GGenemy <- function() {
               Semicolon = ";",
               Tab = "\t"
             ),
-            selected = ","
+            selected = ",",
+            inline = TRUE
           ),
 
           tags$hr(style = "border-color: #white;"),
@@ -396,7 +397,14 @@ GGenemy <- function() {
                 label = "Download Plots",
                 style = "color: white; background-color: #FF7F50; border-color: black"
               )
-            )
+            ),
+            
+            tags$hr(style = "border-color: #white;"),
+            
+            
+            actionButton("pastecode", icon = icon("code"),
+                         label = "Obtain Code!", style = "color:white;
+                                  background-color:#FF7F50; border-color: black")
           ),
           mainPanel(
             lapply(1:25, function(i) {
@@ -746,6 +754,57 @@ GGenemy <- function() {
         grDevices::dev.off()
       }
     )
+    
+    observeEvent(input$pastecode, {
+      req(input$file1)
+      if(input$rownames){
+        row <- 1
+      } else {
+        row <- paste("NULL")
+      }
+      if(input$quote == c("")){
+        read_data <- paste0('data <- read.table("',input$file1,'",','header = ',
+                            input$header,',','sep = "',input$sep,'",','quote = "",',
+                            'dec = "',input$dec,'",','row.names = ',
+                            row,
+                            ')')
+      }else{
+      read_data <- paste0('data <- read.table("',input$file1,'",','header = ',
+                          input$header,',','sep = "',input$sep,'",','quote = "\\',
+                          input$quote,'",','dec = "',input$dec,'",','row.names = ',
+                          row,
+                          ')')
+      }
+      
+     if (is.factor(data2()[, input$var_name3])) {
+      selfquant <- input$factorvariable  
+      } else {
+      selfquant <- c(
+        input$firstquant1, input$firstquant2,
+        input$secondquant1, input$secondquant2,
+        input$thirdquant1, input$thirdquant2
+      )
+      }
+      
+
+      
+      if(is.null(input$boxplot)){
+        self <- paste0('plot_GGenemy(read_data,"',input$var_name3,'","',
+                       input$var_to_cond_on,'","',input$var_to_cond_on[2],'",',
+                       selfquant,',"',input$remaining,'")')
+      } else {
+      self <- paste0('plot_GGenemy(read_data,"',input$var_name3,'","',input$var_to_cond_on2,'",',
+                    selfquant,',"',input$remaining,'",',input$boxplot,')')
+      }
+      
+      code <- paste(read_data,self, sep = "\n")
+      
+      showModal(modalDialog(
+        title = "Obtain your R code",
+        tags$pre(tags$code(code)),
+        easyClose = TRUE
+      ))
+    })
   }
   # Run the application
   shinyApp(ui = ui, server = server)
