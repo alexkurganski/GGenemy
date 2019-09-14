@@ -58,7 +58,8 @@ GGenemy <- function() {
               "Double Quotes" = '"',
               "Single Quotes" = "'"
             ),
-            selected = '"'
+            selected = '"',
+            inline = TRUE
           ),
 
           tags$hr(style = "border-color: #white;"),

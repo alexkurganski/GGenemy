@@ -15,7 +15,6 @@ GGenemy - To Do:
 * Fragestellung Use Case aufstellen, welche Variablen lassen sich gut intrepretieren?
 * remaining-Quantil in remaining1 und remaining2 umbenennnen
 * nrow und ncol in plot_sum_stats()
-* Linien dicker machen/füllen?
 * Effizienz von plot_ss erhöhen
 * sum_stats umschreiben, einzelne sachen ausgeben lassen
 * Namen in Funktionen ändern evtl. plot_ss()
