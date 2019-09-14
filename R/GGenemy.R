@@ -12,7 +12,7 @@
 GGenemy <- function() {
   ui <- fluidPage(
     shinyjs::useShinyjs(),
-    extendShinyjs(script = "inst/hide_shiny_tabs.js"),
+    shinyjs::extendShinyjs(script = "inst/hide_shiny_tabs.js"),
     navbarPage("GGenemy",
       id = "GGenemy",
       theme = shinythemes::shinytheme("superhero"),
