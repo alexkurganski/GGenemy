@@ -177,6 +177,9 @@ GGenemy <- function() {
 
         mainPanel(
           verbatimTextOutput("sum_stats1"),
+          #lapply(1:4, function(i) {
+            #dataTableOutput("sum_stats1[[i]]")
+            #}),
 
           lapply(1:4, function(i) {
             plotOutput(paste0("summary_stats_plot", i))
@@ -284,7 +287,7 @@ GGenemy <- function() {
               style = "display: inline-block;vertical-align:top; width: 150px;",
               numericInput("firstquant1",
                 "From:",
-                value = 1 # ,
+                value = 1 #,
               )
             ),
 
@@ -294,7 +297,7 @@ GGenemy <- function() {
               style = "display: inline-block;vertical-align:top; width: 150px;",
               numericInput("firstquant2",
                 "To:",
-                value = 10 # ,
+                value = 10 #,
               )
             ),
 
@@ -588,14 +591,19 @@ GGenemy <- function() {
     # Sum-stats Tab
 
     observeEvent(input$clicks3, {
-      output$sum_stats1 <- renderPrint({
-        print_sum_stats(sum_stats(
-          isolate(data2()),
-          isolate(input$given_var4),
-          isolate(input$n_sum_stats),
-          isolate(input$quantiles_sum_stats)
-        ), isolate(input$given_var4))
+      #lapply(1:4, function(i){
+        output$sum_stats1 <- renderPrint({#renderDataTable({
+          print_sum_stats(
+          sum_stats(
+            isolate(data3()),
+            isolate(input$given_var4),
+            isolate(input$n_sum_stats),
+            isolate(input$quantiles_sum_stats)
+          ), isolate(input$given_var4))
+        #})
       })
+      
+      
 
       lapply(1:4, function(i) {
         output[[paste0("summary_stats_plot", i)]] <- NULL
@@ -606,9 +614,7 @@ GGenemy <- function() {
             isolate(data2()),
             isolate(input$given_var4),
             isolate(input$n_sum_stats[i]),
-            isolate(input$quantiles_sum_stats) # ,
-            # single = TRUE,
-            # whichstat = isolate(i)
+            isolate(input$quantiles_sum_stats)
           )
         })
       })
