@@ -537,7 +537,8 @@ GGenemy <- function() {
       updateSelectInput(session,
         "boxplots",
         "Boxplots instead of densities for numerical variables?",
-        choices = input$var_to_plot
+        choices = input$var_to_plot,
+        selected = ""
       )
     }
     observeEvent(input$var_to_plot, updateboxplot(session))
@@ -546,7 +547,8 @@ GGenemy <- function() {
       updateSelectInput(session,
         "boxplots2",
         "Boxplots instead of densities for numerical variables?",
-        choices = input$var_to_cond_on2
+        choices = input$var_to_cond_on2,
+        selected = ""
       )
     }
     observeEvent(input$var_to_cond_on2, updateboxplot2(session))
@@ -582,7 +584,7 @@ GGenemy <- function() {
       output$sum_stats1 <- renderPrint({ # renderDataTable({
         print_sum_stats(
           sum_stats(
-            isolate(data3()),
+            isolate(data2()),
             isolate(input$given_var4),
             isolate(input$n_sum_stats),
             isolate(input$quantiles_sum_stats)
@@ -814,12 +816,12 @@ GGenemy <- function() {
 
     # hide elements ############################################################
 
-    observeEvent(input$file1, {
-      shinyjs::show(selector = '#GGenemy li a[data-value="2. Data Structure"]')
-      shinyjs::show(selector = '#GGenemy li a[data-value="3. Summary Statistics"]')
-      shinyjs::show(selector = '#GGenemy li a[data-value="4. Plots"]')
-    })
-
+     observeEvent(input$file1, {
+       shinyjs::show(selector = '#GGenemy li a[data-value="2. Data Structure"]')
+       shinyjs::show(selector = '#GGenemy li a[data-value="3. Summary Statistics"]')
+       shinyjs::show(selector = '#GGenemy li a[data-value="4. Plots"]')
+     })
+     
     observeEvent(input$var_name3, {
       if (is.factor(data2()[, input$var_name3])) {
         shinyjs::hide(id = "firstrange1")
@@ -841,7 +843,7 @@ GGenemy <- function() {
         shinyjs::hide(id = "factorvariable")
       }
     })
-    
+
   }
   
 

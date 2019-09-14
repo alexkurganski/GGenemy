@@ -16,9 +16,9 @@
 #'   into.
 #' @param boxplot logical. If TRUE boxplots will be presented instead of densities
 #' Also possible to use a vector with the names of variables, which should be plotted as boxplots instead of the density.
-#' @param selfquantiles Vector of n times two Values or matrix with 2 columns.
+#' @param selfrange Vector of n times two Values or matrix with 2 columns.
 #' The first value as min and the second value as max of the self selected quantile.
-#' @param remaining logical. If TRUE the remaining values not within selfquantiles will be plotted to
+#' @param remaining logical. If TRUE the remaining values not within selfrange will be plotted to
 #' category remaining.
 #'
 #'
@@ -48,28 +48,28 @@
 #' # 1.Calculate the quantiles for selected variable
 #' # 2.Plot densities of all or selected variables based on the calculated quantiles
 plot_GGenemy <- function(dataset, given_var, var_to_plot = NULL, n_quantiles = 5,
-                         boxplot = FALSE, selfquantiles = NULL, remaining = TRUE) {
+                         boxplot = FALSE, selfrange = NULL, remaining = TRUE) {
   if (length(class(dataset)) > 1) {
     dataset <- unclass(dataset)
     dataset <- as.data.frame(dataset)
   }
 
-  if (!is.null(selfquantiles)) {
+  if (!is.null(selfrange)) {
     if (is.factor(dataset[, given_var])) {
       data_help <- dataset
       data_help$quant <- "remaining"
-      for (i in length(selfquantiles):1) {
-        quanthelp <- which(dataset[, given_var] == selfquantiles[i])
-        data_help$quant[quanthelp] <- paste(selfquantiles[i])
+      for (i in length(selfrange):1) {
+        quanthelp <- which(dataset[, given_var] == selfrange[i])
+        data_help$quant[quanthelp] <- paste(selfrange[i])
       }
       if (remaining == FALSE) {
         data_help <- data_help[-which(data_help$quant == "remaining"), ]
       }
-    } else if (is.matrix(selfquantiles) | length(selfquantiles) %% 2 == 0) {
-      if (is.matrix(selfquantiles)) {
-        matrixquant <- selfquantiles
+    } else if (is.matrix(selfrange) | length(selfrange) %% 2 == 0) {
+      if (is.matrix(selfrange)) {
+        matrixquant <- selfrange
       } else {
-        matrixquant <- matrix(selfquantiles, ncol = 2, byrow = TRUE)
+        matrixquant <- matrix(selfrange, ncol = 2, byrow = TRUE)
       }
       data_help <- dataset
       data_help$quant <- "remaining"
@@ -92,7 +92,7 @@ plot_GGenemy <- function(dataset, given_var, var_to_plot = NULL, n_quantiles = 5
         data_help <- data_help[-which(data_help$quant == "remaining"), ]
       }
     } else {
-      stop("For selfquantiles: Insert a Vector of quantiles or a matrix with the quantiles ordered by row")
+      stop("For selfrange: Insert a Vector of quantiles or a matrix with the quantiles ordered by row")
     }
 
     if (remaining == FALSE) {
