@@ -145,7 +145,7 @@ plot_GGenemy <- function(dataset, given_var, var_to_plot = NULL, n_quantiles = 5
       g + ggplot2::geom_boxplot(ggplot2::aes_string(x = given_var, y = a)) +
         ggplot2::ggtitle(paste0(a, " conditional on ", given_var))
     } else {
-      g + ggplot2::geom_density(alpha = 0.5) + ggplot2::aes_string(x = a) +
+      g + ggplot2::geom_density(alpha = 0.7) + ggplot2::aes_string(x = a) +
         ggplot2::ggtitle(paste0(a, " conditional on ", given_var))
     }
   }
