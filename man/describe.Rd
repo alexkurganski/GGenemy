@@ -5,7 +5,7 @@
 \title{Description of variables}
 \usage{
 describe(x, num.desc = c("mean", "median", "var", "sd", "valid.n"),
-  xname = NA, horizontal = FALSE)
+  xname = NA)
 }
 \arguments{
 \item{x}{A vector, matrix or data frame.}
@@ -15,9 +15,6 @@ describe(x, num.desc = c("mean", "median", "var", "sd", "valid.n"),
 \item{xname}{A name for the object x, mostly where this would be a very long
 string describing its structure (e.g. if it was extracted by name from a data
 frame).}
-
-\item{horizontal}{Whether to display the results of \code{describe.factor}
-across the page (TRUE) or down the page (FALSE).}
 }
 \value{
 A list with three components:

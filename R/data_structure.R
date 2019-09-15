@@ -46,7 +46,7 @@ describe.numeric <- function(x, varname = "",
   return(desc.vector)
 }
 
-describe.factor <- function(x, varname = "", horizontal = FALSE,
+describe.factor <- function(x, varname = "",
                             decr.order = TRUE) {
   if (nzchar(varname) == 0) varname <- deparse(substitute(x))
   lenx <- length(x)
@@ -97,8 +97,6 @@ describe.logical <- function(x, varname = "") {
 #' @param xname A name for the object x, mostly where this would be a very long
 #' string describing its structure (e.g. if it was extracted by name from a data
 #' frame).
-#' @param horizontal Whether to display the results of \code{describe.factor}
-#'  across the page (TRUE) or down the page (FALSE).
 #'
 #' @return A list with three components:
 #'
@@ -110,7 +108,7 @@ describe.logical <- function(x, varname = "") {
 #' \code{Logical}  A list of the tables for each column described.
 #' @export
 describe <- function(x, num.desc = c("mean", "median", "var", "sd", "valid.n"),
-                     xname = NA, horizontal = FALSE) {
+                     xname = NA) {
   if (missing(x)) {
     stop("Usage: describe(x,...)\n\twhere x is a vector, data frame or matrix")
   }
@@ -119,7 +117,7 @@ describe <- function(x, num.desc = c("mean", "median", "var", "sd", "valid.n"),
   if (is.null(varnames)) varnames <- paste("V", 1:dim(x)[2], sep = "")
   if (is.data.frame(x)) {
     if (is.na(xname)) xname <- deparse(substitute(x))
-    cat("Description of", xname, "\n")
+    #cat("Description of", xname, "\n")
     num.index <- which(sapply(x, is.numeric))
     nnum <- length(num.index)
     num.result <- list()
@@ -139,7 +137,7 @@ describe <- function(x, num.desc = c("mean", "median", "var", "sd", "valid.n"),
     if (nfac) {
       for (facres in 1:nfac) {
         fac.result[[facres]] <- describe.factor(x[[fac.index[facres]]],
-          varname = varnames[fac.index[facres]], horizontal = horizontal
+          varname = varnames[fac.index[facres]]
         )
       }
       names(fac.result) <- varnames[fac.index]

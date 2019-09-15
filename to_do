@@ -25,15 +25,11 @@ Save as GGplot element? How to do this?
   
 * Größe für Shiny Files hochsetzen (macht Alex sofern notwendig)
 
-* Strings als Möglichkeiten für sum_stats Argument zulassen
-
 * remaining-Quantil in remaining1 und remaining2 umbenennnen
 
 * nrow und ncol in plot_sum_stats()
 
 * Effizienz von plot_ss erhöhen
-
-* sum_stats umschreiben, einzelne sachen ausgeben lassen
 
 * Namen in Funktionen ändern evtl. plot_ss()
 
