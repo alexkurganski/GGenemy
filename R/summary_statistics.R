@@ -37,7 +37,7 @@ sum_stats <- function(dataset, given_var, stats = 1, n_quantiles = 5) {
   facnum <- which(sapply(dataset, is.factor))
   if (length(facnum) > 0) {
     dataset[facnum] <- NULL
-    message("Factors have been removed.")
+    #message("Factors have been removed.")
   }
 
   lognum <- which(sapply(dataset, is.logical))

@@ -176,10 +176,9 @@ GGenemy <- function() {
         ),
 
         mainPanel(
-          verbatimTextOutput("sum_stats1"),
-          #lapply(1:4, function(i) {
-            #dataTableOutput("sum_stats1[[i]]")
-            #}),
+          lapply(1:4, function(i) {
+            tableOutput(paste0("sum_stats", i))
+            }),
 
           lapply(1:4, function(i) {
             plotOutput(paste0("summary_stats_plot", i))
@@ -591,16 +590,28 @@ GGenemy <- function() {
     # Sum-stats Tab
 
     observeEvent(input$clicks3, {
-      #lapply(1:4, function(i){
-        output$sum_stats1 <- renderPrint({#renderDataTable({
-          print_sum_stats(
+      lapply(1:4, function(i) {
+        output[[paste0("sum_stats", i)]] <- NULL
+      })
+      lapply(1:length(input$n_sum_stats), function(i){
+        output[[paste0("sum_stats", i)]] <- renderTable({
           sum_stats(
-            isolate(data3()),
+            isolate(data2()),
             isolate(input$given_var4),
             isolate(input$n_sum_stats),
             isolate(input$quantiles_sum_stats)
-          ), isolate(input$given_var4))
-        #})
+          )[[i]]
+        }, rownames = TRUE,
+           caption = names(sum_stats(
+             isolate(data2()),
+             isolate(input$given_var4),
+             isolate(input$n_sum_stats),
+             isolate(input$quantiles_sum_stats)
+           ))[i],
+           caption.placement = getOption("xtable.caption.placement", "top"),
+           #caption.width = getOption("xtable.caption.width", NULL),
+           digits = 3
+        )
       })
       
       
