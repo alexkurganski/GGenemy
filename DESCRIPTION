@@ -22,6 +22,7 @@ Imports:
     shinythemes (>= 1.1.2),
     utils (>= 3.6.0),
     gridExtra (>= 2.3),
-    grDevices (>= 3.6.0)
+    grDevices (>= 3.6.0),
+    shinyjs
 Suggests: 
     testthat (>= 2.1.0)

@@ -16,9 +16,9 @@
 #'   into.
 #' @param boxplot logical. If TRUE boxplots will be presented instead of densities
 #' Also possible to use a vector with the names of variables, which should be plotted as boxplots instead of the density.
-#' @param selfquantiles Vector of n times two Values or matrix with 2 columns.
+#' @param selfrange Vector of n times two Values or matrix with 2 columns.
 #' The first value as min and the second value as max of the self selected quantile.
-#' @param remaining logical. If TRUE the remaining values not within selfquantiles will be plotted to
+#' @param remaining logical. If TRUE the remaining values not within selfrange will be plotted to
 #' category remaining.
 #'
 #'
@@ -47,56 +47,54 @@
 #'
 #' # 1.Calculate the quantiles for selected variable
 #' # 2.Plot densities of all or selected variables based on the calculated quantiles
-
 plot_GGenemy <- function(dataset, given_var, var_to_plot = NULL, n_quantiles = 5,
-                         boxplot = FALSE, selfquantiles = NULL, remaining = TRUE) {
-
+                         boxplot = FALSE, selfrange = NULL, remaining = TRUE) {
   if (length(class(dataset)) > 1) {
     dataset <- unclass(dataset)
     dataset <- as.data.frame(dataset)
   }
-  
-  if (!is.null(selfquantiles)) {
+
+  if (!is.null(selfrange)) {
     if (is.factor(dataset[, given_var])) {
       data_help <- dataset
       data_help$quant <- "remaining"
-      for (i in length(selfquantiles):1) {
-        quanthelp <- which(dataset[, given_var] == selfquantiles[i])
-        data_help$quant[quanthelp] <- paste(selfquantiles[i])
+      for (i in length(selfrange):1) {
+        quanthelp <- which(dataset[, given_var] == selfrange[i])
+        data_help$quant[quanthelp] <- paste(selfrange[i])
       }
       if (remaining == FALSE) {
         data_help <- data_help[-which(data_help$quant == "remaining"), ]
       }
-    } else if (is.matrix(selfquantiles) | length(selfquantiles)%%2 == 0) {
-      if(is.matrix(selfquantiles)){
-        matrixquant <- selfquantiles
+    } else if (is.matrix(selfrange) | length(selfrange) %% 2 == 0) {
+      if (is.matrix(selfrange)) {
+        matrixquant <- selfrange
       } else {
-        matrixquant <- matrix(selfquantiles, ncol = 2, byrow = TRUE)
+        matrixquant <- matrix(selfrange, ncol = 2, byrow = TRUE)
       }
       data_help <- dataset
       data_help$quant <- "remaining"
       for (i in nrow(matrixquant):1) {
         quanthelp <- which(dataset[, given_var] >= matrixquant[i, 1] & dataset[, given_var] <= matrixquant[i, 2])
-        helper <- duplicated(as.vector(t(matrixquant)))[c(-1,0)+i*2]
-        if(any(helper)){
-          if(helper[1] & !all(helper)){
-            data_help$quant[quanthelp] <- paste(">",matrixquant[i, 1], "to", "<=",matrixquant[i, 2])
-          } else if(helper[2] & !all(helper)){
-            data_help$quant[quanthelp] <- paste(">=",matrixquant[i, 1], "to", "<",matrixquant[i, 2])
+        helper <- duplicated(as.vector(t(matrixquant)))[c(-1, 0) + i * 2]
+        if (any(helper)) {
+          if (helper[1] & !all(helper)) {
+            data_help$quant[quanthelp] <- paste(">", matrixquant[i, 1], "to", "<=", matrixquant[i, 2])
+          } else if (helper[2] & !all(helper)) {
+            data_help$quant[quanthelp] <- paste(">=", matrixquant[i, 1], "to", "<", matrixquant[i, 2])
           } else {
-            data_help$quant[quanthelp] <- paste(">",matrixquant[i, 1], "to", "<",matrixquant[i, 2])
+            data_help$quant[quanthelp] <- paste(">", matrixquant[i, 1], "to", "<", matrixquant[i, 2])
           }
-        }else{
-        data_help$quant[quanthelp] <- paste(">=",matrixquant[i, 1], "to", "<=",matrixquant[i, 2])
+        } else {
+          data_help$quant[quanthelp] <- paste(">=", matrixquant[i, 1], "to", "<=", matrixquant[i, 2])
         }
       }
       if (remaining == FALSE) {
         data_help <- data_help[-which(data_help$quant == "remaining"), ]
       }
     } else {
-      stop("For selfquantiles: Insert a Vector of quantiles or a matrix with the quantiles ordered by row")
+      stop("For selfrange: Insert a Vector of quantiles or a matrix with the quantiles ordered by row")
     }
-    
+
     if (remaining == FALSE) {
       data_help <- data_help[-which(data_help$quant == "remaining"), ]
     }
@@ -115,22 +113,40 @@ plot_GGenemy <- function(dataset, given_var, var_to_plot = NULL, n_quantiles = 5
       data_help <- dataset
       data_help$quant <- 1 + findInterval(var_goal, quantiles)
       data_help$quant <- as.factor(data_help$quant)
-      for(i in 1:n_quantiles){
-        if(i == 1){
-          levels(data_help$quant)[i] <- paste(round(min(var_goal),2),"to",round(quantiles[i],2))
-        } else if(!(i == length(levels(data_help$quant)))){
-          levels(data_help$quant)[i] <- paste(round(quantiles[i-1],2),"to",round(quantiles[i],2))
+      minim <- round(min(var_goal), 3)
+      maxim <- round(max(var_goal), 3)
+      quantiles_round <- round(quantiles, 3)
+      maxposs <- 999999
+      minposs <- 0.0001
+      if (quantiles[1] < minposs | quantiles[length(quantiles)] > maxposs) {
+        for (i in 1:length(quantiles)) {
+          if (quantiles[i] < minposs | quantiles[i] > maxposs) {
+            quantiles_round[i] <- formatC(quantiles[i], format = "e", digits = 2)
+          }
+        }
+      }
+      if (min(var_goal) < minposs | max(var_goal) > maxposs) {
+        minim <- formatC(min(var_goal), format = "e", digits = 2)
+      }
+      if (min(var_goal) < minposs | max(var_goal) > maxposs) {
+        maxim <- formatC(min(var_goal), format = "e", digits = 2)
+      }
+      for (i in 1:n_quantiles) {
+        if (i == 1) {
+          levels(data_help$quant)[i] <- paste(minim, "to", quantiles_round[i])
+        } else if (!(i == length(levels(data_help$quant)))) {
+          levels(data_help$quant)[i] <- paste(quantiles_round[i - 1], "to", quantiles_round[i])
         } else {
-          levels(data_help$quant)[i] <- paste(round(quantiles[i-1],2),"to",round(max(var_goal),2))
+          levels(data_help$quant)[i] <- paste(quantiles_round[i - 1], "to", maxim)
         }
       }
     }
   }
-  
+
   # 2.
   g <- ggplot2::ggplot(data_help, ggplot2::aes(fill = quant)) + ggplot2::theme_minimal() +
     ggplot2::theme(plot.title = ggplot2::element_text(size = 15, face = "bold"))
-  
+
   plotit <- function(a) {
     if (is.factor(data_help[, a]) & is.factor(data_help[, given_var])) {
       g + ggplot2::geom_bar(ggplot2::aes_string(x = a, fill = given_var)) +
@@ -149,7 +165,7 @@ plot_GGenemy <- function(dataset, given_var, var_to_plot = NULL, n_quantiles = 5
         ggplot2::ggtitle(paste0(a, " conditional on ", given_var))
     }
   }
-  
+
   if (all(c(!is.character(var_to_plot), !is.null(var_to_plot)))) {
     stop(paste0(var_to_plot, " has to be a character or leave it as NULL to calculate
                    conditional densities for all other variables of the dataset."))

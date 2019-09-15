@@ -33,7 +33,7 @@ plot_sum_stats <- function(dataset, given_var, stats = 1, n_quantiles = 5) {
       lapply(1:length(df[[1]]), function(i) {
         ggplot2::ggplot(data = df[[j]], ggplot2::aes(x = 1:n_quantiles, y = df[[j]][, i])) +
           ggplot2::theme_minimal() +
-          ggplot2::geom_line(color = i,size = 2.5) +
+          ggplot2::geom_line(color = i, size = 2.5) +
           ggplot2::geom_point(size = 2.5) +
           ggplot2::ylab(paste(names(summ[j]), "of", names(df[[j]])[i])) +
           ggplot2::xlab(paste("Quantiles of", given_var))

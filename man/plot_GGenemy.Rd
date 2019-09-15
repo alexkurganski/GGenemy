@@ -5,7 +5,7 @@
 \title{Plot GGenemy}
 \usage{
 plot_GGenemy(dataset, given_var, var_to_plot = NULL, n_quantiles = 5,
-  boxplot = FALSE, selfquantiles = NULL, remaining = TRUE)
+  boxplot = FALSE, selfrange = NULL, remaining = TRUE)
 }
 \arguments{
 \item{dataset}{A dataframe.}
@@ -21,10 +21,10 @@ into.}
 \item{boxplot}{logical. If TRUE boxplots will be presented instead of densities
 Also possible to use a vector with the names of variables, which should be plotted as boxplots instead of the density.}
 
-\item{selfquantiles}{Vector of n times two Values or matrix with 2 columns.
+\item{selfrange}{Vector of n times two Values or matrix with 2 columns.
 The first value as min and the second value as max of the self selected quantile.}
 
-\item{remaining}{logical. If TRUE the remaining values not within selfquantiles will be plotted to
+\item{remaining}{logical. If TRUE the remaining values not within selfrange will be plotted to
 category remaining.}
 }
 \value{

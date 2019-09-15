@@ -1,49 +1,72 @@
 GGenemy - To Do:
 
+TABEA:
+
+Code Output function: (Also for Tabea probably)
+See Stanis Distreg.vis package line 343-382 in vis.R
+He generates the Code in 3 parts first and displays it afterwards.
+We need a function to obtain the code inserted into all tabs, read data etc.
+Already having problems here and there.
+1. Datapath not true: Have to show, how to change the WD.
+2. Function showmodal can not work with a vector. Did not find a way to display vectorized
+things so far. I do not like Javascript
+
+GGenemy from line 750-814
+
+Save as GGplot element? How to do this? 
+
+
+
 * Tests für plot_GGenemy() --> Test für plots
   über Abgleich der korrekten class() und ob alle Punktpaare am richtigen Platz sind
-* NAs im Datensatz evtl. nicht direkt rauslöschen, sondern in den Funktionen einzeln
-  mit na.rm = TRUE entfernen
-	-Kommentar: Sie sind ja nicht komplett rausgelöscht, in Data1() kann man jederzeit
-	drauf zugreifen.
+
 * für Data Upload:
-  - alle Überschriften gleich groß machen
-* für die Plots:
-  - Möglichkeit zum Code anzeigen geben
-* Größe für Shiny Files hochsetzen
+  - alle Überschriften gleich groß machen (macht Alex)
+  
+* Größe für Shiny Files hochsetzen (macht Alex sofern notwendig)
+
 * Strings als Möglichkeiten für sum_stats Argument zulassen
-* Fragestellung Use Case aufstellen, welche Variablen lassen sich gut intrepretieren?
+
 * remaining-Quantil in remaining1 und remaining2 umbenennnen
+
 * nrow und ncol in plot_sum_stats()
+
 * Effizienz von plot_ss erhöhen
+
 * sum_stats umschreiben, einzelne sachen ausgeben lassen
+
 * Namen in Funktionen ändern evtl. plot_ss()
+
 * abwechselnd tabelle und variable?
+
 * documentation von plot_sum_stats
+
 * single: soll die sum_stat einzeln berechnet werden?
-* whichstat: welche sum_stats
-* Download von plot_ss gibt leere erste seite aus
+
+* Download von plot_ss gibt leere erste seite aus (Ist bei mir nicht mehr so!)
+
 * test whether given_var in sum_stats is numeric
   
-* übrig gebliebene Notizen aus app.R:
 
 # 8. Spacing relevant? Example: Dataset with many variables won't fit with head().
-
-# 9. obtain Code function?
 
 # 10. Which Data do we allow to read into our dataset? We have now csv and txt.
 # RDs? raw?
 # readr
 
-# 12. Progress of calculation
+# 12. Progress of calculation (does not work properly, because renderoutput does need more time...)
 
-#some extra things to do for Alex:
-* delete unnecessary parts in function
+* Allow extra inputs for the function with ... (especially for plotS?)
 
-* Allow extra inputs for the function with ...
-* Quantiles out
 * Download possibility of Datasets in Global Environment
-* Densities not so clear
-* Download Plots as GGplot part
-* Fix the rounding in plot_GGenemy
+
+* Densities not so clear (How to solve this?)
+
 # Bildschirmauflösung/Verschiebung der Eingabefelder mit Stani klären
+
+* small smoothing in sum_stats? (Could this be an option?)
+
+* renderUI for numeric inputs in shiny
+
+* Richtige Bezeichnung für ID - nicht givenvar4 und var_to_cond_on3 etc. Irgendwie struktur reinbekommen
+
