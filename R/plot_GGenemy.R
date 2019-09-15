@@ -43,10 +43,6 @@
 #'
 #' plot_GGenemy(variables, "V1")
 #'
-#' # Plot GGenemy
-#'
-#' # 1.Calculate the quantiles for selected variable
-#' # 2.Plot densities of all or selected variables based on the calculated quantiles
 plot_GGenemy <- function(dataset, given_var, var_to_plot = NULL, n_quantiles = 5,
                          boxplot = FALSE, selfrange = NULL, remaining = TRUE) {
   if (length(class(dataset)) > 1) {

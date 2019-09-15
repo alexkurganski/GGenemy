@@ -27,6 +27,10 @@ sum_stats <- function(dataset, given_var, stats = 1, n_quantiles = 5) {
   if (n_quantiles < 1 | n_quantiles > 10) {
     stop("You can only partition your given_var into one to ten quantiles.")
   }
+  
+  if(!is.numeric(dplyr::select(dataset, given_var)[,1])) {
+    stop("Your given_var has to be numeric.")
+  }
 
   if (!is.data.frame(dataset)) dataset <- as.data.frame(dataset)
   if (length(class(dataset)) > 1) {
@@ -37,7 +41,7 @@ sum_stats <- function(dataset, given_var, stats = 1, n_quantiles = 5) {
   facnum <- which(sapply(dataset, is.factor))
   if (length(facnum) > 0) {
     dataset[facnum] <- NULL
-    #message("Factors have been removed.")
+    message("Factors have been removed.")
   }
 
   lognum <- which(sapply(dataset, is.logical))

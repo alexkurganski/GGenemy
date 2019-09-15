@@ -1,9 +1,15 @@
-test_that("sum_stats only allows correct inputs for n_stats and n_quantiles", {
+test_that("sum_stats only allows correct inputs for stats, n_quantiles and 
+          given_var", {
   utils::data("iris")
 
   expect_error(
     sum_stats(iris, "Sepal.Length", stats = 4, n_quantiles = 15),
     "You can only partition your given_var into one to ten quantiles."
+  )
+  
+  expect_error(
+    sum_stats(iris, "Species"),
+    "Your given_var has to be numeric."
   )
 })
 
@@ -11,10 +17,10 @@ test_that("sum_stats only allows correct inputs for n_stats and n_quantiles", {
 test_that("sum_stats automatically removes factors and logicals from the dataset", {
   utils::data("iris")
 
-  #expect_message(
-    #sum_stats(iris, "Sepal.Length", stats = 4, n_quantiles = 5),
-    #"Factors have been removed."
-  #)
+  expect_message(
+    sum_stats(iris, "Sepal.Length", stats = 4, n_quantiles = 5),
+    "Factors have been removed."
+  )
 
   iris <- iris[, -5]
   iris$logic <- rep(TRUE, 150)
