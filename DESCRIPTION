@@ -23,7 +23,7 @@ Imports:
     utils (>= 3.6.0),
     gridExtra (>= 2.3),
     grDevices (>= 3.6.0),
-    shinyjs
+    shinyjs,
     shinyalert
 Suggests: 
     testthat (>= 2.1.0)
