@@ -127,13 +127,11 @@ GGenemy <- function() {
           ),
 
           mainPanel(
-            #verbatimTextOutput("summary1"),
             tableOutput("summary1"),
             lapply(1:100, function(i) {
             tableOutput(paste0("summary2", i))
-            }),
+            })
 
-            verbatimTextOutput("str1")
           )
         )
       ),
@@ -731,14 +729,21 @@ GGenemy <- function() {
                  xname = "Dataset"
         )[[2]][[i]]
       }, caption = 
-        names(describe(data2(),
+        paste0(names(describe(data2(),
                        num.desc = c(
                          "min", "quantile0.25",
                          "median", "mean", "quantile0.75",
                          "max", "sd", "var", "valid.n"
                        ),
                        xname = "Dataset"
-        ))[2],
+        ))[2], ": ", names(describe(data2(),
+                                    num.desc = c(
+                                      "min", "quantile0.25",
+                                      "median", "mean", "quantile0.75",
+                                      "max", "sd", "var", "valid.n"
+                                    ),
+                                    xname = "Dataset"
+        )[[2]][i])),
       caption.placement = getOption("xtable.caption.placement", "top"),
       rownames = TRUE
       )
@@ -748,20 +753,6 @@ GGenemy <- function() {
   ignoreNULL = FALSE,
   ignoreInit = FALSE)
     
-    #output$summary1 <- renderPrint({
-      #print.desc(describe(data2(),
-        #num.desc = c(
-          #"min", "quantile0.25",
-          #"median", "mean", "quantile0.75",
-          #"max", "sd", "var", "valid.n"
-        #),
-        #xname = "Dataset"
-      #))
-    #})
-
-    output$str1 <- renderPrint({
-      utils::str(data2())
-    })
 
     # Sum-stats Tab ############################################################
 
