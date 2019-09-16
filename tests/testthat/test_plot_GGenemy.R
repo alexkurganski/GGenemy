@@ -1,4 +1,4 @@
-test_that("The output of 'plot_GGenemy() has the correct class", {
+test_that("The output of 'plot_GGenemy() is of class 'gg'", {
   n <- 500
   number_variables <- 5
   set.seed(42)
@@ -13,3 +13,4 @@ test_that("The output of 'plot_GGenemy() has the correct class", {
    
    expect_true(any(class(obj$scales) == "gg"))
 })
+
