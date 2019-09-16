@@ -24,7 +24,7 @@ GGenemy <- function() {
         sidebarLayout(
           sidebarPanel(
             
-            checkboxInput("checktrue", "Upload own file",TRUE),
+            checkboxInput("checktrue", "Upload own file",FALSE),
             
             selectInput("datframe", label = "Select an already uploaded DataFrame from you Global Environment",
                         choices = c("",search_dataframe()),
@@ -410,12 +410,20 @@ GGenemy <- function() {
                 icon = icon("code"),
                 label = "Obtain Code!", style = "color:white;
                                   background-color:#FF7F50; border-color: black"
+              ),
+              
+              actionButton("saveGE",
+                           icon = icon("save"),
+                           label = "Save Objects in GE", style = "color:white;
+                                  background-color:#FF7F50; border-color: black"
               )
+              
             ),
             mainPanel(
               lapply(1:25, function(i) {
                 plotOutput(paste0("selfcondplot", i))
-              })
+              }),
+              shinyalert::useShinyalert()
             )
           )
         )
@@ -426,8 +434,8 @@ GGenemy <- function() {
   # server #####################################################################
   server <- function(input, output, session) {
   
-    
-      data3 <- reactive({
+    # Read Data ################################################################
+    data3 <- reactive({
       if (input$datframe != "" & !is.null(input$datframe)){
         df <- get(input$datframe, envir = .GlobalEnv)
       } else {
@@ -565,9 +573,11 @@ GGenemy <- function() {
     data2 <- reactive({
     if(input$checktrue == FALSE){
       req(input$datframe)
-        
-        df <- data3()
-        
+      
+      data1 <- NULL  
+      
+      df <- data3()
+      
         for (i in unlist(input$as.factor, use.names = FALSE)) {
           df[, i] <- as.factor(df[, i])
         }
@@ -603,6 +613,8 @@ GGenemy <- function() {
     } else {
         req(input$file1)
         
+        data3 <- NULL
+      
         df <- data1()
         
         for (i in unlist(input$as.factor, use.names = FALSE)) {
@@ -662,7 +674,7 @@ GGenemy <- function() {
     }
     observeEvent(input$var_to_cond_on2, updateboxplot2(session))
 
-    # Data-Upload Tab #################################################
+    # Data-Upload Tab ##########################################################
     
     
     output$contents <- renderTable({
@@ -888,7 +900,7 @@ GGenemy <- function() {
     },
     ignoreInit = TRUE
     )
-
+    
     # Downloads ###############################################################
 
     output$downloadPlot <- downloadHandler(
@@ -941,6 +953,34 @@ GGenemy <- function() {
         grDevices::dev.off()
       }
     )
+    # Save in GE ###############################################################
+    observeEvent(input$saveGE,{
+      saveplotGE <- plot_GGenemy(isolate(data2()),
+                   isolate(input$var_name3),
+                   isolate(input$var_to_cond_on2),
+                   selfrange = isolate(
+                     if (is.factor(data2()[, input$var_name3])) {
+                       strsplit(unlist(input$factorvariable), ",")[[1]]
+                     } else {
+                       c(
+                         input$firstrange1, input$firstrange2,
+                         input$secondrange1, input$secondrange2,
+                         input$thirdrange1, input$thirdrange2
+                       )
+                     }
+                   ),
+                   remaining = isolate(input$remaining),
+                   boxplot = isolate(input$boxplots2)
+      )
+        
+      assign(paste0("GGenemyPlot",input$saveGE[1]),saveplotGE, envir = .GlobalEnv)
+      output$done <- shinyalert::shinyalert(title = "GOTCHA",
+                                            text = "You can access your GGenemy-Plot after closing
+                                            the Shinyapp. \n
+                                            You can save many more plots without overwriting the other plots!",
+                                            type = "success")
+    })
+    
     # Obtain code ##############################################################
     
     observeEvent(input$pastecode, {
@@ -1007,6 +1047,27 @@ GGenemy <- function() {
     })
 
     # hide elements ############################################################
+
+     observeEvent(input$checktrue,{
+       if(input$checktrue == FALSE){
+         shinyjs::show(id = "datframe")
+         shinyjs::hide(id = "file1")
+         shinyjs::hide(id = "header")
+         shinyjs::hide(id = "sep")
+         shinyjs::hide(id = "quote")
+         shinyjs::hide(id = "decimals")
+         shinyjs::hide(id = "rownames")
+     } else {
+       shinyjs::hide(id = "datframe")
+       shinyjs::show(id = "file1")
+       shinyjs::show(id = "header")
+       shinyjs::show(id = "sep")
+       shinyjs::show(id = "quote")
+       shinyjs::show(id = "decimals")
+       shinyjs::show(id = "rownames")
+       
+     }
+     })
 
      observeEvent(input$file1, {
        shinyjs::show(selector = '#GGenemy li a[data-value="2. Data Structure"]')
