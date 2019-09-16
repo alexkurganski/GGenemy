@@ -110,7 +110,7 @@ describe.logical <- function(x, varname = "") {
 describe <- function(x, num.desc = c("mean", "median", "var", "sd", "valid.n"),
                      xname = NA) {
   if (missing(x)) {
-    stop("Usage: describe(x,...)\n\twhere x is a vector, data frame or matrix")
+    stop("Usage: describe(x,...) where x is a vector, data frame or matrix")
   }
   if (!is.data.frame(x)) x <- as.data.frame(x)
   varnames <- names(x)

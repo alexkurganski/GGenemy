@@ -18,7 +18,7 @@ check_dataframe <- function(x) {
     obj <- get(x, envir = .GlobalEnv)
   else
     obj <- x
-  if (is(obj, "data.frame"))
+  if (is.data.frame(obj))
     return(TRUE)
   else
     return(FALSE)
