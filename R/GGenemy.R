@@ -24,7 +24,7 @@ GGenemy <- function() {
         sidebarLayout(
           sidebarPanel(
             
-            checkboxInput("checktrue", "Upload own file"),
+            checkboxInput("checktrue", "Upload own file",TRUE),
             
             selectInput("datframe", label = "Select an already uploaded DataFrame from you Global Environment",
                         choices = c("",search_dataframe()),
@@ -96,9 +96,7 @@ GGenemy <- function() {
           ),
 
           mainPanel(
-            tableOutput("contents"),
-            tableOutput("test"),
-            tableOutput("test2")
+            tableOutput("contents")
             
             
           )
@@ -562,8 +560,7 @@ GGenemy <- function() {
       )
       return(df)
       })
-    
-    
+
     
     data2 <- reactive({
     if(input$checktrue == FALSE){
@@ -667,14 +664,12 @@ GGenemy <- function() {
 
     # Data-Upload Tab #################################################
     
+    
     output$contents <- renderTable({
-      utils::head(data1(), 10)
+      utils::head(NULL)
     })
-    output$test <- renderTable({
+    output$contents <- renderTable({
       utils::head(data2(), 10)
-    })
-    output$test2 <- renderTable({
-      utils::head(data3(), 10)
     })
 
     # Data-Management Tab ######################################################
