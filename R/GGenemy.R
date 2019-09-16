@@ -707,15 +707,22 @@ GGenemy <- function() {
                          ),
                          xname = "Dataset"
     )[[2]])){
+      
+    factlength <- length(describe(data2(),
+                                         num.desc = c(
+                                           "min", "quantile0.25",
+                                           "median", "mean", "quantile0.75",
+                                           "max", "sd", "var", "valid.n"
+                                         ),
+                                         xname = "Dataset"
+    )[[2]])
+
     
-    lapply(1:length(describe(data2(),
-                             num.desc = c(
-                               "min", "quantile0.25",
-                               "median", "mean", "quantile0.75",
-                               "max", "sd", "var", "valid.n"
-                             ),
-                             xname = "Dataset"
-    )[[2]]), function(i){
+    lapply(1:100, function(i) {
+      output[[paste0("summary2", i)]] <- NULL
+    })
+      
+    lapply(1:factlength, function(i){
       output[[paste0("summary2", i)]] <- renderTable({
         describe(data2(),
                  num.desc = c(
