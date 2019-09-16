@@ -566,7 +566,7 @@ GGenemy <- function() {
     
     
     data2 <- reactive({
-    if("input$checktrue" == TRUE){
+    if(input$checktrue == FALSE){
       req(input$datframe)
         
         df <- data3()
