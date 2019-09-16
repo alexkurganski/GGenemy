@@ -31,7 +31,7 @@ GGenemy <- function() {
                         
             
             # Input: Read CSV/TXT-Data
-            fileInput("file1", "Choose a txt/csv File",
+            fileInput("file1", "Or choose a txt/csv File from your PC",
               accept = c(
                 "txt/csv",
                 "text/comma-separated-values,text/plain",
@@ -95,11 +95,9 @@ GGenemy <- function() {
           ),
 
           mainPanel(
-            tableOutput("contents") # ,
-
-            # tableOutput("na1"),
-
-            # tableOutput("na2")
+            tableOutput("contents"),
+            tableOutput("test")
+            
           )
         )
       ),
@@ -125,10 +123,7 @@ GGenemy <- function() {
             helpText("For factors with a vast amount of levels, only 
                           the 10 most common categories will be displayed."),
             
-            tags$style(HTML("
-    caption {
-        color: #FF7F50;}
-                            "))
+            tags$style(HTML("caption {color: #FF7F50;}"))
           ),
 
           mainPanel(
@@ -431,12 +426,65 @@ GGenemy <- function() {
   
   # server #####################################################################
   server <- function(input, output, session) {
-    
-    data1 <- reactive({
-      if (input$datframe != "" & !is.null(input$datframe))
-        get(input$datframe, envir = .GlobalEnv)
-      else
-        NULL
+  
+    data3 <- reactive({
+      if (input$datframe != "" & !is.null(input$datframe)){
+        df <- get(input$datframe, envir = .GlobalEnv)
+      } else {
+        df <- NULL
+      }
+      
+      df_reduced <- df
+      
+      colnum <- which(sapply(df_reduced, is.factor))
+      df_reduced[colnum] <- NULL
+      
+      updateSelectInput(session,
+                        inputId = "as.factor",
+                        label = "Choose which numerics or logicals should be treated as factors",
+                        choices = names(df_reduced)
+      )
+      
+      updateSelectInput(session,
+                        inputId = "given_var2",
+                        label = "Given variable",
+                        choices = names(df)
+      )
+      
+      updateSelectInput(session,
+                        inputId = "var_to_plot",
+                        label = "Variables to plot",
+                        choices = names(df),
+                        selected = names(df)
+      )
+      
+      updateSelectInput(session,
+                        inputId = "var_to_cond_on2",
+                        label = "Variables to plot",
+                        choices = names(df),
+                        selected = names(df)
+      )
+      
+      updateSelectInput(session,
+                        inputId = "var_name3",
+                        label = "Condition variable",
+                        choices = names(df)
+      )
+      
+      updateSelectInput(session,
+                        inputId = "boxplots",
+                        label = "Boxplots instead of densities for numerical variables?",
+                        choices = names(df_reduced),
+                        selected = ""
+      )
+      
+      updateSelectInput(session,
+                        inputId = "boxplots2",
+                        label = "Boxplots instead of densities for numerical variables?",
+                        choices = names(df_reduced),
+                        selected = ""
+      )
+      return(df)
     })
     
     
@@ -517,7 +565,7 @@ GGenemy <- function() {
     })
 
     data2 <- reactive({
-      req(input$file1) # require that the input is available
+      req(input$file1)
 
       df <- data1()
 
@@ -554,6 +602,48 @@ GGenemy <- function() {
 
       return(df_reduced)
     })
+  
+  
+    observeEvent(input$datframe,{
+      data2 <- reactive({
+        
+        df <- data3()
+        
+        for (i in unlist(input$as.factor, use.names = FALSE)) {
+          df[, i] <- as.factor(df[, i])
+        }
+        df_reduced <- stats::na.omit(df)
+        
+        df_reduced2 <- df_reduced
+        
+        colnum <- which(sapply(df_reduced, is.factor))
+        
+        df_reduced2[colnum] <- NULL
+        
+        updateSelectInput(session,
+                          inputId = "given_var4",
+                          label = "Given variable",
+                          choices = names(df_reduced2)
+        )
+        
+        #    updateSelectInput(session,
+        #      inputId = "boxplots",
+        #      label = "Boxplots instead of densities for numerical variables?",
+        #      choices = names(df_reduced),
+        #      selected = ""
+        #    )
+        
+        updateSelectInput(session,
+                          inputId = "boxplots2",
+                          label = "Boxplots instead of densities for numerical variables?",
+                          choices = names(df_reduced),
+                          selected = ""
+        )
+        
+        return(df_reduced)
+      })
+    })
+    
 
     # updateboxplots ################################################################
 
@@ -582,6 +672,9 @@ GGenemy <- function() {
     output$contents <- renderTable({
       a <- data2()
       utils::head(data1(), 10)
+    })
+    output$test <- renderTable({
+      utils::head(data3(), 10)
     })
 
     # Data-Management Tab ######################################################
@@ -925,6 +1018,14 @@ GGenemy <- function() {
        shinyjs::show(selector = '#GGenemy li a[data-value="3. Summary Statistics"]')
        shinyjs::show(selector = '#GGenemy li a[data-value="4. Plots"]')
      })
+    
+    observeEvent(input$datframe, {
+      shinyjs::show(selector = '#GGenemy li a[data-value="2. Data Structure"]')
+      shinyjs::show(selector = '#GGenemy li a[data-value="3. Summary Statistics"]')
+      shinyjs::show(selector = '#GGenemy li a[data-value="4. Plots"]')
+    },
+    ignoreInit = TRUE)
+    
      
     observeEvent(input$var_name3, {
       if (is.factor(data2()[, input$var_name3])) {
@@ -947,8 +1048,7 @@ GGenemy <- function() {
         shinyjs::hide(id = "factorvariable")
       }
     })
-
-  }
+    }
   
 
   # Run the application
