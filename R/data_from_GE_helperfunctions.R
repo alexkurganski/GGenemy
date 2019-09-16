@@ -1,3 +1,12 @@
+#' Searcher GE Dataframes
+#'
+#' Helpfunctions to search for dataframes in Global Environment, while using Shiny
+#'
+#'
+#' @param x Element of Global Environment
+#' @return The names of dataframes from the Global Environment.
+#' @export
+
 search_dataframe <- function() {
   # Get components of Global Environment
   namesGE <- ls(envir = .GlobalEnv)

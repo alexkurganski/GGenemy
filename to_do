@@ -1,7 +1,6 @@
 GGenemy - To Do:
 
-TABEA:
-
+1.
 Code Output function: (Also for Tabea probably)
 See Stanis Distreg.vis package line 343-382 in vis.R
 He generates the Code in 3 parts first and displays it afterwards.
@@ -21,9 +20,10 @@ Save as GGplot element? How to do this?
   über Abgleich der korrekten class() und ob alle Punktpaare am richtigen Platz sind
 
 * für Data Upload:
-  - alle Überschriften gleich groß machen (macht Alex)
+  - alle Überschriften gleich groß machen (macht Alex) (Später, je nachdem, wann/ob hide klappt)
   
-* Größe für Shiny Files hochsetzen (macht Alex sofern notwendig)
+* Größe für Shiny Files hochsetzen (macht Alex sofern notwendig? Mit GE df nicht notwendig)
+  Tabea: Kannst den Punkt löschen, wenn es nicht störend ist für dich.
 
 * remaining-Quantil in remaining1 und remaining2 umbenennnen
 
@@ -52,11 +52,11 @@ Save as GGplot element? How to do this?
 
 # 12. Progress of calculation (does not work properly, because renderoutput does need more time...)
 
-* Allow extra inputs for the function with ... (especially for plotS?)
-
-* Download possibility of Datasets in Global Environment
+* Allow extra inputs for the function with ... (especially for plots?)
+- For Tabea: Tried this out but it did not work for plot_GGenemy()
 
 * Densities not so clear (How to solve this?)
+- Tabea: Some Settings for Colour?
 
 # Bildschirmauflösung/Verschiebung der Eingabefelder mit Stani klären
 
@@ -65,4 +65,3 @@ Save as GGplot element? How to do this?
 * renderUI for numeric inputs in shiny
 
 * Richtige Bezeichnung für ID - nicht givenvar4 und var_to_cond_on3 etc. Irgendwie struktur reinbekommen
-
