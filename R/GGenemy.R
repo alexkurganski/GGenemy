@@ -23,7 +23,8 @@ GGenemy <- function() {
         "1. Data Upload",
         sidebarLayout(
           sidebarPanel(
-  
+            
+            checkboxInput("checktrue", "Upload own file"),
             
             selectInput("datframe", label = "Select an already uploaded DataFrame from you Global Environment",
                         choices = c("",search_dataframe()),
@@ -96,7 +97,9 @@ GGenemy <- function() {
 
           mainPanel(
             tableOutput("contents"),
-            tableOutput("test")
+            tableOutput("test"),
+            tableOutput("test2")
+            
             
           )
         )
@@ -425,7 +428,8 @@ GGenemy <- function() {
   # server #####################################################################
   server <- function(input, output, session) {
   
-    data3 <- reactive({
+    
+      data3 <- reactive({
       if (input$datframe != "" & !is.null(input$datframe)){
         df <- get(input$datframe, envir = .GlobalEnv)
       } else {
@@ -484,7 +488,6 @@ GGenemy <- function() {
       )
       return(df)
     })
-    
     
     data1 <- reactive({
       req(input$file1) # require that the input is available
@@ -557,53 +560,14 @@ GGenemy <- function() {
         choices = names(df_reduced),
         selected = ""
       )
-
-
       return(df)
-    })
-
+      })
+    
+    
+    
     data2 <- reactive({
-      req(input$file1)
-
-      df <- data1()
-
-      for (i in unlist(input$as.factor, use.names = FALSE)) {
-        df[, i] <- as.factor(df[, i])
-      }
-      df_reduced <- stats::na.omit(df)
-
-      df_reduced2 <- df_reduced
-
-      colnum <- which(sapply(df_reduced, is.factor))
-
-      df_reduced2[colnum] <- NULL
-
-      updateSelectInput(session,
-        inputId = "given_var4",
-        label = "Given variable",
-        choices = names(df_reduced2)
-      )
-
-      #    updateSelectInput(session,
-      #      inputId = "boxplots",
-      #      label = "Boxplots instead of densities for numerical variables?",
-      #      choices = names(df_reduced),
-      #      selected = ""
-      #    )
-
-      updateSelectInput(session,
-        inputId = "boxplots2",
-        label = "Boxplots instead of densities for numerical variables?",
-        choices = names(df_reduced),
-        selected = ""
-      )
-
-      return(df_reduced)
-    })
-  
-  
-    observeEvent(input$datframe,{
-      data2 <- reactive({
+    if("input$checktrue" == TRUE){
+      req(input$datframe)
         
         df <- data3()
         
@@ -639,9 +603,45 @@ GGenemy <- function() {
         )
         
         return(df_reduced)
-      })
-    })
-    
+    } else {
+        req(input$file1)
+        
+        df <- data1()
+        
+        for (i in unlist(input$as.factor, use.names = FALSE)) {
+          df[, i] <- as.factor(df[, i])
+        }
+        df_reduced <- stats::na.omit(df)
+        
+        df_reduced2 <- df_reduced
+        
+        colnum <- which(sapply(df_reduced, is.factor))
+        
+        df_reduced2[colnum] <- NULL
+        
+        updateSelectInput(session,
+                          inputId = "given_var4",
+                          label = "Given variable",
+                          choices = names(df_reduced2)
+        )
+        
+        #    updateSelectInput(session,
+        #      inputId = "boxplots",
+        #      label = "Boxplots instead of densities for numerical variables?",
+        #      choices = names(df_reduced),
+        #      selected = ""
+        #    )
+        
+        updateSelectInput(session,
+                          inputId = "boxplots2",
+                          label = "Boxplots instead of densities for numerical variables?",
+                          choices = names(df_reduced),
+                          selected = ""
+        )
+        
+        return(df_reduced)
+    }
+        })
 
     # updateboxplots ################################################################
 
@@ -668,10 +668,12 @@ GGenemy <- function() {
     # Data-Upload Tab #################################################
     
     output$contents <- renderTable({
-      a <- data2()
       utils::head(data1(), 10)
     })
     output$test <- renderTable({
+      utils::head(data2(), 10)
+    })
+    output$test2 <- renderTable({
       utils::head(data3(), 10)
     })
 
