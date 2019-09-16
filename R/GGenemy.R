@@ -562,13 +562,7 @@ GGenemy <- function() {
       )
       return(df)
       })
-    
-    
-    data2 <- reactive({
-      a <- data1()
-      b <- data2()
-      return(NULL)
-    })
+
     
     data2 <- reactive({
     if(input$checktrue == FALSE){
