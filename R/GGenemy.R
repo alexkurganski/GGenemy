@@ -23,7 +23,14 @@ GGenemy <- function() {
         "1. Data Upload",
         sidebarLayout(
           sidebarPanel(
-            # Input: Read CSV-Data
+  
+            
+            selectInput("datframe", label = "Select an already uploaded DataFrame from you Global Environment",
+                        choices = c("",search_dataframe()),
+                        selectize = TRUE),
+                        
+            
+            # Input: Read CSV/TXT-Data
             fileInput("file1", "Choose a txt/csv File",
               accept = c(
                 "txt/csv",
@@ -116,7 +123,12 @@ GGenemy <- function() {
             tags$hr(style = "border-color: #white;"),
 
             helpText("For factors with a vast amount of levels, only 
-                          the 10 most common categories will be displayed.")
+                          the 10 most common categories will be displayed."),
+            
+            tags$style(HTML("
+    caption {
+        color: #FF7F50;}
+                            "))
           ),
 
           mainPanel(
@@ -419,6 +431,15 @@ GGenemy <- function() {
   
   # server #####################################################################
   server <- function(input, output, session) {
+    
+    data1 <- reactive({
+      if (input$datframe != "" & !is.null(input$datframe))
+        get(input$datframe, envir = .GlobalEnv)
+      else
+        NULL
+    })
+    
+    
     data1 <- reactive({
       req(input$file1) # require that the input is available
 
@@ -565,7 +586,7 @@ GGenemy <- function() {
 
     # Data-Management Tab ######################################################
 
-    observeEvent(input$as.factor, {
+    observeEvent(data2(), {
     
     output$summary1 <- renderTable({
       describe(data2(),
