@@ -13,6 +13,21 @@ GGenemy <- function() {
   ui <- fluidPage(
     shinyjs::useShinyjs(),
     shinyjs::extendShinyjs(script = "inst/hide_shiny_tabs.js"),
+    tags$style(type = 'text/css', '.navbar {
+                           font-family: Merriweather;
+                           font-size: 16px;
+                           color: #FF7F50; }',
+               
+               '.navbar-dropdown {
+                           font-family: Merriweather;
+                           font-size: 13px;
+                           color: #FF7F50; }',
+               
+               '.navbar-default .navbar-brand {
+                             color: #FF7F50;
+                           }'
+               
+    ),
     navbarPage("GGenemy",
       id = "GGenemy",
       theme = shinythemes::shinytheme("superhero"),
@@ -43,14 +58,13 @@ GGenemy <- function() {
 
             # Input: Checkbox if file has header
             
-            tags$style(".pretty.p-default input:checked~.state label:after {background-color: #FF7F50 !important;}"),
-            shinyWidgets::prettyCheckboxGroup("header",
+            #div(
+            #  tags$style(type="text/css", "#header {color: #FF7F50}"),
+            checkboxGroupInput("header",
               label = "Header",
               choices = "True",
               selected = "True",
-              shape = "square",
-              fill = FALSE,
-              status = "default"
+            #)
             ),
             
             # Input: Select separator
