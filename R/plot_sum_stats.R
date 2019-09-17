@@ -28,6 +28,14 @@ plot_sum_stats <- function(dataset, given_var, stats = 1, n_quantiles = 5) {
   for (k in 1:length(summ)) {
     df[[k]] <- data.frame(summ[[k]])
   }
+  nvar <- length(df[[1]])
+  
+  if (nvar %% 3 == 0) {
+    rows <- nvar / 3
+  } else {
+    rows <- floor(nvar / 3) + 1
+  }
+  
   lapply(1:length(summ), function(j) {
     gridExtra::marrangeGrob(
       lapply(1:length(df[[1]]), function(i) {
@@ -38,7 +46,7 @@ plot_sum_stats <- function(dataset, given_var, stats = 1, n_quantiles = 5) {
           ggplot2::ylab(paste(names(summ[j]), "of", names(df[[j]])[i])) +
           ggplot2::xlab(paste("Quantiles of", given_var))
       }),
-      ncol = 3, nrow = 3, top = (paste(names(summ[j]), "of all variables given", given_var))
+      ncol = 3, nrow = rows, top = (paste(names(summ[j]), "of all variables given", given_var))
     )
   })
 }

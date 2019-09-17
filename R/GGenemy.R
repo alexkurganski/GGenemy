@@ -254,7 +254,8 @@ GGenemy <- function() {
           }),
           
           lapply(1:4, function(i) {
-            plotOutput(paste0("summary_stats_plot", i))
+            plotOutput(paste0("summary_stats_plot", i),
+                       height = "700px")
           })
           )
         )
@@ -534,6 +535,12 @@ GGenemy <- function() {
     data3 <- reactive({
       if (input$datframe != "" & !is.null(input$datframe)){
         df <- get(input$datframe, envir = .GlobalEnv)
+        
+        if (length(class(df)) > 1) {
+          df <- unclass(df)
+          df <- as.data.frame(df)
+        }
+        
       } else {
         df <- NULL
       }

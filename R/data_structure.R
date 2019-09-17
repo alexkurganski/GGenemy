@@ -125,7 +125,9 @@ describe <- function(x, num.desc = c("mean", "median", "var", "sd", "valid.n")){
       }
       names(num.result) <- varnames[num.index]
     }
-    fac.index <- c(which(sapply(x, is.factor)), which(sapply(x, is.character)))
+    fac.index <- c(which(sapply(x, is.factor)), which(sapply(x, is.character)),
+                   which(sapply(x, lubridate::is.Date)),
+                   which(sapply(x, lubridate::is.POSIXct)))
     nfac <- length(fac.index)
     fac.result <- list()
     if (nfac) {
