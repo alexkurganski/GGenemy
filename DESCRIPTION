@@ -24,6 +24,7 @@ Imports:
     gridExtra (>= 2.3),
     grDevices (>= 3.6.0),
     shinyjs,
-    shinyalert
+    shinyalert,
+    shinyWidgets
 Suggests: 
     testthat (>= 2.1.0)

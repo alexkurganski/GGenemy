@@ -1,17 +1,45 @@
-test_that("The output of 'plot_GGenemy() is of class 'gg'", {
-  #n <- 500
-  #number_variables <- 5
-  #set.seed(42)
-  #variables <- as.data.frame(sapply(1:number_variables, function(a) {
-     #if (runif(1) < 0.5) {
-       #rnorm(n)
-     #} else {
-       #rgamma(n, 0.5)
-     #}
-   #}))
-   #obj <- plot_GGenemy(variables, "V1", "V2")
+test_that("the output of 'plot_GGenemy() is a ggplot object", {
+   data("iris")
+   obj <- plot_GGenemy(iris, "Sepal.Length", "Sepal.Width")
    
-   #expect_true(any(class(obj$scales) == "gg"))
-   expect_true(TRUE)
+   expect_is(obj, "gg")
+   expect_is(obj, "ggplot")
 })
+
+test_that("plot_GGenemy() creates the correct types of plots for a given numeric
+          variable", {
+  data("iris")
+  iris$Place <- as.factor(sample(1:5, 150, replace = TRUE))
+  obj <- plot_GGenemy(iris, "Sepal.Length", c("Sepal.Width","Species"))
+  
+  expect_is(obj[[1]]$layers[[1]]$geom, "GeomDensity")
+  expect_is(obj[[2]]$layers[[1]]$geom, "GeomBoxplot")
+})
+
+test_that("plot_GGenemy() creates the correct types of plots for a given factor", {
+  data("iris")
+  iris$Place <- as.factor(sample(1:5, 150, replace = TRUE))
+  obj <- plot_GGenemy(iris, "Species", c("Sepal.Length","Place"))
+  
+  expect_is(obj[[1]]$layers[[1]]$geom, "GeomDensity")
+  expect_is(obj[[2]]$layers[[1]]$geom, "GeomBar")
+})
+
+test_that("plot_GGenemy() plots the data correctly", {
+  data("iris")
+  iris$Place <- as.factor(sample(1:5, 150, replace = TRUE))
+  obj <- plot_GGenemy(iris, "Species", "Place")
+  tab <- table(iris$Species, iris$Place)
+  tab2 <- rbind(tab[3,], tab[2,], tab[1,])
+  tab3 <- c(tab2[,1], tab2[,2],tab2[,3],tab2[,4],tab2[,5])
+  
+  expect_equal(ggplot2::ggplot_build(obj)$data[[1]]$count, 
+               tab3)
+})
+
+# build <- ggplot2::ggplot_build(obj)
+# build
+# tab <- table(iris$Species, iris$Place)
+# tab2 <- rbind(tab[3,], tab[2,], tab[1,])
+# tab3 <- c(tab2[,1], tab2[,2],tab2[,3],tab2[,4],tab2[,5])
 
