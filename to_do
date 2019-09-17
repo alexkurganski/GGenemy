@@ -15,25 +15,22 @@ GGenemy from line 750-814
 
 TABEAS HOOD:
 * Tests für plot_GGenemy() --> Test für plots
-  über Abgleich der korrekten class() und ob alle Punktpaare am richtigen Platz sind
+  über Abgleich der korrekten class() und ob alle Punktpaare am richtigen Platz sind --> erledigt für factor/factor, evtl noch erweitern auf boxplots
 
 * remaining-Quantil in remaining1 und remaining2 umbenennnen
-
-* nrow und ncol in plot_sum_stats()
 
 * Effizienz von plot_ss erhöhen
 
 * Namen in Funktionen ändern evtl. plot_ss()
 
-* abwechselnd tabelle und variable?
+* abwechselnd tabelle und variable? Nä
 
 * documentation von plot_sum_stats
 
-* single: soll die sum_stat einzeln berechnet werden?
-
 * Download von plot_ss gibt leere erste seite aus (Ist bei mir nicht mehr so!)
 
-* test whether given_var in sum_stats is numeric
+* einlesen von Datensatz mit Faktor mit nur einem level
+
   
 
 
