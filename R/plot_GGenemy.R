@@ -143,7 +143,7 @@ plot_GGenemy <- function(dataset, given_var, var_to_plot = NULL, n_quantiles = 5
 
   # 2.
   g <- ggplot2::ggplot(data_help, ggplot2::aes(fill = quant)) + ggplot2::theme_minimal() +
-    ggplot2::theme(plot.title = ggplot2::element_text(size = 15, face = "bold"),...)
+    ggplot2::theme(plot.title = ggplot2::element_text(size = 15, face = "bold"))
 
   plotit <- function(a) {
     if (is.factor(data_help[, a]) & is.factor(data_help[, given_var])) {
