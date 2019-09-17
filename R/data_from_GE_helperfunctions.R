@@ -1,11 +1,7 @@
-#' Searcher GE Dataframes
+#' Internal: Seatch Dataframe in GE
 #'
-#' Helpfunctions to search for dataframes in Global Environment, while using Shiny
-#'
-#'
-#' @param x Element of Global Environment
-#' @return The names of dataframes from the Global Environment.
-#' @export
+#' Searches for Dataframes in the Global Environment.
+#' @keywords internal
 
 search_dataframe <- function() {
   # Get components of Global Environment
@@ -22,6 +18,10 @@ search_dataframe <- function() {
     return("")
 }
 
+#' Internal: Dataframe Checker
+#'
+#' Check whether the insertet object is a dataframe or not.
+#' @keywords internal
 check_dataframe <- function(x) {
   if (is.character(x))
     obj <- get(x, envir = .GlobalEnv)

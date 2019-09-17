@@ -32,7 +32,7 @@ GGenemy <- function() {
                         
             
             # Input: Read CSV/TXT-Data
-            fileInput("file1", "Or choose a txt/csv File from your PC",
+            fileInput("file1", "Choose a txt/csv File from your PC",
               accept = c(
                 "txt/csv",
                 "text/comma-separated-values,text/plain",
@@ -42,15 +42,12 @@ GGenemy <- function() {
             tags$style(".btn-file {background-color:#FF7F50; border-color: black;}"),
 
             # Input: Checkbox if file has header
-            tags$b("Header"),
-
-            checkboxInput("header",
+            
+            checkboxGroupInput("header",
               label = "Header",
-              TRUE
+              choices = "True",
+              selected = "True"
             ),
-
-            tags$hr(style = "border-color: #white;"),
-
 
             # Input: Select separator
             radioButtons("sep", "Separator",
@@ -63,8 +60,6 @@ GGenemy <- function() {
               inline = TRUE
             ),
 
-            tags$hr(style = "border-color: #white;"),
-
             # Input: Select quotes
             radioButtons("quote", "Which quotes are used?",
               choices = c(
@@ -76,22 +71,16 @@ GGenemy <- function() {
               inline = TRUE
             ),
 
-            tags$hr(style = "border-color: #white;"),
-
-            tags$b("Decimals"),
-
-            checkboxInput("decimals",
+            checkboxGroupInput("decimals",
               label = "File uses a comma as the decimal character",
-              FALSE
+              choices = "True",
+              selected = ""
             ),
 
-            tags$hr(style = "border-color: #white;"),
-
-            tags$b("Rownames"),
-
-            checkboxInput("rownames",
+            checkboxGroupInput("rownames",
               label = "Treat values of the first column as rownames",
-              FALSE
+              choices = "True",
+              selected = ""
             )
           ),
 
@@ -501,18 +490,18 @@ GGenemy <- function() {
       inFile <- input$file1
 
       df <- utils::read.table(inFile$datapath,
-        header = input$header,
+        header = if(is.null(input$header)){FALSE} else {TRUE},
         sep = input$sep,
         quote = input$quote,
-        dec = if (input$decimals) {
-          ","
-        } else {
+        dec = if (is.null(input$decimals)) {
           "."
-        },
-        row.names = if (input$rownames) {
-          1
         } else {
+          ","
+        },
+        row.names = if (is.null(input$rownames)) {
           NULL
+        } else {
+          1
         }
       )
 
@@ -984,7 +973,7 @@ GGenemy <- function() {
     # Obtain code ##############################################################
     
     observeEvent(input$pastecode, {
-      req(input$file1)
+      req(data2())
       if (input$rownames) {
         row <- 1
       } else {
@@ -1048,27 +1037,6 @@ GGenemy <- function() {
 
     # hide elements ############################################################
 
-     observeEvent(input$checktrue,{
-       if(input$checktrue == FALSE){
-         shinyjs::show(id = "datframe")
-         shinyjs::hide(id = "file1")
-         shinyjs::hide(id = "header")
-         shinyjs::hide(id = "sep")
-         shinyjs::hide(id = "quote")
-         shinyjs::hide(id = "decimals")
-         shinyjs::hide(id = "rownames")
-     } else {
-       shinyjs::hide(id = "datframe")
-       shinyjs::show(id = "file1")
-       shinyjs::show(id = "header")
-       shinyjs::show(id = "sep")
-       shinyjs::show(id = "quote")
-       shinyjs::show(id = "decimals")
-       shinyjs::show(id = "rownames")
-       
-     }
-     })
-
      observeEvent(input$file1, {
        shinyjs::show(selector = '#GGenemy li a[data-value="2. Data Structure"]')
        shinyjs::show(selector = '#GGenemy li a[data-value="3. Summary Statistics"]')
@@ -1079,8 +1047,30 @@ GGenemy <- function() {
       shinyjs::show(selector = '#GGenemy li a[data-value="2. Data Structure"]')
       shinyjs::show(selector = '#GGenemy li a[data-value="3. Summary Statistics"]')
       shinyjs::show(selector = '#GGenemy li a[data-value="4. Plots"]')
-    },
+      },
     ignoreInit = TRUE)
+    
+    observeEvent(input$checktrue, {
+      if(input$checktrue){
+      shinyjs::show(selector = '#file1')
+      shinyjs::show(selector = '#header') #htmlwidgets::JS("$('#header').parent()"))
+      shinyjs::show(selector = '#sep')
+      shinyjs::show(selector = '#quote')
+      shinyjs::show(selector = '#decimals')
+      shinyjs::show(id = "rownames")
+      shinyjs::hide(id = "datframe")
+      } else {
+        shinyjs::hide(selector = '#file1')
+        shinyjs::hide(selector = '#header') #htmlwidgets::JS("$('#header').parent()"))
+        shinyjs::hide(selector = '#sep')
+        shinyjs::hide(selector = '#quote')
+        shinyjs::hide(selector = '#decimals')
+        shinyjs::hide(id = "rownames")
+        shinyjs::show(id = "datframe")
+    }
+      },
+    ignoreInit = TRUE)
+      
     
      
     observeEvent(input$var_name3, {
