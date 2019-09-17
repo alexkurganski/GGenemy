@@ -8,4 +8,9 @@ shinyjs.init = function(){
 	  $('#quote').hide();
 	  $('#decimals').hide();
 	  $('#rownames').hide();
+	  $('#border1').hide();
+	  $('#border2').hide();
+	  $('#border3').hide();
+	  $('#border4').hide();
+	  $('#border5').hide();
     }

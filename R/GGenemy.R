@@ -31,13 +31,13 @@ GGenemy <- function() {
         sidebarLayout(
           sidebarPanel(
     
-            
+            div(style = "color: #FF7F50; font-size = 12, font-family = Helvetica Neue",
             shinyWidgets::materialSwitch(
               inputId = "checktrue",
               label = "Upload own file?",
               value = FALSE,
               width = "100%"
-            ),
+            )),
             
                     
             # div(
@@ -70,6 +70,9 @@ GGenemy <- function() {
             ),
             tags$style(".btn-file {background-color:#FF7F50; border-color: black;}"),
 
+            
+            tags$hr(id = "border1", style = "border-color: #white;"),
+            
             # Input: Checkbox if file has header
             
             #div(
@@ -80,6 +83,8 @@ GGenemy <- function() {
               selected = "True",
             #)
             ),
+            
+            tags$hr(id = "border2", style = "border-color: #white;"),
             
             # Input: Select separator
             radioButtons("sep", "Separator",
@@ -92,6 +97,8 @@ GGenemy <- function() {
               inline = TRUE
             ),
 
+            tags$hr(id = "border3", style = "border-color: #white;"),
+            
             # Input: Select quotes
             radioButtons("quote", "Which quotes are used?",
               choices = c(
@@ -102,12 +109,17 @@ GGenemy <- function() {
               selected = '"',
               inline = TRUE
             ),
+            
+            tags$hr(id = "border4", style = "border-color: #white;"),
 
             checkboxGroupInput("decimals",
               label = "File uses a comma as the decimal character",
               choices = "True",
               selected = ""
             ),
+            
+            tags$hr(id = "border5", style = "border-color: #white;"),
+            
 
             checkboxGroupInput("rownames",
               label = "Treat values of the first column as rownames",
@@ -203,7 +215,7 @@ GGenemy <- function() {
                               .js-irs-0 .irs-bar-edge,
                               .js-irs-0 .irs-bar-edge {border: #FF7F50}")),
 
-            # tags$hr(style = "border-color: #white;"),
+            tags$hr(style = "border-color: #white;"),
 
             checkboxGroupInput("n_sum_stats",
               label = "Choice of summary statistics",
@@ -1147,6 +1159,11 @@ GGenemy <- function() {
       shinyjs::show(selector = '#quote')
       shinyjs::show(selector = '#decimals')
       shinyjs::show(id = "rownames")
+      shinyjs::show(id = "border1")
+      shinyjs::show(id = "border2")
+      shinyjs::show(id = "border3")
+      shinyjs::show(id = "border4")
+      shinyjs::show(id = "border5")
       shinyjs::hide(id = "datframe")
       } else {
         shinyjs::hide(selector = '#file1')
@@ -1155,6 +1172,11 @@ GGenemy <- function() {
         shinyjs::hide(selector = '#quote')
         shinyjs::hide(selector = '#decimals')
         shinyjs::hide(id = "rownames")
+        shinyjs::hide(id = "border1")
+        shinyjs::hide(id = "border2")
+        shinyjs::hide(id = "border3")
+        shinyjs::hide(id = "border4")
+        shinyjs::hide(id = "border5")
         shinyjs::show(id = "datframe")
     }
       },
