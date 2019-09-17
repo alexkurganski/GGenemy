@@ -13,18 +13,10 @@ GGenemy <- function() {
   ui <- fluidPage(
     shinyjs::useShinyjs(),
     shinyjs::extendShinyjs(script = "inst/hide_shiny_tabs.js"),
-    tags$style(type = 'text/css', '.navbar {
-                           font-family: Merriweather;
-                           font-size: 16px;
-                           color: #FF7F50; }',
-               
-               '.navbar-dropdown {
-                           font-family: Merriweather;
-                           font-size: 13px;
-                           color: #FF7F50; }',
-               
+    tags$style(type = 'text/css', 
                '.navbar-default .navbar-brand {
                              color: #FF7F50;
+                             font-family: Merriweather;
                            }'
                
     ),
@@ -38,8 +30,30 @@ GGenemy <- function() {
         "1. Data Upload",
         sidebarLayout(
           sidebarPanel(
+    
             
-            checkboxInput("checktrue", "Upload own file",FALSE),
+            materialSwitch(
+              inputId = "checktrue",
+              label = "Upload own file?",
+              value = FALSE,
+              width = "100%"
+            ),
+            
+                    
+            # div(
+            # shinyWidgets::switchInput("checktrue",
+            #                           "Upload own file",
+            #                           onLabel = br('background-color:white',
+            #                             tag('center',
+            #                                            list(
+            #                                            span(style='color:#FF7F50;
+            #                                                      font-size:20;
+            #                                                      background-color:white'
+            #                                                      ,'Yes!')))),
+            #                           offLabel = br(tag('center', list(span(style='color:#FF7F50', 'No!')))),
+            #                           labelWidth = "400px",
+            #                           handleWidth = "100px")),
+            # 
             
             selectInput("datframe", label = "Select an already uploaded DataFrame from you Global Environment",
                         choices = c("",search_dataframe()),
@@ -168,27 +182,28 @@ GGenemy <- function() {
               value = 5
             ),
             
-            tags$style(HTML(".js-irs-1 .irs-single,
-                              .js-irs-1 .irs-bar-edge,
-                              .js-irs-1 .irs-min {background: #FF7F50; color: white}")),
-            tags$style(HTML(".js-irs-1 .irs-single,
-                              .js-irs-1 .irs-bar-edge,
-                              .js-irs-1 .irs-max {background: #FF7F50; color: white}")),
-            tags$style(HTML(".js-irs-1 .irs-single,
-                              .js-irs-1 .irs-bar-edge,
-                              .js-irs-1 .irs-slider.single {background: #FF7F50}")),
-            tags$style(HTML(".js-irs-1 .irs-single,
-                              .js-irs-1 .irs-bar-edge,
-                              .js-irs-1 .irs-bar {background: #FF7F50;
+          
+            tags$style(HTML(".js-irs-0 .irs-single,
+                              .js-irs-0 .irs-bar-edge,
+                              .js-irs-0 .irs-min {background: #FF7F50; color: white}")),
+            tags$style(HTML(".js-irs-0 .irs-single,
+                              .js-irs-0 .irs-bar-edge,
+                              .js-irs-0 .irs-max {background: #FF7F50; color: white}")),
+            # tags$style(HTML(".js-irs-0 .irs-single,
+            #                   .js-irs-0 .irs-bar-edge,
+            #                   .js-irs-0 .irs-slider.single {background: #FF7F50}")),
+            tags$style(HTML(".js-irs-0 .irs-single,
+                              .js-irs-0 .irs-bar-edge,
+                              .js-irs-0 .irs-bar {background: #FF7F50;
                               border-bottom: white; border-top: black}")),
-            tags$style(HTML(".js-irs-1 .irs-single,
-                              .js-irs-1 .irs-bar-edge,
-                              .js-irs-1 .irs-line {background: #FF7F50}")),
-            tags$style(HTML(".js-irs-1 .irs-single,
-                              .js-irs-1 .irs-bar-edge,
-                              .js-irs-1 .irs-bar-edge {border: #FF7F50}")),
+            # tags$style(HTML(".js-irs-0 .irs-single,
+            #                   .js-irs-0 .irs-bar-edge,
+            #                   .js-irs-0 .irs-line {background: #FF7F50}")),
+            tags$style(HTML(".js-irs-0 .irs-single,
+                              .js-irs-0 .irs-bar-edge,
+                              .js-irs-0 .irs-bar-edge {border: #FF7F50}")),
 
-            tags$hr(style = "border-color: #white;"),
+            # tags$hr(style = "border-color: #white;"),
 
             checkboxGroupInput("n_sum_stats",
               label = "Choice of summary statistics",
@@ -202,18 +217,23 @@ GGenemy <- function() {
 
             tags$hr(style = "border-color: #white;"),
 
+            div(
+              style = "display: inline-block;vertical-align:top; width: 150px;",
             actionButton(
               inputId = "clicks3",
               label = "Calculate!",
               icon("paper-plane"),
               style = "color: white; background-color: #FF7F50; border-color: black"
+            )
             ),
 
+            div(
+              style = "display: inline-block;vertical-align:top; width: 150px;",
             downloadButton(
               "downloadPlot3",
               label = "Download Plots",
               style = "color: white; background-color: #FF7F50; border-color: black"
-            )
+            ))
           ),
         
         mainPanel(
@@ -245,25 +265,25 @@ GGenemy <- function() {
                 value = 5
               ),
               
-              tags$style(HTML(".js-irs-0 .irs-single,
-                              .js-irs-0 .irs-bar-edge,
-                              .js-irs-0 .irs-min {background: #FF7F50; color: white}")),
-              tags$style(HTML(".js-irs-0 .irs-single,
-                              .js-irs-0 .irs-bar-edge,
-                              .js-irs-0 .irs-max {background: #FF7F50; color: white}")),
-              tags$style(HTML(".js-irs-0 .irs-single,
-                              .js-irs-0 .irs-bar-edge,
-                              .js-irs-0 .irs-slider.single {background: #FF7F50}")),
-              tags$style(HTML(".js-irs-0 .irs-single,
-                              .js-irs-0 .irs-bar-edge,
-                              .js-irs-0 .irs-bar {background: #FF7F50;
+              tags$style(HTML(".js-irs-1 .irs-single,
+                              .js-irs-1 .irs-bar-edge,
+                              .js-irs-1 .irs-min {background: #FF7F50; color: white}")),
+              tags$style(HTML(".js-irs-1 .irs-single,
+                              .js-irs-1 .irs-bar-edge,
+                              .js-irs-1 .irs-max {background: #FF7F50; color: white}")),
+              # tags$style(HTML(".js-irs-1 .irs-single,
+              #                 .js-irs-1 .irs-bar-edge,
+              #                 .js-irs-1 .irs-slider.single {background: #FF7F50}")),
+              tags$style(HTML(".js-irs-1 .irs-single,
+                              .js-irs-1 .irs-bar-edge,
+                              .js-irs-1 .irs-bar {background: #FF7F50;
                               border-bottom: white; border-top: black}")),
-              tags$style(HTML(".js-irs-0 .irs-single,
-                              .js-irs-0 .irs-bar-edge,
-                              .js-irs-0 .irs-line {background: #FF7F50}")),
-              tags$style(HTML(".js-irs-0 .irs-single,
-                              .js-irs-0 .irs-bar-edge,
-                              .js-irs-0 .irs-bar-edge {border: #FF7F50}")),
+              # tags$style(HTML(".js-irs-1 .irs-single,
+              #                 .js-irs-1 .irs-bar-edge,
+              #                 .js-irs-1 .irs-line {background: #FF7F50}")),
+              tags$style(HTML(".js-irs-1 .irs-single,
+                              .js-irs-1 .irs-bar-edge,
+                              .js-irs-1 .irs-bar-edge {border: #FF7F50}")),
               # Help Text
               helpText("When conditioning on a factor variable,
                           the number of quantiles is set to the number of categories."),
@@ -300,17 +320,23 @@ GGenemy <- function() {
 
               tags$hr(style = "border-color: #white;"),
 
+              div(
+                style = "display: inline-block;vertical-align:top; width: 150px;",
               actionButton(
                 inputId = "clicks",
                 label = "Calculate!",
                 icon("paper-plane"),
                 style = "color: white; background-color: #FF7F50; border-color: black"
+                )
               ),
 
+              div(
+                style = "display: inline-block;vertical-align:top; width: 150px;",
               downloadButton(
                 "downloadPlot",
                 label = "Download Plots",
                 style = "color: white; background-color: #FF7F50; border-color: black"
+              )
               )
             ),
 
@@ -430,15 +456,18 @@ GGenemy <- function() {
 
               tags$hr(style = "border-color: #white;"),
 
-              div(style = "display: inline-block;vertical-align:top; width: 10px;", HTML("<br>")),
-
+              div(
+                style = "display: inline-block;vertical-align:top; width: 150px;",
               actionButton(
                 inputId = "clicks2",
                 label = "Calculate!",
                 icon("paper-plane"),
                 style = "color: white; background-color: #FF7F50; border-color: black"
+                )
               ),
 
+              div(style = "display: inline-block;vertical-align:top; width: 10px;", HTML("<br>")),
+              
               div(
                 style = "display: inline-block;vertical-align:top; width: 150px;",
                 downloadButton(
@@ -450,17 +479,20 @@ GGenemy <- function() {
 
               tags$hr(style = "border-color: #white;"),
 
-
+              div(
+                style = "display: inline-block;vertical-align:top; width: 150px;",
               actionButton("pastecode",
                 icon = icon("code"),
                 label = "Obtain Code!", style = "color:white;
                                   background-color:#FF7F50; border-color: black"
+                )
               ),
               
               actionButton("saveGE",
                            icon = icon("save"),
-                           label = "Save Objects in GE", style = "color:white;
-                                  background-color:#FF7F50; border-color: black"
+                           label = "Save Objects in GE", 
+                           style = "color:white;
+                           background-color:#FF7F50; border-color: black;"
               )
               
             ),
