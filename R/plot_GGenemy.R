@@ -84,9 +84,9 @@ plot_GGenemy <- function(dataset, given_var, var_to_plot = NULL, n_quantiles = 5
           data_help$quant[quanthelp] <- paste(">=", matrixquant[i, 1], "to", "<=", matrixquant[i, 2])
         }
       }
-      if (remaining == FALSE) {
-        data_help <- data_help[-which(data_help$quant == "remaining"), ]
-      }
+      # if (remaining == FALSE) {
+      #   data_help <- data_help[-which(data_help$quant == "remaining"), ]
+      # }
     } else {
       stop("For selfrange: Insert a Vector of quantiles or a matrix with the quantiles ordered by row")
     }
@@ -95,6 +95,11 @@ plot_GGenemy <- function(dataset, given_var, var_to_plot = NULL, n_quantiles = 5
       data_help <- data_help[-which(data_help$quant == "remaining"), ]
     }
     data_help$quant <- as.factor(data_help$quant)
+    if(remaining == TRUE){
+    data_help$quant <- factor(data_help$quant,levels(data_help$quant)[c(nrow(matrixquant):1,nrow(matrixquant)+1)])
+    } else {
+      data_help$quant <- factor(data_help$quant,levels(data_help$quant)[c(nrow(matrixquant):1)])      
+    }
   } else {
     if (is.factor(dataset[, given_var])) {
       if (n_quantiles != length(levels(dataset[, given_var]))) {

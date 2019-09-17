@@ -179,7 +179,7 @@ GGenemy <- function() {
 
             tags$hr(style = "border-color: #white;"),
 
-            selectInput("given_var4",
+            selectInput("given_var3",
               label = "",
               choices = c("Dataset is missing"),
               selectize = TRUE
@@ -303,7 +303,7 @@ GGenemy <- function() {
               tags$hr(style = "border-color: #white;"),
 
               # Select given variable
-              selectInput("given_var2",
+              selectInput("given_var1",
                 label = "",
                 choices = "",
                 selectize = TRUE
@@ -312,7 +312,7 @@ GGenemy <- function() {
               tags$hr(style = "border-color: #white;"),
 
               # Select Variables you want to plot
-              selectInput("var_to_plot",
+              selectInput("var_to_plot1",
                 label = "",
                 choices = NULL,
                 multiple = TRUE,
@@ -365,7 +365,7 @@ GGenemy <- function() {
           "Self Selected Range",
           sidebarLayout(
             sidebarPanel(
-              selectInput("var_name3",
+              selectInput("given_var2",
                 label = "",
                 choices = c("Dataset is missing"),
                 selectize = TRUE
@@ -434,14 +434,21 @@ GGenemy <- function() {
                 )
               ),
 
-              textInput("factorvariable",
-                label = "Insert the categories of the given variable.",
-                width = "310px"
+              # textInput("factorlevels",
+              #   label = "Insert the categories of the given variable.",
+              #   width = "310px"
+              # ),
+              
+              selectInput("factorlevels",
+                          label = "",
+                          choices = NULL,
+                          multiple = TRUE,
+                          selectize = TRUE
               ),
 
               tags$hr(style = "border-color: #white;"),
 
-              selectInput("var_to_cond_on2",
+              selectInput("var_to_plot2",
                 label = "",
                 choices = NULL,
                 multiple = TRUE,
@@ -543,27 +550,27 @@ GGenemy <- function() {
       )
       
       updateSelectInput(session,
-                        inputId = "given_var2",
+                        inputId = "given_var1",
                         label = "Given variable",
                         choices = names(df)
       )
       
       updateSelectInput(session,
-                        inputId = "var_to_plot",
+                        inputId = "var_to_plot1",
                         label = "Variables to plot",
                         choices = names(df),
                         selected = names(df)
       )
       
       updateSelectInput(session,
-                        inputId = "var_to_cond_on2",
+                        inputId = "var_to_plot2",
                         label = "Variables to plot",
                         choices = names(df),
                         selected = names(df)
       )
       
       updateSelectInput(session,
-                        inputId = "var_name3",
+                        inputId = "given_var2",
                         label = "Condition variable",
                         choices = names(df)
       )
@@ -617,27 +624,27 @@ GGenemy <- function() {
       )
 
       updateSelectInput(session,
-        inputId = "given_var2",
+        inputId = "given_var1",
         label = "Given variable",
         choices = names(df)
       )
 
       updateSelectInput(session,
-        inputId = "var_to_plot",
+        inputId = "var_to_plot1",
         label = "Variables to plot",
         choices = names(df),
         selected = names(df)
       )
 
       updateSelectInput(session,
-        inputId = "var_to_cond_on2",
+        inputId = "var_to_plot2",
         label = "Variables to plot",
         choices = names(df),
         selected = names(df)
       )
 
       updateSelectInput(session,
-        inputId = "var_name3",
+        inputId = "given_var2",
         label = "Condition variable",
         choices = names(df)
       )
@@ -679,18 +686,18 @@ GGenemy <- function() {
         df_reduced2[colnum] <- NULL
         
         updateSelectInput(session,
-                          inputId = "given_var4",
+                          inputId = "given_var3",
                           label = "Given variable",
                           choices = names(df_reduced2)
         )
         
-        #    updateSelectInput(session,
-        #      inputId = "boxplots",
-        #      label = "Boxplots instead of densities for numerical variables?",
-        #      choices = names(df_reduced),
-        #      selected = ""
-        #    )
-        
+           updateSelectInput(session,
+             inputId = "boxplots",
+             label = "Boxplots instead of densities for numerical variables?",
+             choices = names(df_reduced),
+             selected = ""
+           )
+
         updateSelectInput(session,
                           inputId = "boxplots2",
                           label = "Boxplots instead of densities for numerical variables?",
@@ -718,18 +725,18 @@ GGenemy <- function() {
         df_reduced2[colnum] <- NULL
         
         updateSelectInput(session,
-                          inputId = "given_var4",
+                          inputId = "given_var3",
                           label = "Given variable",
                           choices = names(df_reduced2)
         )
         
-        #    updateSelectInput(session,
-        #      inputId = "boxplots",
-        #      label = "Boxplots instead of densities for numerical variables?",
-        #      choices = names(df_reduced),
-        #      selected = ""
-        #    )
-        
+           updateSelectInput(session,
+             inputId = "boxplots",
+             label = "Boxplots instead of densities for numerical variables?",
+             choices = names(df_reduced),
+             selected = ""
+           )
+
         updateSelectInput(session,
                           inputId = "boxplots2",
                           label = "Boxplots instead of densities for numerical variables?",
@@ -741,27 +748,41 @@ GGenemy <- function() {
     }
         })
 
-    # updateboxplots ################################################################
+    # updateboxplots/update-factor-selfrange ###################################
 
     updateboxplot <- function(session) {
       updateSelectInput(session,
         "boxplots",
         "Boxplots instead of densities for numerical variables?",
-        choices = input$var_to_plot,
+        choices = input$var_to_plot1,
         selected = ""
       )
     }
-    observeEvent(input$var_to_plot, updateboxplot(session))
+    observeEvent(input$var_to_plot1, updateboxplot(session))
 
     updateboxplot2 <- function(session) {
       updateSelectInput(session,
         "boxplots2",
         "Boxplots instead of densities for numerical variables?",
-        choices = input$var_to_cond_on2,
+        choices = input$var_to_plot2,
         selected = ""
       )
     }
-    observeEvent(input$var_to_cond_on2, updateboxplot2(session))
+    observeEvent(input$var_to_plot2, updateboxplot2(session))
+    
+    updatefactorlevels <- function(session) {
+      req(data2())
+      
+      levelsfac <- levels(data2()[,input$given_var2])
+      
+      updateSelectInput(session,
+                        "factorlevels",
+                        "Choose your factors to plot",
+                        choices = levelsfac,
+                        selected = levelsfac)
+    }
+    
+    observeEvent(input$given_var2,updatefactorlevels(session))
 
     # Data-Upload Tab ##########################################################
     
@@ -771,7 +792,7 @@ GGenemy <- function() {
     })
     output$contents <- renderTable({
       utils::head(data2(), 10)
-    })
+    },options = list(scrollX = TRUE))
 
     # Data-Management Tab ######################################################
 
@@ -867,7 +888,7 @@ GGenemy <- function() {
           suppressMessages(
             sum_stats(
             isolate(data2()),
-            isolate(input$given_var4),
+            isolate(input$given_var3),
             isolate(input$n_sum_stats),
             isolate(input$quantiles_sum_stats)
           )[[i]]
@@ -875,7 +896,7 @@ GGenemy <- function() {
         }, rownames = TRUE,
            caption = names(suppressMessages(sum_stats(
              isolate(data2()),
-             isolate(input$given_var4),
+             isolate(input$given_var3),
              isolate(input$n_sum_stats),
              isolate(input$quantiles_sum_stats)
            )))[i],
@@ -895,7 +916,7 @@ GGenemy <- function() {
           suppressMessages(
             plot_sum_stats(
             isolate(data2()),
-            isolate(input$given_var4),
+            isolate(input$given_var3),
             isolate(input$n_sum_stats[i]),
             isolate(input$quantiles_sum_stats)
           ))
@@ -915,7 +936,7 @@ GGenemy <- function() {
             print(
             plot_sum_stats(
             isolate(data2()),
-            isolate(input$given_var4),
+            isolate(input$given_var3),
             isolate(input$n_sum_stats),
             isolate(input$quantiles_sum_stats)
           )),
@@ -931,17 +952,17 @@ GGenemy <- function() {
       lapply(1:25, function(i) {
         output[[paste0("condplot", i)]] <- NULL
       })
-      len <- length(input$var_to_plot)
+      len <- length(input$var_to_plot1)
       withProgress(message = "Making plot", value = 0, {
         lapply(1:len, function(i) {
           output[[paste0("condplot", i)]] <- renderPlot({
             suppressMessages(plot_GGenemy(
               isolate(data2()),
-              isolate(input$given_var2),
-              isolate(input$var_to_plot[i]),
+              isolate(input$given_var1),
+              isolate(input$var_to_plot1[i]),
               isolate(input$quantiles),
               isolate(
-                if (any(i == match(input$boxplots, input$var_to_plot))) {
+                if (any(i == match(input$boxplots, input$var_to_plot1))) {
                   boxplot <- TRUE
                 }
                 else {
@@ -961,17 +982,17 @@ GGenemy <- function() {
       lapply(1:25, function(i) {
         output[[paste0("selfcondplot", i)]] <- NULL
       })
-      len <- length(input$var_to_cond_on2)
+      len <- length(input$var_to_plot2)
       withProgress(message = "Making plot", value = 0, {
         lapply(1:len, function(i) {
           output[[paste0("selfcondplot", i)]] <- renderPlot({
             suppressMessages(plot_GGenemy(
               isolate(data2()),
-              isolate(input$var_name3),
-              isolate(input$var_to_cond_on2[i]),
+              isolate(input$given_var2),
+              isolate(input$var_to_plot2[i]),
               selfrange = isolate(
-                if (is.factor(data2()[, input$var_name3])) {
-                  strsplit(input$factorvariable, ",")[[1]]
+                if (is.factor(data2()[, input$given_var2])) {
+                  input$factorlevels
                 } else {
                   c(
                     input$firstrange1, input$firstrange2,
@@ -1002,8 +1023,8 @@ GGenemy <- function() {
         gridExtra::marrangeGrob(
           print(plot_GGenemy(
             isolate(data2()),
-            isolate(input$given_var2),
-            isolate(input$var_to_plot),
+            isolate(input$given_var1),
+            isolate(input$var_to_plot1),
             isolate(input$quantiles),
             isolate(input$boxplots)
           )),
@@ -1022,11 +1043,11 @@ GGenemy <- function() {
         gridExtra::marrangeGrob(
           print(plot_GGenemy(
             isolate(data2()),
-            isolate(input$var_name3),
-            isolate(input$var_to_cond_on2),
+            isolate(input$given_var2),
+            isolate(input$var_to_plot2),
             selfrange = isolate(
-              if (is.factor(data2()[, input$var_name3])) {
-                strsplit(unlist(input$factorvariable), ",")[[1]]
+              if (is.factor(data2()[, input$given_var2])) {
+                input$factorlevels
               } else {
                 c(
                   input$firstrange1, input$firstrange2,
@@ -1046,11 +1067,11 @@ GGenemy <- function() {
     # Save in GE ###############################################################
     observeEvent(input$saveGE,{
       saveplotGE <- plot_GGenemy(isolate(data2()),
-                   isolate(input$var_name3),
-                   isolate(input$var_to_cond_on2),
+                   isolate(input$given_var2),
+                   isolate(input$var_to_plot2),
                    selfrange = isolate(
-                     if (is.factor(data2()[, input$var_name3])) {
-                       strsplit(unlist(input$factorvariable), ",")[[1]]
+                     if (is.factor(data2()[, input$given_var2])) {
+                       input$factorlevels
                      } else {
                        c(
                          input$firstrange1, input$firstrange2,
@@ -1098,8 +1119,8 @@ GGenemy <- function() {
         )
       }
 
-      if (is.factor(data2()[, input$var_name3])) {
-        selfrange <- input$factorvariable
+      if (is.factor(data2()[, input$given_var2])) {
+        selfrange <- input$factorlevels
       } else {
         selfrange <- c(
           input$firstrange1, input$firstrange2,
@@ -1110,13 +1131,13 @@ GGenemy <- function() {
 
       if (is.null(input$boxplot)) {
         self <- paste0(
-          'plot_GGenemy(read_data,"', input$var_name3, '","',
+          'plot_GGenemy(read_data,"', input$given_var2, '","',
           input$var_to_cond_on, '","', input$var_to_cond_on, '",',
           selfrange, ',"', input$remaining, '")'
         )
       } else {
         self <- paste0(
-          'plot_GGenemy(read_data,"', input$var_name3, '","', input$var_to_cond_on2, '",',
+          'plot_GGenemy(read_data,"', input$given_var2, '","', input$var_to_plot2, '",',
           selfrange, ',"', input$remaining, '",', input$boxplot, ")"
         )
       }
@@ -1154,7 +1175,7 @@ GGenemy <- function() {
     observeEvent(input$checktrue, {
       if(input$checktrue){
       shinyjs::show(selector = '#file1')
-      shinyjs::show(selector = '#header') #htmlwidgets::JS("$('#header').parent()"))
+      shinyjs::show(selector = '#header')
       shinyjs::show(selector = '#sep')
       shinyjs::show(selector = '#quote')
       shinyjs::show(selector = '#decimals')
@@ -1167,7 +1188,7 @@ GGenemy <- function() {
       shinyjs::hide(id = "datframe")
       } else {
         shinyjs::hide(selector = '#file1')
-        shinyjs::hide(selector = '#header') #htmlwidgets::JS("$('#header').parent()"))
+        shinyjs::hide(selector = '#header')
         shinyjs::hide(selector = '#sep')
         shinyjs::hide(selector = '#quote')
         shinyjs::hide(selector = '#decimals')
@@ -1184,8 +1205,8 @@ GGenemy <- function() {
       
     
      
-    observeEvent(input$var_name3, {
-      if (is.factor(data2()[, input$var_name3])) {
+    observeEvent(input$given_var2, {
+      if (is.factor(data2()[, input$given_var2])) {
         shinyjs::hide(id = "firstrange1")
         shinyjs::hide(id = "firstrange2")
         shinyjs::hide(id = "secondrange1")
@@ -1193,7 +1214,7 @@ GGenemy <- function() {
         shinyjs::hide(id = "thirdrange1")
         shinyjs::hide(id = "thirdrange2")
 
-        shinyjs::show(id = "factorvariable")
+        shinyjs::show(id = "factorlevels")
       } else {
         shinyjs::show(id = "firstrange1")
         shinyjs::show(id = "firstrange2")
@@ -1202,7 +1223,7 @@ GGenemy <- function() {
         shinyjs::show(id = "thirdrange1")
         shinyjs::show(id = "thirdrange2")
 
-        shinyjs::hide(id = "factorvariable")
+        shinyjs::hide(id = "factorlevels")
       }
     })
     }
