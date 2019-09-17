@@ -94,9 +94,6 @@ describe.logical <- function(x, varname = "") {
 #'
 #' @param x A vector, matrix or data frame.
 #' @param num.desc The names of the functions to apply to numeric data.
-#' @param xname A name for the object x, mostly where this would be a very long
-#' string describing its structure (e.g. if it was extracted by name from a data
-#' frame).
 #'
 #' @return A list with three components:
 #'
@@ -107,8 +104,7 @@ describe.logical <- function(x, varname = "") {
 #'
 #' \code{Logical}  A list of the tables for each column described.
 #' @export
-describe <- function(x, num.desc = c("mean", "median", "var", "sd", "valid.n"),
-                     xname = NA) {
+describe <- function(x, num.desc = c("mean", "median", "var", "sd", "valid.n")){
   if (missing(x)) {
     stop("Usage: describe(x,...) where x is a vector, data frame or matrix")
   }
@@ -116,8 +112,6 @@ describe <- function(x, num.desc = c("mean", "median", "var", "sd", "valid.n"),
   varnames <- names(x)
   if (is.null(varnames)) varnames <- paste("V", 1:dim(x)[2], sep = "")
   if (is.data.frame(x)) {
-    if (is.na(xname)) xname <- deparse(substitute(x))
-    #cat("Description of", xname, "\n")
     num.index <- which(sapply(x, is.numeric))
     nnum <- length(num.index)
     num.result <- list()

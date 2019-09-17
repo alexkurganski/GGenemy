@@ -4,17 +4,12 @@
 \alias{describe}
 \title{Description of variables}
 \usage{
-describe(x, num.desc = c("mean", "median", "var", "sd", "valid.n"),
-  xname = NA)
+describe(x, num.desc = c("mean", "median", "var", "sd", "valid.n"))
 }
 \arguments{
 \item{x}{A vector, matrix or data frame.}
 
 \item{num.desc}{The names of the functions to apply to numeric data.}
-
-\item{xname}{A name for the object x, mostly where this would be a very long
-string describing its structure (e.g. if it was extracted by name from a data
-frame).}
 }
 \value{
 A list with three components:
