@@ -820,19 +820,21 @@ GGenemy <- function() {
       })
       lapply(1:length(input$n_sum_stats), function(i){
         output[[paste0("sum_stats", i)]] <- renderTable({
-          sum_stats(
+          suppressMessages(
+            sum_stats(
             isolate(data2()),
             isolate(input$given_var4),
             isolate(input$n_sum_stats),
             isolate(input$quantiles_sum_stats)
           )[[i]]
+         )
         }, rownames = TRUE,
-           caption = names(sum_stats(
+           caption = names(suppressMessages(sum_stats(
              isolate(data2()),
              isolate(input$given_var4),
              isolate(input$n_sum_stats),
              isolate(input$quantiles_sum_stats)
-           ))[i],
+           )))[i],
            caption.placement = getOption("xtable.caption.placement", "top"),
            #caption.width = getOption("xtable.caption.width", NULL),
            digits = 3
@@ -846,12 +848,13 @@ GGenemy <- function() {
       })
       lapply(1:length(input$n_sum_stats), function(i) {
         output[[paste0("summary_stats_plot", i)]] <- renderPlot({
-          plot_sum_stats(
+          suppressMessages(
+            plot_sum_stats(
             isolate(data2()),
             isolate(input$given_var4),
             isolate(input$n_sum_stats[i]),
             isolate(input$quantiles_sum_stats)
-          )
+          ))
         })
       })
     },
@@ -865,7 +868,8 @@ GGenemy <- function() {
       content = function(file) {
         grDevices::pdf(file, width = 11)
         gridExtra::marrangeGrob(
-          print(plot_sum_stats(
+            print(
+            plot_sum_stats(
             isolate(data2()),
             isolate(input$given_var4),
             isolate(input$n_sum_stats),
@@ -887,7 +891,7 @@ GGenemy <- function() {
       withProgress(message = "Making plot", value = 0, {
         lapply(1:len, function(i) {
           output[[paste0("condplot", i)]] <- renderPlot({
-            plot_GGenemy(
+            suppressMessages(plot_GGenemy(
               isolate(data2()),
               isolate(input$given_var2),
               isolate(input$var_to_plot[i]),
@@ -900,7 +904,7 @@ GGenemy <- function() {
                   boxplot <- FALSE
                 }
               )
-            )
+            ))
           })
           incProgress(1 / len, detail = paste("Doing part", i))
         })
@@ -917,7 +921,7 @@ GGenemy <- function() {
       withProgress(message = "Making plot", value = 0, {
         lapply(1:len, function(i) {
           output[[paste0("selfcondplot", i)]] <- renderPlot({
-            plot_GGenemy(
+            suppressMessages(plot_GGenemy(
               isolate(data2()),
               isolate(input$var_name3),
               isolate(input$var_to_cond_on2[i]),
@@ -934,7 +938,7 @@ GGenemy <- function() {
               ),
               remaining = isolate(input$remaining),
               boxplot = isolate(input$boxplots2)
-            )
+            ))
           })
           incProgress(1 / len, detail = paste("Doing part", i))
         })
