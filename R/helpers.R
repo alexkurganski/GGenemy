@@ -32,3 +32,12 @@ quantile0.75 <- function(data, na.rm = TRUE) {
   }
   return(out)
 }
+
+# Helper function to load ggplot objects into the global environment
+
+assign_to_global <- function(input, value, pos=1){
+  assign(paste0("GGenemyPlot",input), value = value,
+         envir = as.environment(pos))
+}
+
+#

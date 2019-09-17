@@ -118,10 +118,9 @@ GGenemy <- function() {
 
           mainPanel(
             tableOutput("summary1"),
-            lapply(1:100, function(i) {
-            tableOutput(paste0("summary2", i))
-            })
-
+              lapply(1:100, function(i) {
+                tableOutput(paste0("summary2", i))
+              })
           )
         )
       ),
@@ -683,8 +682,7 @@ GGenemy <- function() {
                  "min", "quantile0.25",
                  "median", "mean", "quantile0.75",
                  "max", "sd", "var", "valid.n"
-               ),
-               xname = "Dataset"
+               )
       )[[1]] 
     }, caption = 
       names(describe(data2(),
@@ -692,8 +690,7 @@ GGenemy <- function() {
                        "min", "quantile0.25",
                        "median", "mean", "quantile0.75",
                        "max", "sd", "var", "valid.n"
-                     ),
-                     xname = "Dataset"
+                     )
       ))[1],
     caption.placement = getOption("xtable.caption.placement", "top"),
     rownames = TRUE
@@ -705,17 +702,15 @@ GGenemy <- function() {
                            "min", "quantile0.25",
                            "median", "mean", "quantile0.75",
                            "max", "sd", "var", "valid.n"
-                         ),
-                         xname = "Dataset"
-    )[[2]])){
+                         )
+    )[[2]][1][[1]])){
       
     factlength <- length(describe(data2(),
                                          num.desc = c(
                                            "min", "quantile0.25",
                                            "median", "mean", "quantile0.75",
                                            "max", "sd", "var", "valid.n"
-                                         ),
-                                         xname = "Dataset"
+                                         )
     )[[2]])
 
     
@@ -730,8 +725,7 @@ GGenemy <- function() {
                    "min", "quantile0.25",
                    "median", "mean", "quantile0.75",
                    "max", "sd", "var", "valid.n"
-                 ),
-                 xname = "Dataset"
+                 )
         )[[2]][[i]]
       }, caption = 
         paste0(names(describe(data2(),
@@ -739,20 +733,22 @@ GGenemy <- function() {
                          "min", "quantile0.25",
                          "median", "mean", "quantile0.75",
                          "max", "sd", "var", "valid.n"
-                       ),
-                       xname = "Dataset"
+                       )
         ))[2], ": ", names(describe(data2(),
                                     num.desc = c(
                                       "min", "quantile0.25",
                                       "median", "mean", "quantile0.75",
                                       "max", "sd", "var", "valid.n"
-                                    ),
-                                    xname = "Dataset"
+                                    )
         )[[2]][i])),
       caption.placement = getOption("xtable.caption.placement", "top"),
       rownames = TRUE
       )
     })
+    } else {
+      lapply(1:100, function(i) {
+        output[[paste0("summary2", i)]] <- NULL
+      })
     }
   },
   ignoreNULL = FALSE,
@@ -962,7 +958,7 @@ GGenemy <- function() {
                    boxplot = isolate(input$boxplots2)
       )
         
-      assign(paste0("GGenemyPlot",input$saveGE[1]),saveplotGE, envir = .GlobalEnv)
+      assign_to_global(input$saveGE[1], saveplotGE, pos=1)
       output$done <- shinyalert::shinyalert(title = "GOTCHA",
                                             text = "You can access your GGenemy-Plot after closing
                                             the Shinyapp. \n
