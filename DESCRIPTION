@@ -25,6 +25,7 @@ Imports:
     grDevices (>= 3.6.0),
     shinyjs,
     shinyalert,
-    shinyWidgets
+    shinyWidgets,
+    lubridate
 Suggests: 
     testthat (>= 2.1.0)
