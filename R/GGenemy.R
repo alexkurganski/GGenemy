@@ -43,12 +43,16 @@ GGenemy <- function() {
 
             # Input: Checkbox if file has header
             
-            checkboxGroupInput("header",
+            tags$style(".pretty.p-default input:checked~.state label:after {background-color: #FF7F50 !important;}"),
+            shinyWidgets::prettyCheckboxGroup("header",
               label = "Header",
               choices = "True",
-              selected = "True"
+              selected = "True",
+              shape = "square",
+              fill = FALSE,
+              status = "default"
             ),
-
+            
             # Input: Select separator
             radioButtons("sep", "Separator",
               choices = c(
@@ -149,6 +153,26 @@ GGenemy <- function() {
               max = 10,
               value = 5
             ),
+            
+            tags$style(HTML(".js-irs-1 .irs-single,
+                              .js-irs-1 .irs-bar-edge,
+                              .js-irs-1 .irs-min {background: #FF7F50; color: white}")),
+            tags$style(HTML(".js-irs-1 .irs-single,
+                              .js-irs-1 .irs-bar-edge,
+                              .js-irs-1 .irs-max {background: #FF7F50; color: white}")),
+            tags$style(HTML(".js-irs-1 .irs-single,
+                              .js-irs-1 .irs-bar-edge,
+                              .js-irs-1 .irs-slider.single {background: #FF7F50}")),
+            tags$style(HTML(".js-irs-1 .irs-single,
+                              .js-irs-1 .irs-bar-edge,
+                              .js-irs-1 .irs-bar {background: #FF7F50;
+                              border-bottom: white; border-top: black}")),
+            tags$style(HTML(".js-irs-1 .irs-single,
+                              .js-irs-1 .irs-bar-edge,
+                              .js-irs-1 .irs-line {background: #FF7F50}")),
+            tags$style(HTML(".js-irs-1 .irs-single,
+                              .js-irs-1 .irs-bar-edge,
+                              .js-irs-1 .irs-bar-edge {border: #FF7F50}")),
 
             tags$hr(style = "border-color: #white;"),
 
@@ -206,7 +230,26 @@ GGenemy <- function() {
                 max = 10,
                 value = 5
               ),
-
+              
+              tags$style(HTML(".js-irs-0 .irs-single,
+                              .js-irs-0 .irs-bar-edge,
+                              .js-irs-0 .irs-min {background: #FF7F50; color: white}")),
+              tags$style(HTML(".js-irs-0 .irs-single,
+                              .js-irs-0 .irs-bar-edge,
+                              .js-irs-0 .irs-max {background: #FF7F50; color: white}")),
+              tags$style(HTML(".js-irs-0 .irs-single,
+                              .js-irs-0 .irs-bar-edge,
+                              .js-irs-0 .irs-slider.single {background: #FF7F50}")),
+              tags$style(HTML(".js-irs-0 .irs-single,
+                              .js-irs-0 .irs-bar-edge,
+                              .js-irs-0 .irs-bar {background: #FF7F50;
+                              border-bottom: white; border-top: black}")),
+              tags$style(HTML(".js-irs-0 .irs-single,
+                              .js-irs-0 .irs-bar-edge,
+                              .js-irs-0 .irs-line {background: #FF7F50}")),
+              tags$style(HTML(".js-irs-0 .irs-single,
+                              .js-irs-0 .irs-bar-edge,
+                              .js-irs-0 .irs-bar-edge {border: #FF7F50}")),
               # Help Text
               helpText("When conditioning on a factor variable,
                           the number of quantiles is set to the number of categories."),
