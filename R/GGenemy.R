@@ -32,7 +32,7 @@ GGenemy <- function() {
           sidebarPanel(
     
             
-            materialSwitch(
+            shinyWidgets::materialSwitch(
               inputId = "checktrue",
               label = "Upload own file?",
               value = FALSE,
