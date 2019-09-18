@@ -14,21 +14,17 @@ GGenemy from line 750-814
 
 
 TABEAS HOOD:
-* Tests für plot_GGenemy() --> Test für plots
-  über Abgleich der korrekten class() und ob alle Punktpaare am richtigen Platz sind --> erledigt für factor/factor, evtl noch erweitern auf boxplots
 
 * remaining-Quantil in remaining1 und remaining2 umbenennnen
 
 * Effizienz von plot_ss erhöhen
 
-* abwechselnd tabelle und variable? Nä
-
 * Download von plot_ss gibt leere erste seite aus (Ist bei mir nicht mehr so!)
+  --> leider nicht wirklich zu lösen :(
 
 * einlesen von Datensatz mit Faktor mit nur einem level
-
-Von Alex für Tabea:
-* small smoothing in sum_stats? (Could this be an option?)  
+  --> extrem unwahrscheinlich, die Variablen werden nicht mehr in der Liste der
+  möglichen Faktoren angezeigt, dann kann nichts passieren
 
 
 ALEX HOOD:
