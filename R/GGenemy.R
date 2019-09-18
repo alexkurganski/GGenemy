@@ -13,6 +13,8 @@ GGenemy <- function() {
   ui <- fluidPage(
     shinyjs::useShinyjs(),
     shinyjs::extendShinyjs(script = "inst/hide_shiny_tabs.js"),
+    
+    # CSS defaults #############################################################
     tags$style(type = 'text/css', 
                '.navbar-default .navbar-brand {
                              color: #FF7F50;
@@ -20,6 +22,9 @@ GGenemy <- function() {
                            }'
                
     ),
+    tags$style(".btn-default {background-color:#FF7F50; border-color: black;}"),
+    tags$style(".btn-file {background-color:#FF7F50; border-color: black; color = white}"),
+    
     navbarPage("GGenemy",
       id = "GGenemy",
       theme = shinythemes::shinytheme("superhero"),
@@ -31,7 +36,7 @@ GGenemy <- function() {
         sidebarLayout(
           sidebarPanel(
     
-            div(style = "font-size = 10, font-family = Lato",
+            div(style = "font-size = 6, font-family = Lato",
             shinyWidgets::materialSwitch(
               inputId = "checktrue",
               label = "Upload own file?",
@@ -68,8 +73,6 @@ GGenemy <- function() {
                 ".csv"
               )
             ),
-            tags$style(".btn-file {background-color:#FF7F50; border-color: black;}"),
-
             
             tags$hr(id = "border1", style = "border-color: #white;"),
             
@@ -230,28 +233,40 @@ GGenemy <- function() {
             tags$hr(style = "border-color: #white;"),
 
             div(
-              style = "display: inline-block;vertical-align:top; width: 150px;",
+              style = "display: inline-block;vertical-align:top;",
             actionButton(
               inputId = "clicks3",
               label = "Calculate!",
               icon("paper-plane"),
-              style = "color: white; background-color: #FF7F50; border-color: black"
+              width = "155.8px",
+              style = "background-color:#FF7F50; border-color: black; color = white"
             )
             ),
 
             div(
-              style = "display: inline-block;vertical-align:top; width: 150px;",
+              style = "display: inline-block;vertical-align:top;",
             downloadButton(
               "downloadPlot3",
               label = "Download Plots",
-              style = "color: white; background-color: #FF7F50; border-color: black"
+              width = "155.8px",
+              style = "background-color:#FF7F50; border-color: black; color = white"
             )),
+            
+            div(
+              style = "display: inline-block;vertical-align:top;",
+              actionButton("pastecode3",
+                           icon = icon("code"),
+                           width = "155.8px",
+                           label = "Obtain Code!",
+                           style = "background-color:#FF7F50; border-color: black; color = white"
+              )
+            ),
             
             actionButton("saveGE3",
                          icon = icon("save"),
-                         label = "Save Objects in GE", 
-                         style = "color:white;
-                           background-color:#FF7F50; border-color: black;"
+                         label = "Save Plots",
+                         width = "155.8px",
+                         style = "background-color:#FF7F50; border-color: black; color = white"
             )
           ),
         
@@ -343,29 +358,40 @@ GGenemy <- function() {
               tags$hr(style = "border-color: #white;"),
 
               div(
-                style = "display: inline-block;vertical-align:top; width: 150px;",
+                style = "display: inline-block;vertical-align:top;",
               actionButton(
                 inputId = "clicks",
                 label = "Calculate!",
+                width = "155.8px",
                 icon("paper-plane"),
-                style = "color: white; background-color: #FF7F50; border-color: black"
+                style = "background-color:#FF7F50; border-color: black; color = white"
                 )
               ),
 
               div(
-                style = "display: inline-block;vertical-align:top; width: 150px;",
+                style = "display: inline-block;vertical-align:top;",
               downloadButton(
                 "downloadPlot",
                 label = "Download Plots",
-                style = "color: white; background-color: #FF7F50; border-color: black"
-              )
+                width = "155.8px",
+                style = "background-color:#FF7F50; border-color: black; color = white"
+              )),
+              
+              div(
+                style = "display: inline-block;vertical-align:top;",
+                actionButton("pastecode1",
+                             icon = icon("code"),
+                             width = "155.8px",
+                             label = "Obtain Code!",
+                             style = "background-color:#FF7F50; border-color: black; color = white"
+                )
               ),
               
               actionButton("saveGE1",
                            icon = icon("save"),
-                           label = "Save Objects in GE", 
-                           style = "color:white;
-                           background-color:#FF7F50; border-color: black;"
+                           label = "Save Plots",
+                           width = "155.8px",
+                           style = "background-color:#FF7F50; border-color: black; color = white"
               )
             ),
 
@@ -397,7 +423,7 @@ GGenemy <- function() {
                 numericInput("firstrange1",
                   "From:",
                   value = 1,
-                  width = "150px"
+                  width = "155.8px"
                 )
               ),
 
@@ -408,7 +434,7 @@ GGenemy <- function() {
                 numericInput("firstrange2",
                   "To:",
                   value = 10,
-                  width = "150px"
+                  width = "155.8px"
                 )
               ),
 
@@ -417,7 +443,7 @@ GGenemy <- function() {
                 numericInput("secondrange1",
                   "From:",
                   value = NULL,
-                  width = "150px"
+                  width = "155.8px"
                 )
               ),
 
@@ -428,7 +454,7 @@ GGenemy <- function() {
                 numericInput("secondrange2",
                   "To:",
                   value = NULL,
-                  width = "150px"
+                  width = "155.8px"
                 )
               ),
 
@@ -437,7 +463,7 @@ GGenemy <- function() {
                 numericInput("thirdrange1",
                   "From:",
                   value = NULL,
-                  width = "150px"
+                  width = "155.8px"
                 )
               ),
 
@@ -448,7 +474,7 @@ GGenemy <- function() {
                 numericInput("thirdrange2",
                   "To:",
                   value = NULL,
-                  width = "150px"
+                  width = "155.8px"
                 )
               ),
 
@@ -489,49 +515,43 @@ GGenemy <- function() {
               shinyWidgets::materialSwitch(
                 inputId = "remaining",
                 label = "",
-                value = FALSE,
-                width = "100%"
+                value = FALSE
               ),
 
               tags$hr(style = "border-color: #white;"),
 
               div(
-                style = "display: inline-block;vertical-align:top; width: 150px;",
+                style = "display: inline-block;vertical-align:top;",
               actionButton(
                 inputId = "clicks2",
                 label = "Calculate!",
-                icon("paper-plane"),
-                style = "color: white; background-color: #FF7F50; border-color: black"
-                )
-              ),
+                width = "155.8px",
+                icon("paper-plane")
+              )),
 
-              div(style = "display: inline-block;vertical-align:top; width: 10px;", HTML("<br>")),
-              
               div(
-                style = "display: inline-block;vertical-align:top; width: 150px;",
+                style = "display: inline-block;vertical-align:top;",
                 downloadButton(
                   "downloadPlot2",
                   label = "Download Plots",
-                  style = "color: white; background-color: #FF7F50; border-color: black"
-                )
+                  width = "155.8px"
+                  )
               ),
 
               tags$hr(style = "border-color: #white;"),
 
               div(
-                style = "display: inline-block;vertical-align:top; width: 150px;",
-              actionButton("pastecode",
+                style = "display: inline-block;vertical-align:top;",
+              actionButton("pastecode2",
                 icon = icon("code"),
-                label = "Obtain Code!", style = "color:white;
-                                  background-color:#FF7F50; border-color: black"
-                )
+                width = "155.8px",
+                label = "Obtain Code!"                )
               ),
-              
+
               actionButton("saveGE2",
                            icon = icon("save"),
-                           label = "Save Objects in GE", 
-                           style = "color:white;
-                           background-color:#FF7F50; border-color: black;"
+                           label = "Save Plots",
+                           width = "155.8px"
               )
               
             ),
@@ -1157,67 +1177,92 @@ GGenemy <- function() {
     
     # Obtain code ##############################################################
     
-    observeEvent(input$pastecode, {
+    observeEvent(input$pastecode1, {
       req(data2())
-      if (input$rownames) {
-        row <- 1
-      } else {
-        row <- paste("NULL")
-      }
-      if (input$quote == c("")) {
-        read_data <- paste0(
-          'data <- read.table("', input$file1, '",', "header = ",
-          input$header, ",", 'sep = "', input$sep, '",', 'quote = "",',
-          'dec = "', input$dec, '",', "row.names = ",
-          row,
-          ")"
-        )
-      } else {
-        read_data <- paste0(
-          'data <- read.table("', input$file1, '",', "header = ",
-          input$header, ",", 'sep = "', input$sep, '",', 'quote = "\\',
-          input$quote, '",', 'dec = "', input$dec, '",', "row.names = ",
-          row,
-          ")"
-        )
-      }
-
-      if (is.factor(data2()[, input$given_var2])) {
-        selfrange <- input$factorlevels
-      } else {
-        selfrange <- c(
-          input$firstrange1, input$firstrange2,
-          input$secondrange1, input$secondrange2,
-          input$thirdrange1, input$thirdrange2
-        )
-      }
-
-      if (is.null(input$boxplot)) {
-        self <- paste0(
-          'plot_GGenemy(read_data,"', input$given_var2, '","',
-          input$var_to_cond_on, '","', input$var_to_cond_on, '",',
-          selfrange, ',"', input$remaining, '")'
-        )
-      } else {
-        self <- paste0(
-          'plot_GGenemy(read_data,"', input$given_var2, '","', input$var_to_plot2, '",',
-          selfrange, ',"', input$remaining, '",', input$boxplot, ")"
-        )
-      }
-
-      code <- paste0(
-        "Read data:", "\n",
-        read_data,
-        "\n Self selected Range:",
-        "\n",
-        self
-      )
+      
+      # Code idea for showing Code: Javascript necessary here (no vectorisation)
+      # if (input$rownames) {
+      #   row <- 1
+      # } else {
+      #   row <- paste("NULL")
+      # }
+      # if (input$quote == c("")) {
+      #   read_data <- paste0(
+      #     'data <- read.table("', input$file1, '",', "header = ",
+      #     input$header, ",", 'sep = "', input$sep, '",', 'quote = "",',
+      #     'dec = "', input$dec, '",', "row.names = ",
+      #     row,
+      #     ")"
+      #   )
+      # } else {
+      #   read_data <- paste0(
+      #     'data <- read.table("', input$file1, '",', "header = ",
+      #     input$header, ",", 'sep = "', input$sep, '",', 'quote = "\\',
+      #     input$quote, '",', 'dec = "', input$dec, '",', "row.names = ",
+      #     row,
+      #     ")"
+      #   )
+      # }
+      # 
+      # if (is.factor(data2()[, input$given_var2])) {
+      #   selfrange <- input$factorlevels
+      # } else {
+      #   selfrange <- c(
+      #     input$firstrange1, input$firstrange2,
+      #     input$secondrange1, input$secondrange2,
+      #     input$thirdrange1, input$thirdrange2
+      #   )
+      # }
+      # 
+      # if (is.null(input$boxplot)) {
+      #   self <- paste0(
+      #     'plot_GGenemy(read_data,"', input$given_var2, '","',
+      #     input$var_to_cond_on, '","', input$var_to_cond_on, '",',
+      #     selfrange, ',"', input$remaining, '")'
+      #   )
+      # } else {
+      #   self <- paste0(
+      #     'plot_GGenemy(read_data,"', input$given_var2, '","', input$var_to_plot2, '",',
+      #     selfrange, ',"', input$remaining, '",', input$boxplot, ")"
+      #   )
+      # }
+      # 
+      # code <- paste0(
+      #   "Read data:", "\n",
+      #   read_data,
+      #   "\n Self selected Range:",
+      #   "\n",
+      #   self
+      # )
+      code <- paste("This is a feature so far not implemented in GGenemy.")
 
       showModal(modalDialog(
         title = "Obtain your R code",
         tags$pre(tags$code(code)),
         easyClose = TRUE
       ))
+    })
+
+    observeEvent(input$pastecode2, {
+      req(data2())
+    code <- paste("This is a feature so far not implemented in GGenemy.")
+    showModal(modalDialog(
+      title = "Obtain your R code",
+      tags$pre(tags$code(code)),
+      easyClose = TRUE
+    ))
+  })
+    
+    observeEvent(input$pastecode3, {
+      req(data2())
+      code <- paste("This is a feature so far not implemented in GGenemy.")
+      showModal(tags$div(id ="code3",
+                         modalDialog( inputId = "Popup3",
+                                      style = ".btn-default{background-color:#FF7F50}",
+        title = "Obtain your R code",
+        tags$pre(tags$code(code)),
+        easyClose = TRUE
+      )))
     })
 
     # hide elements ############################################################
@@ -1289,6 +1334,8 @@ GGenemy <- function() {
         shinyjs::hide(id = "factorlevels")
       }
     })
+    
+    
     }
   
 
