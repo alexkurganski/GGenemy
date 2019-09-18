@@ -79,4 +79,16 @@ assign_to_global <- function(input, value, pos=1){
          envir = as.environment(pos))
 }
 
-#
+# Helper function to remove variables with only one value from the choices for
+# conversion to a factor
+
+unilen <- function(x){
+  unilen <- length(unique(x))
+  if (unilen == 1){
+    res <- TRUE
+  } else {
+    res <- FALSE
+  }
+  return(res)
+}
+
