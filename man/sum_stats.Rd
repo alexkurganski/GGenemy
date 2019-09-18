@@ -4,7 +4,8 @@
 \alias{sum_stats}
 \title{Summary Statistics}
 \usage{
-sum_stats(dataset, given_var, stats = 1, n_quantiles = 5)
+sum_stats(dataset, given_var, stats = c("mean", "var"),
+  n_quantiles = 5)
 }
 \arguments{
 \item{dataset}{A data frame. Factors and logicals will be removed.}
@@ -29,10 +30,9 @@ list entries themselves are matrices. Per default, only conditional means will
 be displayed. You can choose the statistics you want to print with the input of
 \code{stats}. You can either name the statistics as a choice of \code{stats =
 c("mean", "var", "skewness", "kurtosis")} or as numbers \code{stats = c(1, 2,
-3, 4)}, which represent the single statistics.
+3, 4)}, which represent the corresponding statistics.
 }
 \examples{
 data(iris)
-iris <- iris[, -5]
-sum_stats(iris, "Sepal.Length", stats = 4, n_quantiles = 5)
+sum_stats(iris, "Sepal.Length", stats = c("mean", "var"), n_quantiles = 5)
 }

@@ -27,7 +27,7 @@ test_that("plot_GGenemy() creates the correct types of plots for a given factor"
   expect_is(obj[[2]]$layers[[1]]$geom, "GeomBar")
 })
 
-test_that("plot_GGenemy() plots the data correctly", {
+test_that("plot_GGenemy() uses the correct data for barplots", {
   data("iris")
   iris$Place <- as.factor(sample(1:5, 150, replace = TRUE))
   obj <- plot_GGenemy(iris, "Species", "Place")
@@ -39,12 +39,6 @@ test_that("plot_GGenemy() plots the data correctly", {
                tab3)
 })
 
-# build <- ggplot2::ggplot_build(obj)
-# build
-# tab <- table(iris$Species, iris$Place)
-# tab2 <- rbind(tab[3,], tab[2,], tab[1,])
-# tab3 <- c(tab2[,1], tab2[,2],tab2[,3],tab2[,4],tab2[,5])
-
 test_that("plot_sum_stats() returns a list of class arrangelist for every chosen
           summary statistic", {
   data("iris")
@@ -54,3 +48,5 @@ test_that("plot_sum_stats() returns a list of class arrangelist for every chosen
   expect_is(obj[[1]], "arrangelist")
   expect_is(obj[[2]], "arrangelist")
 })
+
+#test_that("the correct number of summary statistics is plotted")

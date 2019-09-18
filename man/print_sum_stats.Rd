@@ -12,9 +12,14 @@ print_sum_stats(x, given_var)
 \item{given_var}{The given variable you used to create \code{x}.}
 }
 \value{
-The same results as before, but printed nicely.
+The same results as in \code{sum_stats()}, but printed nicely.
 }
 \description{
 Use this function to print your results from \code{sum_stats()} in a more
 reader-friendly way.
+}
+\examples{
+data(iris)
+x <- sum_stats(iris, "Sepal.Length", stats = c("mean", "var"), n_quantiles = 5) 
+print_sum_stats(x, "Sepal.Length")
 }

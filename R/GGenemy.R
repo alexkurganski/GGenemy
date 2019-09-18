@@ -963,12 +963,13 @@ GGenemy <- function() {
         grDevices::pdf(file, width = 11)
         gridExtra::marrangeGrob(
             print(
+            suppressMessages(
             plot_sum_stats(
             isolate(data2()),
             isolate(input$given_var3),
             isolate(input$n_sum_stats),
             isolate(input$quantiles_sum_stats)
-          )),
+          ))),
           nrow = 1, ncol = 1
         )
         grDevices::dev.off()

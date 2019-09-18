@@ -17,8 +17,9 @@ plot_sum_stats(dataset, given_var, stats = 1, n_quantiles = 5)
 into, with a maximum of 10.}
 }
 \value{
-One plot for each statistic, showing all variables conditioned on
-the given variable.
+One plot for each statistic, showing all numeric variables conditioned
+on the given variable on a grid. The results will open in one window per 
+statistic when using \code{plot_sum_stats()} in RStudio.
 }
 \description{
 Calculates the conditional mean, variance, skewness and kurtosis for continuous variables
@@ -29,9 +30,13 @@ as line plots.
 The function will return one plot for each of the chosen summary statistics. The
 values will be displayed as line plots, each point representing the value of
 the statistic conditioned on a specific quantile of the given variable.
+
+You can choose the way you indicate which summary statistics you want to plot.
+One way is to express the stats as numerics (1 = mean, 2 = variance,
+3 = skewness, 4 = kurtosis) or as strings in a vector (as a subset of c("mean",
+"var", "skewness", "kurtosis")).
 }
 \examples{
 data(iris)
-iris <- iris[, -5]
 plot_sum_stats(iris, "Sepal.Length", stats = c(1, 2, 3, 4), n_quantiles = 5)
 }

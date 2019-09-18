@@ -8,7 +8,7 @@
 #' be displayed. You can choose the statistics you want to print with the input of
 #' \code{stats}. You can either name the statistics as a choice of \code{stats =
 #' c("mean", "var", "skewness", "kurtosis")} or as numbers \code{stats = c(1, 2,
-#' 3, 4)}, which represent the single statistics.
+#' 3, 4)}, which represent the corresponding statistics.
 #'
 #' @param dataset A data frame. Factors and logicals will be removed.
 #' @param given_var A variable from your \code{dataset} which you want to set as a condition.
@@ -21,9 +21,8 @@
 #'
 #' @examples
 #' data(iris)
-#' iris <- iris[, -5]
-#' sum_stats(iris, "Sepal.Length", stats = 4, n_quantiles = 5)
-sum_stats <- function(dataset, given_var, stats = 1, n_quantiles = 5) {
+#' sum_stats(iris, "Sepal.Length", stats = c("mean", "var"), n_quantiles = 5)
+sum_stats <- function(dataset, given_var, stats = c("mean", "var"), n_quantiles = 5) {
   if (n_quantiles < 1 | n_quantiles > 10) {
     stop("You can only partition your given_var into one to ten quantiles.")
   }
@@ -51,11 +50,11 @@ sum_stats <- function(dataset, given_var, stats = 1, n_quantiles = 5) {
   }
 
   # 1. Create quantiles for given_var
-  if (n_quantiles == 1) { # only one quantile
+  if (n_quantiles == 1) { 
     data_help <- dataset
     data_help$quant <- 1
     data_help$quant <- as.factor(data_help$quant)
-  } else { # more than one quantile
+  } else { 
     var_goal <- dplyr::select(dataset, given_var)[, 1]
     quantiles <- stats::quantile(var_goal, 1:(n_quantiles - 1) / (n_quantiles))
     quantiles <- as.numeric(quantiles)
@@ -165,9 +164,6 @@ sum_stats <- function(dataset, given_var, stats = 1, n_quantiles = 5) {
   return(stats_list)
 }
 
-# Create a nice output for the summary statistics
-
-
 
 #' Print results of \code{sum_stats()} nicely
 #'
@@ -177,16 +173,15 @@ sum_stats <- function(dataset, given_var, stats = 1, n_quantiles = 5) {
 #' @param x An object created by sum_stats().
 #' @param given_var The given variable you used to create \code{x}.
 #'
-#' @return The same results as before, but printed nicely.
+#' @return The same results as in \code{sum_stats()}, but printed nicely.
 #' @export
-#'
+#' 
+#' @examples 
+#' data(iris)
+#' x <- sum_stats(iris, "Sepal.Length", stats = c("mean", "var"), n_quantiles = 5) 
+#' print_sum_stats(x, "Sepal.Length")
 print_sum_stats <- function(x, given_var) {
 
-  # cat("Given variable:", given_var, "\n")
-  # for (i in 1:length(x)) {
-  # print(DT::datatable(x[[i]], caption = htmltools::tags$caption(
-  # htmltools::strong(names(x)[i]))))
-  # }
   nstats <- length(x)
   stat_names <- names(x)
   given_name <- names(given_var)
