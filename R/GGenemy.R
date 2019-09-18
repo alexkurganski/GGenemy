@@ -550,6 +550,9 @@ GGenemy <- function() {
       colnum <- which(sapply(df_reduced, is.factor))
       df_reduced[colnum] <- NULL
       
+      oneval <- which(sapply(df_reduced, unilen))
+      df_reduced[oneval] <- NULL
+      
       updateSelectInput(session,
                         inputId = "as.factor",
                         label = "Choose which numerics or logicals should be treated as factors",

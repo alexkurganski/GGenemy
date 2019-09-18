@@ -1,10 +1,12 @@
 test_that("the output of 'plot_GGenemy() is a ggplot object", {
    data("iris")
    obj <- plot_GGenemy(iris, "Sepal.Length", "Sepal.Width")
+
    
    expect_is(obj, "gg")
    expect_is(obj, "ggplot")
 })
+
 
 test_that("plot_GGenemy() creates the correct types of plots for a given numeric
           variable", {
@@ -43,3 +45,12 @@ test_that("plot_GGenemy() plots the data correctly", {
 # tab2 <- rbind(tab[3,], tab[2,], tab[1,])
 # tab3 <- c(tab2[,1], tab2[,2],tab2[,3],tab2[,4],tab2[,5])
 
+test_that("plot_sum_stats() returns a list of class arrangelist for every chosen
+          summary statistic", {
+  data("iris")
+  obj <- plot_sum_stats(iris, "Sepal.Length", c(1,2))
+  
+  expect_is(obj, "list")
+  expect_is(obj[[1]], "arrangelist")
+  expect_is(obj[[2]], "arrangelist")
+})
