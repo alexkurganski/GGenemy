@@ -31,7 +31,7 @@ GGenemy <- function() {
         sidebarLayout(
           sidebarPanel(
     
-            div(style = "color: #FF7F50; font-size = 12, font-family = Helvetica Neue",
+            div(style = "font-size = 10, font-family = Lato",
             shinyWidgets::materialSwitch(
               inputId = "checktrue",
               label = "Upload own file?",
@@ -245,7 +245,14 @@ GGenemy <- function() {
               "downloadPlot3",
               label = "Download Plots",
               style = "color: white; background-color: #FF7F50; border-color: black"
-            ))
+            )),
+            
+            actionButton("saveGE3",
+                         icon = icon("save"),
+                         label = "Save Objects in GE", 
+                         style = "color:white;
+                           background-color:#FF7F50; border-color: black;"
+            )
           ),
         
         mainPanel(
@@ -256,8 +263,10 @@ GGenemy <- function() {
           lapply(1:4, function(i) {
             plotOutput(paste0("summary_stats_plot", i),
                        height = "700px")
-          })
-          )
+          }),
+          
+          shinyalert::useShinyalert()
+        )
         )
       ),
       #4. ###################################################################
@@ -350,6 +359,13 @@ GGenemy <- function() {
                 label = "Download Plots",
                 style = "color: white; background-color: #FF7F50; border-color: black"
               )
+              ),
+              
+              actionButton("saveGE1",
+                           icon = icon("save"),
+                           label = "Save Objects in GE", 
+                           style = "color:white;
+                           background-color:#FF7F50; border-color: black;"
               )
             ),
 
@@ -358,7 +374,8 @@ GGenemy <- function() {
             mainPanel(
               lapply(1:25, function(i) {
                 plotOutput(paste0("condplot", i))
-              })
+              }),
+              shinyalert::useShinyalert()
             )
           )
         ),
@@ -467,11 +484,13 @@ GGenemy <- function() {
 
               tags$hr(style = "border-color: #white;"),
 
-              tags$b("Remaining data points as an additional quantile?"),
-
-              checkboxInput("remaining",
-                label = "Remaining",
-                TRUE
+              tags$br("Remaining data points as an additional Category?"),
+              
+              shinyWidgets::materialSwitch(
+                inputId = "remaining",
+                label = "",
+                value = FALSE,
+                width = "100%"
               ),
 
               tags$hr(style = "border-color: #white;"),
@@ -508,7 +527,7 @@ GGenemy <- function() {
                 )
               ),
               
-              actionButton("saveGE",
+              actionButton("saveGE2",
                            icon = icon("save"),
                            label = "Save Objects in GE", 
                            style = "color:white;
@@ -1075,8 +1094,25 @@ GGenemy <- function() {
       }
     )
     # Save in GE ###############################################################
-    observeEvent(input$saveGE,{
-      saveplotGE <- plot_GGenemy(isolate(data2()),
+    
+    observeEvent(input$saveGE1,{
+    saveplotGE1 <- plot_GGenemy(plot_GGenemy(isolate(data2()),
+                                             isolate(input$given_var1),
+                                             isolate(input$var_to_plot1),
+                                             isolate(input$quantiles),
+                                             isolate(input$boxplots)
+      ))
+      
+      assign_to_global1(input$saveGE1[1], saveplotGE1, pos=1)
+      output$done1 <- shinyalert::shinyalert(title = "GOTCHA",
+                                            text = "You can access your createt Plot: 'GGenemy-Condplot",input$saveGE1[1],"'"," after closing
+                                            the Shinyapp. \n
+                                            You can save many more plots without overwriting the other plots!",
+                                            type = "success")
+    })
+    
+    observeEvent(input$saveGE2,{
+      saveplotGE2 <- plot_GGenemy(isolate(data2()),
                    isolate(input$given_var2),
                    isolate(input$var_to_plot2),
                    selfrange = isolate(
@@ -1094,13 +1130,30 @@ GGenemy <- function() {
                    boxplot = isolate(input$boxplots2)
       )
         
-      assign_to_global(input$saveGE[1], saveplotGE, pos=1)
-      output$done <- shinyalert::shinyalert(title = "GOTCHA",
-                                            text = "You can access your GGenemy-Plot after closing
+      assign_to_global2(input$saveGE2[1], saveplotGE2, pos=1)
+      output$done2 <- shinyalert::shinyalert(title = "GOTCHA",
+                                            text = paste0("You can access your createt Plot: 'GGenemy-SelfRangeplot",input$saveGE2[1],"'"," after closing
                                             the Shinyapp. \n
-                                            You can save many more plots without overwriting the other plots!",
+                                            You can save many more plots without overwriting the other plots!"),
                                             type = "success")
     })
+    
+    observeEvent(input$saveGE3,{
+      saveplotGE3 <- plot_sum_stats(isolate(data2()),
+                                    isolate(input$given_var3),
+                                    isolate(input$n_sum_stats),
+                                    isolate(input$quantiles_sum_stats)
+      )
+      
+      assign_to_global3(input$saveGE3[1], saveplotGE3, pos=1)
+      output$done3 <- shinyalert::shinyalert(title = "GOTCHA",
+                                             text = paste0("You can access your createt Plot: 'GGenemy-SumStatsplot",input$saveGE1[1],"'"," after closing
+                                            the Shinyapp. \n
+                                            You can save many more plots without overwriting the other plots!"),
+                                             type = "success")
+    })
+    
+    
     
     # Obtain code ##############################################################
     

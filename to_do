@@ -31,16 +31,12 @@ TABEAS HOOD:
 
 * einlesen von Datensatz mit Faktor mit nur einem level
 
-  
+Von Alex für Tabea:
+* small smoothing in sum_stats? (Could this be an option?)  
 
 
 ALEX HOOD:
-# 8. Spacing relevant? Example: Dataset with many variables won't fit with head().
-
 # 12. Progress of calculation (does not work properly, because renderoutput does need more time...)
-
-* Allow extra inputs for the function with ... (especially for plots?)
-- For Tabea: Tried this out but it did not work for plot_GGenemy()
 
 * Densities not so clear (How to solve this?)
 - Tabea: Some Settings for Colour?
@@ -48,5 +44,3 @@ ALEX HOOD:
 * Sort the Self-Quantiles correctly
 
 # Bildschirmauflösung/Verschiebung der Eingabefelder mit Stani klären
-
-* small smoothing in sum_stats? (Could this be an option?)

@@ -74,10 +74,21 @@ check_dataframe <- function(x) {
 
 # Helper function to load ggplot objects into the global environment
 
-assign_to_global <- function(input, value, pos=1){
-  assign(paste0("GGenemyPlot",input), value = value,
+assign_to_global1 <- function(input, value, pos=1){
+  assign(paste0("GGenemy_Condplot",input), value = value,
          envir = as.environment(pos))
 }
+
+assign_to_global2 <- function(input, value, pos=1){
+  assign(paste0("GGenemy_SelfRangeplot",input), value = value,
+         envir = as.environment(pos))
+}
+
+assign_to_global3 <- function(input, value, pos=1){
+  assign(paste0("GGenemy_Sumstatsplot",input), value = value,
+         envir = as.environment(pos))
+}
+
 
 # Helper function to remove variables with only one value from the choices for
 # conversion to a factor
