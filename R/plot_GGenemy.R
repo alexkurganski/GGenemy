@@ -95,12 +95,12 @@ plot_GGenemy <- function(dataset, given_var, var_to_plot = NULL, n_quantiles = 5
       data_help <- data_help[-which(data_help$quant == "remaining"), ]
     }
     data_help$quant <- as.factor(data_help$quant)
-    if(remaining == TRUE){
-    data_help$quant <- factor(data_help$quant,levels(data_help$quant)[c(nrow(matrixquant):1,nrow(matrixquant)+1)])
-    } else {
-      data_help$quant <- factor(data_help$quant,levels(data_help$quant)[c(nrow(matrixquant):1)])      
-    }
-  } else {
+  #   if(remaining == TRUE){
+  #   data_help$quant <- factor(data_help$quant,levels(data_help$quant)[c(nrow(matrixquant):1,nrow(matrixquant)+1)])
+  #   } else {
+  #     data_help$quant <- factor(data_help$quant,levels(data_help$quant)[c(nrow(matrixquant):1)])      
+  #   }
+   } else {
     if (is.factor(dataset[, given_var])) {
       if (n_quantiles != length(levels(dataset[, given_var]))) {
         message(paste0(given_var, " is a categorical variable. The number of categories will be defined as a condition."))
