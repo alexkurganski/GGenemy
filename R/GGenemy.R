@@ -22,8 +22,12 @@ GGenemy <- function() {
                            }'
                
     ),
-    tags$style(".btn-default {background-color:#FF7F50; border-color: black;}"),
-    tags$style(".btn-file {background-color:#FF7F50; border-color: black; color = white}"),
+    tags$style(".btn-default {background-color:#FF7F50; border-color: black; color = white}"),
+    tags$head(tags$style(HTML(" .btn:hover{
+                                font-weight: bold;
+                                }
+                                "))),
+
     
     navbarPage("GGenemy",
       id = "GGenemy",
@@ -73,6 +77,7 @@ GGenemy <- function() {
                 ".csv"
               )
             ),
+            tags$style(".btn-file {background-color:#FF7F50; border-color: black}"),
             
             tags$hr(id = "border1", style = "border-color: #white;"),
             
@@ -239,7 +244,10 @@ GGenemy <- function() {
               label = "Calculate!",
               icon("paper-plane"),
               width = "155.8px",
-              style = "background-color:#FF7F50; border-color: black; color = white"
+              style ="background-color:#FF7F50;
+                           border-color: black;
+                           color = white;"
+
             )
             ),
 
@@ -249,8 +257,13 @@ GGenemy <- function() {
               "downloadPlot3",
               label = "Download Plots",
               width = "155.8px",
-              style = "background-color:#FF7F50; border-color: black; color = white"
+              style ="background-color:#FF7F50;
+                           border-color: black;
+                           color = white;"
+              
             )),
+            
+            tags$hr(style = "border-color: #white;"),
             
             div(
               style = "display: inline-block;vertical-align:top;",
@@ -258,7 +271,9 @@ GGenemy <- function() {
                            icon = icon("code"),
                            width = "155.8px",
                            label = "Obtain Code!",
-                           style = "background-color:#FF7F50; border-color: black; color = white"
+                           style = "background-color:#FF7F50;
+                           border-color: black;
+                           color = white;"
               )
             ),
             
@@ -266,7 +281,9 @@ GGenemy <- function() {
                          icon = icon("save"),
                          label = "Save Plots",
                          width = "155.8px",
-                         style = "background-color:#FF7F50; border-color: black; color = white"
+                         style = "background-color:#FF7F50;
+                         border-color: black;
+                         color = white;"
             )
           ),
         
@@ -376,6 +393,8 @@ GGenemy <- function() {
                 width = "155.8px",
                 style = "background-color:#FF7F50; border-color: black; color = white"
               )),
+              
+              tags$hr(style = "border-color: #white;"),
               
               div(
                 style = "display: inline-block;vertical-align:top;",
@@ -526,7 +545,10 @@ GGenemy <- function() {
                 inputId = "clicks2",
                 label = "Calculate!",
                 width = "155.8px",
-                icon("paper-plane")
+                icon("paper-plane"),
+                style ="background-color:#FF7F50;
+                           border-color: black;
+                           color = white;"
               )),
 
               div(
@@ -534,7 +556,10 @@ GGenemy <- function() {
                 downloadButton(
                   "downloadPlot2",
                   label = "Download Plots",
-                  width = "155.8px"
+                  width = "155.8px",
+                  style ="background-color:#FF7F50;
+                           border-color: black;
+                           color = white;"
                   )
               ),
 
@@ -545,13 +570,20 @@ GGenemy <- function() {
               actionButton("pastecode2",
                 icon = icon("code"),
                 width = "155.8px",
-                label = "Obtain Code!"                )
+                label = "Obtain Code!",
+                style ="background-color:#FF7F50;
+                           border-color: black;
+                           color = white;"
+                )
               ),
 
               actionButton("saveGE2",
                            icon = icon("save"),
                            label = "Save Plots",
-                           width = "155.8px"
+                           width = "155.8px",
+                           style ="background-color:#FF7F50;
+                           border-color: black;
+                           color = white;"
               )
               
             ),
