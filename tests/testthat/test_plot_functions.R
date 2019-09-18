@@ -49,4 +49,19 @@ test_that("plot_sum_stats() returns a list of class arrangelist for every chosen
   expect_is(obj[[2]], "arrangelist")
 })
 
-#test_that("the correct number of summary statistics is plotted")
+test_that("the correct amount of summary statistics is plotted", {
+  data("iris")
+  choices <- c("mean", "var", "kurtosis")
+  obj <- plot_sum_stats(iris, "Sepal.Length", stats = choices)
+  
+  expect_identical(length(obj), length(choices))
+})
+
+test_that("a plot is drawn for all numeric variables", {
+  data("iris")
+  obj <- plot_sum_stats(iris, "Sepal.Length", n_quantiles = 6)
+  n_numeric <- sum(sapply(iris, is.numeric))
+  expect_equal(length(obj[[1]][[1]]) - 1, n_numeric)
+  # we subtract 1, because length(obj)[[1]][[1]] counts the gtables for 
+  # the variable plots + 1 additional grob for the header
+})
