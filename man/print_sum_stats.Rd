@@ -9,7 +9,8 @@ print_sum_stats(x, given_var)
 \arguments{
 \item{x}{An object created by sum_stats().}
 
-\item{given_var}{The given variable you used to create \code{x}.}
+\item{given_var}{The given variable you used to create \code{x}. The variable's
+name is given as a string.}
 }
 \value{
 The same results as in \code{sum_stats()}, but printed nicely.

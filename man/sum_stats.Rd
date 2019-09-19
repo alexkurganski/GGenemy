@@ -4,13 +4,14 @@
 \alias{sum_stats}
 \title{Summary Statistics}
 \usage{
-sum_stats(dataset, given_var, stats = c("mean", "var"),
-  n_quantiles = 5)
+sum_stats(dataset, given_var, stats = c("mean", "var", "skewness",
+  "kurtosis"), n_quantiles = 5)
 }
 \arguments{
 \item{dataset}{A data frame. Factors and logicals will be removed.}
 
-\item{given_var}{A variable from your \code{dataset} which you want to set as a condition.}
+\item{given_var}{A named variable from your \code{dataset} which you want to set as a condition.
+The variable name is given as a string.}
 
 \item{stats}{A vector with the choice of summary statistics you want to print.}
 

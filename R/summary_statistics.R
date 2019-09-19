@@ -11,7 +11,8 @@
 #' 3, 4)}, which represent the corresponding statistics.
 #'
 #' @param dataset A data frame. Factors and logicals will be removed.
-#' @param given_var A variable from your \code{dataset} which you want to set as a condition.
+#' @param given_var A named variable from your \code{dataset} which you want to set as a condition.
+#' The variable name is given as a string.
 #' @param stats A vector with the choice of summary statistics you want to print.
 #' @param n_quantiles Number of quantiles you want to partition \code{given_var}
 #'   into, with a maximum of 10.
@@ -22,7 +23,8 @@
 #' @examples
 #' data(iris)
 #' sum_stats(iris, "Sepal.Length", stats = c("mean", "var"), n_quantiles = 5)
-sum_stats <- function(dataset, given_var, stats = c("mean", "var"), n_quantiles = 5) {
+sum_stats <- function(dataset, given_var, stats = c("mean", "var", "skewness", "kurtosis"),
+                      n_quantiles = 5) {
   if (n_quantiles < 1 | n_quantiles > 10) {
     stop("You can only partition your given_var into one to ten quantiles.")
   }
@@ -171,7 +173,8 @@ sum_stats <- function(dataset, given_var, stats = c("mean", "var"), n_quantiles 
 #' reader-friendly way.
 #'
 #' @param x An object created by sum_stats().
-#' @param given_var The given variable you used to create \code{x}.
+#' @param given_var The given variable you used to create \code{x}. The variable's
+#' name is given as a string. 
 #'
 #' @return The same results as in \code{sum_stats()}, but printed nicely.
 #' @export

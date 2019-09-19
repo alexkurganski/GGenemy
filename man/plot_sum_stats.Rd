@@ -4,7 +4,8 @@
 \alias{plot_sum_stats}
 \title{Plot Summary Statistics}
 \usage{
-plot_sum_stats(dataset, given_var, stats = 1, n_quantiles = 5)
+plot_sum_stats(dataset, given_var, stats = c(1, 2, 3, 4),
+  n_quantiles = 5)
 }
 \arguments{
 \item{dataset}{A data frame. Factors and logicals will be removed.}

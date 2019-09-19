@@ -27,7 +27,8 @@
 #' @examples
 #' data(iris)
 #' plot_sum_stats(iris, "Sepal.Length", stats = c(1, 2, 3, 4), n_quantiles = 5)
-plot_sum_stats <- function(dataset, given_var, stats = 1, n_quantiles = 5) {
+plot_sum_stats <- function(dataset, given_var, stats = c(1, 2, 3, 4), 
+                           n_quantiles = 5) {
   s_stats <- sum_stats(dataset, given_var, stats, n_quantiles)
   df <- list()
   for (k in 1:length(s_stats)) {
