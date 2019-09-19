@@ -884,7 +884,7 @@ GGenemy <- function() {
                num.desc = c(
                  "min", "quantile0.25",
                  "median", "mean", "quantile0.75",
-                 "max", "sd", "var", "valid.n"
+                 "max", "var", "sd","valid.n"
                )
       )[[1]] 
     }, caption = 
@@ -1149,18 +1149,18 @@ GGenemy <- function() {
     # Save in GE ###############################################################
     
     observeEvent(input$saveGE1,{
-    saveplotGE1 <- plot_GGenemy(plot_GGenemy(isolate(data2()),
+    saveplotGE1 <- plot_GGenemy(isolate(data2()),
                                              isolate(input$given_var1),
                                              isolate(input$var_to_plot1),
                                              isolate(input$quantiles),
                                              isolate(input$boxplots)
-      ))
+      )
       
       assign_to_global1(input$saveGE1[1], saveplotGE1, pos=1)
       output$done1 <- shinyalert::shinyalert(title = "GOTCHA",
-                                            text = "You can access your createt Plot: 'GGenemy-Condplot",input$saveGE1[1],"'"," after closing
+                                            text = "You can access your plot: 'GGenemy-Condplot",input$saveGE1[1],"'"," after closing
                                             the Shinyapp. \n
-                                            You can save many more plots without overwriting the other plots!",
+                                            You can also save many more plots without overwriting the others!",
                                             type = "success")
     })
     
@@ -1185,9 +1185,9 @@ GGenemy <- function() {
         
       assign_to_global2(input$saveGE2[1], saveplotGE2, pos=1)
       output$done2 <- shinyalert::shinyalert(title = "GOTCHA",
-                                            text = paste0("You can access your createt Plot: 'GGenemy-SelfRangeplot",input$saveGE2[1],"'"," after closing
+                                            text = paste0("You can access your plot: 'GGenemy-SelfRangeplot",input$saveGE2[1],"'"," after closing
                                             the Shinyapp. \n
-                                            You can save many more plots without overwriting the other plots!"),
+                                            You can also save many more plots without overwriting the other plots!"),
                                             type = "success")
     })
     
@@ -1200,9 +1200,9 @@ GGenemy <- function() {
       
       assign_to_global3(input$saveGE3[1], saveplotGE3, pos=1)
       output$done3 <- shinyalert::shinyalert(title = "GOTCHA",
-                                             text = paste0("You can access your createt Plot: 'GGenemy-SumStatsplot",input$saveGE1[1],"'"," after closing
+                                             text = paste0("You can access your plot: 'GGenemy-SumStatsplot",input$saveGE1[1],"'"," after closing
                                             the Shinyapp. \n
-                                            You can save many more plots without overwriting the other plots!"),
+                                            You can also save many more plots without overwriting the other plots!"),
                                              type = "success")
     })
     
