@@ -4,10 +4,11 @@
 \alias{describe}
 \title{Description of variables}
 \usage{
-describe(x, num.desc = c("mean", "median", "var", "sd", "valid.n"))
+describe(dataset, num.desc = c("min", "quantile0.25", "median", "mean",
+  "quantile0.75", "max", "var", "sd", "valid.n"))
 }
 \arguments{
-\item{x}{A vector, matrix or data frame.}
+\item{dataset}{A vector, matrix or data frame.}
 
 \item{num.desc}{The names of the functions to apply to numeric data.}
 }

@@ -27,23 +27,31 @@ test_that("describe calculates the correct summary statistics for numeric
   desc <- describe(iris)
   
   for(i in 1:length(desc[[1]])){
-    expect_equal(desc[[1]][[i]][[1]], mean(iris[, i]))
-  }
-
-  for(i in 1:length(desc[[1]])){
-    expect_equal(desc[[1]][[i]][[2]], median(iris[, i]))
+    expect_equal(desc[[1]][[i]][[1]], min(iris[, i]))
   }
   
   for(i in 1:length(desc[[1]])){
-    expect_equal(desc[[1]][[i]][[3]], var(iris[, i]))
+    expect_equal(desc[[1]][[i]][[3]], median(iris[, i]))
   }
 
   for(i in 1:length(desc[[1]])){
-    expect_equal(desc[[1]][[i]][[4]], sd(iris[, i]))
+    expect_equal(desc[[1]][[i]][[4]], mean(iris[, i]))
+  }
+  
+  for(i in 1:length(desc[[1]])){
+    expect_equal(desc[[1]][[i]][[6]], max(iris[, i]))
   }
 
   for(i in 1:length(desc[[1]])){
-    expect_equal(desc[[1]][[i]][[5]], valid.n(iris[, i]))
+    expect_equal(desc[[1]][[i]][[7]], var(iris[, i]))
+  }
+  
+  for(i in 1:length(desc[[1]])){
+    expect_equal(desc[[1]][[i]][[8]], sd(iris[, i]))
+  }
+  
+  for(i in 1:length(desc[[1]])){
+    expect_equal(desc[[1]][[i]][[9]], valid.n(iris[, i]))
   }
   
 })

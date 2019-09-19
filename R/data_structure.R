@@ -92,7 +92,7 @@ describe.logical <- function(x, varname = "") {
 #' Percentages are now always displayed and returned in the tables for factor and
 #' logical variables.
 #'
-#' @param x A vector, matrix or data frame.
+#' @param dataset A vector, matrix or data frame.
 #' @param num.desc The names of the functions to apply to numeric data.
 #'
 #' @return A list with three components:
@@ -104,46 +104,48 @@ describe.logical <- function(x, varname = "") {
 #'
 #' \code{Logical}  A list of the tables for each column described.
 #' @export
-describe <- function(x, num.desc = c("mean", "median", "var", "sd", "valid.n")){
-  if (missing(x)) {
-    stop("Usage: describe(x,...) where x is a vector, data frame or matrix")
+describe <- function(dataset, num.desc = c("min","quantile0.25", "median", "mean", 
+                                           "quantile0.75", "max", "var", "sd",
+                                           "valid.n")){
+  if (missing(dataset)) {
+    stop("Usage: describe(dataset,...) where dataset is a vector, data frame or matrix")
   }
-  if (!is.data.frame(x)) x <- as.data.frame(x)
-  varnames <- names(x)
-  if (is.null(varnames)) varnames <- paste("V", 1:dim(x)[2], sep = "")
-  if (is.data.frame(x)) {
-    num.index <- which(sapply(x, is.numeric))
+  if (!is.data.frame(dataset)) dataset <- as.data.frame(dataset)
+  varnames <- names(dataset)
+  if (is.null(varnames)) varnames <- paste("V", 1:dim(dataset)[2], sep = "")
+  if (is.data.frame(dataset)) {
+    num.index <- which(sapply(dataset, is.numeric))
     nnum <- length(num.index)
     num.result <- list()
     if (nnum) {
       for (numres in 1:nnum) {
         num.result[[numres]] <-
-          describe.numeric(x[[num.index[numres]]],
+          describe.numeric(dataset[[num.index[numres]]],
             num.desc = num.desc,
             varname = varnames[num.index[numres]]
           )
       }
       names(num.result) <- varnames[num.index]
     }
-    fac.index <- c(which(sapply(x, is.factor)), which(sapply(x, is.character)),
-                   which(sapply(x, lubridate::is.Date)),
-                   which(sapply(x, lubridate::is.POSIXct)))
+    fac.index <- c(which(sapply(dataset, is.factor)), which(sapply(dataset, is.character)),
+                   which(sapply(dataset, lubridate::is.Date)),
+                   which(sapply(dataset, lubridate::is.POSIXct)))
     nfac <- length(fac.index)
     fac.result <- list()
     if (nfac) {
       for (facres in 1:nfac) {
-        fac.result[[facres]] <- describe.factor(x[[fac.index[facres]]],
+        fac.result[[facres]] <- describe.factor(dataset[[fac.index[facres]]],
           varname = varnames[fac.index[facres]]
         )
       }
       names(fac.result) <- varnames[fac.index]
     }
-    log.index <- which(sapply(x, is.logical))
+    log.index <- which(sapply(dataset, is.logical))
     nlog <- length(log.index)
     log.result <- list()
     if (nlog) {
       for (logres in 1:nlog) {
-        log.result[[logres]] <- describe.logical(x[[log.index[logres]]],
+        log.result[[logres]] <- describe.logical(dataset[[log.index[logres]]],
           varname = varnames[log.index[logres]]
         )
       }
@@ -154,7 +156,7 @@ describe <- function(x, num.desc = c("mean", "median", "var", "sd", "valid.n")){
     return(desc.list)
   }
   else {
-    cat("describe: x must be a vector, matrix or data frame\n")
+    cat("describe: dataset must be a vector, matrix or data frame\n")
   }
 }
 
