@@ -22,10 +22,11 @@ GGenemy <- function() {
                            }'
                
     ),
-    tags$style(".btn-default {background-color:#FF7F50; border-color: black; color = white}"),
-    tags$head(tags$style(HTML(" .btn:hover{
+    tags$style(".btn-default {background-color:#FF7F50; border-color: black; color = white}
+               .btn-default:visited {background-color: #FF7F50;border-color: black; color = white"),
+    tags$head(tags$style(HTML(" .btn:visited, .btn:hover, .btn:focus{
                                 font-weight: bold;
-                                }
+                                border-color: black;}
                                 "))),
 
     
@@ -77,7 +78,9 @@ GGenemy <- function() {
                 ".csv"
               )
             ),
-            tags$style(".btn-file {background-color:#FF7F50; border-color: black}"),
+            tags$style(".btn-file,.btn-file:hover,.btn-file:active {background-color:#FF7F50; border-color: black;
+            color = white}"
+                       ),
             
             tags$hr(id = "border1", style = "border-color: #white;"),
             
