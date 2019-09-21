@@ -19,15 +19,16 @@ GGenemy <- function() {
                '.navbar-default .navbar-brand {
                              color: #FF7F50;
                              font-family: Merriweather;
+                             font-weight: bold
                            }'
                
     ),
-    tags$style(".btn-default {background-color:#FF7F50; border-color: black; color = white}
-               .btn-default:visited {background-color: #FF7F50;border-color: black; color = white"),
-    tags$head(tags$style(HTML(" .btn:visited, .btn:hover, .btn:focus{
-                                font-weight: bold;
-                                border-color: black;}
-                                "))),
+    # tags$style(type = "text/css",".btn-default {background-color:#FF7F50; border-color: black; color = white}
+    #            .btn-default:visited {background-color: #FF7F50;border-color: black; color = white"),
+    # tags$head(tags$style("text/css",".btn:visited, .btn:hover, .btn:focus{
+    #                             font-weight: bold;
+    #                             border-color: black;}
+    #                             ")),
 
     
     navbarPage("GGenemy",
@@ -40,30 +41,18 @@ GGenemy <- function() {
         "1. Data Upload",
         sidebarLayout(
           sidebarPanel(
-    
-            div(style = "font-size = 6, font-family = Lato",
+            
+            tags$div(
+            HTML("<p style='font-size: 10pt; font-family= Lato; font-weight = bold'> 
+                           Do you want to upload your own file? </p>")),
+            
             shinyWidgets::materialSwitch(
               inputId = "checktrue",
-              label = "Upload an external file?",
+              # label = div(style = "font-size:10pt; font-weight = bold; font-family = Lato",
+              #             "Do you want to upload your own file?"),
               value = FALSE,
               width = "100%"
-            )),
-            
-                    
-            # div(
-            # shinyWidgets::switchInput("checktrue",
-            #                           "Upload own file",
-            #                           onLabel = br('background-color:white',
-            #                             tag('center',
-            #                                            list(
-            #                                            span(style='color:#FF7F50;
-            #                                                      font-size:20;
-            #                                                      background-color:white'
-            #                                                      ,'Yes!')))),
-            #                           offLabel = br(tag('center', list(span(style='color:#FF7F50', 'No!')))),
-            #                           labelWidth = "400px",
-            #                           handleWidth = "100px")),
-            # 
+            ),
             
             selectInput("datframe", label = "Select a data.frame from your Global Environment",
                         choices = c("",search_dataframe()),
@@ -78,21 +67,18 @@ GGenemy <- function() {
                 ".csv"
               )
             ),
-            tags$style(".btn-file,.btn-file:hover,.btn-file:active {background-color:#FF7F50; border-color: black;
+            tags$style(".btn-file,.btn-file:visited,.btn-file:hover {background-color:#FF7F50; border-color: black;
             color = white}"
                        ),
-            
+       
             tags$hr(id = "border1", style = "border-color: #white;"),
             
             # Input: Checkbox if file has header
             
-            #div(
-            #  tags$style(type="text/css", "#header {color: #FF7F50}"),
             checkboxGroupInput("header",
               label = "Header",
               choices = "True",
               selected = "True",
-            #)
             ),
             
             tags$hr(id = "border2", style = "border-color: #white;"),
@@ -212,16 +198,10 @@ GGenemy <- function() {
             tags$style(HTML(".js-irs-0 .irs-single,
                               .js-irs-0 .irs-bar-edge,
                               .js-irs-0 .irs-max {background: #FF7F50; color: white}")),
-            # tags$style(HTML(".js-irs-0 .irs-single,
-            #                   .js-irs-0 .irs-bar-edge,
-            #                   .js-irs-0 .irs-slider.single {background: #FF7F50}")),
             tags$style(HTML(".js-irs-0 .irs-single,
                               .js-irs-0 .irs-bar-edge,
                               .js-irs-0 .irs-bar {background: #FF7F50;
                               border-bottom: white; border-top: black}")),
-            # tags$style(HTML(".js-irs-0 .irs-single,
-            #                   .js-irs-0 .irs-bar-edge,
-            #                   .js-irs-0 .irs-line {background: #FF7F50}")),
             tags$style(HTML(".js-irs-0 .irs-single,
                               .js-irs-0 .irs-bar-edge,
                               .js-irs-0 .irs-bar-edge {border: #FF7F50}")),
@@ -328,16 +308,10 @@ GGenemy <- function() {
               tags$style(HTML(".js-irs-1 .irs-single,
                               .js-irs-1 .irs-bar-edge,
                               .js-irs-1 .irs-max {background: #FF7F50; color: white}")),
-              # tags$style(HTML(".js-irs-1 .irs-single,
-              #                 .js-irs-1 .irs-bar-edge,
-              #                 .js-irs-1 .irs-slider.single {background: #FF7F50}")),
               tags$style(HTML(".js-irs-1 .irs-single,
                               .js-irs-1 .irs-bar-edge,
                               .js-irs-1 .irs-bar {background: #FF7F50;
                               border-bottom: white; border-top: black}")),
-              # tags$style(HTML(".js-irs-1 .irs-single,
-              #                 .js-irs-1 .irs-bar-edge,
-              #                 .js-irs-1 .irs-line {background: #FF7F50}")),
               tags$style(HTML(".js-irs-1 .irs-single,
                               .js-irs-1 .irs-bar-edge,
                               .js-irs-1 .irs-bar-edge {border: #FF7F50}")),
@@ -531,12 +505,14 @@ GGenemy <- function() {
               ),
 
               tags$hr(style = "border-color: #white;"),
-
-              tags$br("Remaining data points as an additional category?"),
+              
+              tags$div(
+                HTML("<p style='font-size: 10pt; font-family= sans-serif; font-weight = bold'> 
+                           Remaining data points as an additional category? </p>")),
               
               shinyWidgets::materialSwitch(
                 inputId = "remaining",
-                label = "",
+                # label = "",
                 value = FALSE
               ),
 
@@ -775,20 +751,6 @@ GGenemy <- function() {
                           choices = names(df_reduced2)
         )
         
-           updateSelectInput(session,
-             inputId = "boxplots",
-             label = "Show boxplots instead of densities for these numerical variables",
-             choices = names(df_reduced),
-             selected = ""
-           )
-
-        updateSelectInput(session,
-                          inputId = "boxplots2",
-                          label = "Show boxplots instead of densities for these numerical variables",
-                          choices = names(df_reduced),
-                          selected = ""
-        )
-        
         return(df_reduced)
     } else {
         req(input$file1)
@@ -813,21 +775,7 @@ GGenemy <- function() {
                           label = "Given variable",
                           choices = names(df_reduced2)
         )
-        
-           updateSelectInput(session,
-             inputId = "boxplots",
-             label = "Show boxplots instead of densities for these numerical variables",
-             choices = names(df_reduced),
-             selected = ""
-           )
 
-        updateSelectInput(session,
-                          inputId = "boxplots2",
-                          label = "Show boxplots instead of densities for these numerical variables",
-                          choices = names(df_reduced),
-                          selected = ""
-        )
-        
         return(df_reduced)
     }
         })
@@ -1032,7 +980,7 @@ GGenemy <- function() {
     )
 
     # Cond Plot Densities #############################################
-
+    
     observeEvent(input$clicks, {
       lapply(1:25, function(i) {
         output[[paste0("condplot", i)]] <- NULL
@@ -1098,7 +1046,7 @@ GGenemy <- function() {
     )
     
     # Downloads ###############################################################
-
+    
     output$downloadPlot <- downloadHandler(
       filename = function() {
         paste0("GGenemyPlot.pdf")
@@ -1216,7 +1164,7 @@ GGenemy <- function() {
     observeEvent(input$pastecode1, {
       req(data2())
       
-      # Code idea for showing Code: Javascript necessary here (no vectorisation)
+      # Code idea for showing Code: Javascript necessary here (no vectorisation problem)
       # if (input$rownames) {
       #   row <- 1
       # } else {
@@ -1318,36 +1266,20 @@ GGenemy <- function() {
     
     observeEvent(input$checktrue, {
       if(input$checktrue){
-      shinyjs::show(selector = '#file1')
-      shinyjs::show(selector = '#header')
-      shinyjs::show(selector = '#sep')
-      shinyjs::show(selector = '#quote')
-      shinyjs::show(selector = '#decimals')
-      shinyjs::show(id = "rownames")
-      shinyjs::show(id = "border1")
-      shinyjs::show(id = "border2")
-      shinyjs::show(id = "border3")
-      shinyjs::show(id = "border4")
-      shinyjs::show(id = "border5")
+      shinyjs::show(selector = '#file1, #header,
+                    #sep, #quote, #decimals, #rownames,
+                    #border1, #border2, #border3,
+                    #border4, #border5')
       shinyjs::hide(id = "datframe")
       } else {
-        shinyjs::hide(selector = '#file1')
-        shinyjs::hide(selector = '#header')
-        shinyjs::hide(selector = '#sep')
-        shinyjs::hide(selector = '#quote')
-        shinyjs::hide(selector = '#decimals')
-        shinyjs::hide(id = "rownames")
-        shinyjs::hide(id = "border1")
-        shinyjs::hide(id = "border2")
-        shinyjs::hide(id = "border3")
-        shinyjs::hide(id = "border4")
-        shinyjs::hide(id = "border5")
+        shinyjs::hide(selector = '#file1, #header,
+                      #sep, #quote, #decimals, #rownames,
+                      #border1, #border2, #border3,
+                      #border4, #border5')
         shinyjs::show(id = "datframe")
     }
       },
     ignoreInit = TRUE)
-      
-    
      
     observeEvent(input$given_var2, {
       if (is.factor(data2()[, input$given_var2])) {
