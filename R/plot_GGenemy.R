@@ -70,6 +70,19 @@ plot_GGenemy <- function(dataset, given_var, var_to_plot = NULL, n_quantiles = 5
       } else {
         matrixquant <- matrix(selfrange, ncol = 2, byrow = TRUE)
       }
+      if(any(is.na(matrixquant))){
+        which_na <- which(is.na(t(matrixquant)))
+        hel <- c()
+        for(i in 1:length(which_na)){
+          if(which_na[i] %% 2 == 0){
+            hel[c(1,2)+(i-1)*2] <- c(which_na[i],which_na[i]-1)  
+          } else {
+            hel[c(1,2)+(i-1)*2] <- c(which_na[i],which_na[i]+1)  
+          }
+        }
+        uniq <- unique(hel)
+        matrixquant <- matrix(t(matrixquant)[-uniq],byrow = TRUE, ncol = 2)
+      }
       data_help <- dataset
       #data_help$quant <- "remaining"
       data_help$quant <- 999
