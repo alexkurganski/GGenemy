@@ -14,17 +14,20 @@
 #'   will be plotted.
 #' @param n_quantiles Number of quantiles you want to partition \code{given_var}
 #'   into.
-#' @param boxplot logical. If TRUE boxplots will be presented instead of densities
-#' Also possible to use a vector with the names of variables, which should be plotted as boxplots instead of the density.
-#' @param selfrange Vector of n times two Values or matrix with 2 columns.
+#' @param boxplot If TRUE, all numerical variables will be presented as boxplots 
+#' instead of densities.
+#' You can also provide a vector with the names of the numerics to show
+#' as boxplots if you want to use this option only for a selection of variables.
+#' @param selfrange Vector of n*2 values or matrix with 2 columns.
 #' The first value as min and the second value as max of the self selected quantile.
-#' @param remaining logical. If TRUE the remaining values not within selfrange will be plotted to
-#' category remaining.
+#' @param remaining logical. If TRUE, the remaining values not within selfrange will be plotted to
+#' category named 'remaining'.
 #'
 #'
 #'
 #' @return Several ggplot graphics. The total number of plots will equal the
-#'   number of variables in your \code{dataset} or selected variables from \code{var_to_plot}
+#'   number of variables in your \code{dataset} or the amount of variables 
+#'   selected in \code{var_to_plot}.
 #' @export
 #'
 #' @examples
@@ -68,33 +71,67 @@ plot_GGenemy <- function(dataset, given_var, var_to_plot = NULL, n_quantiles = 5
         matrixquant <- matrix(selfrange, ncol = 2, byrow = TRUE)
       }
       data_help <- dataset
-      data_help$quant <- "remaining"
+      #data_help$quant <- "remaining"
+      data_help$quant <- 999
+      labs <- NULL
       for (i in nrow(matrixquant):1) {
         quanthelp <- which(dataset[, given_var] >= matrixquant[i, 1] & dataset[, given_var] <= matrixquant[i, 2])
         helper <- duplicated(as.vector(t(matrixquant)))[c(-1, 0) + i * 2]
         if (any(helper)) {
           if (helper[1] & !all(helper)) {
-            data_help$quant[quanthelp] <- paste(">", matrixquant[i, 1], "to", "<=", matrixquant[i, 2])
+            #data_help$quant[quanthelp] <- paste(">", matrixquant[i, 1], "to", "<=", matrixquant[i, 2])
+            data_help$quant[quanthelp] <- i
+            labs[i] <- paste(">", matrixquant[i, 1], "to", "<=", matrixquant[i, 2])
           } else if (helper[2] & !all(helper)) {
-            data_help$quant[quanthelp] <- paste(">=", matrixquant[i, 1], "to", "<", matrixquant[i, 2])
+            #data_help$quant[quanthelp] <- paste(">=", matrixquant[i, 1], "to", "<", matrixquant[i, 2])
+            data_help$quant[quanthelp] <- i
+            labs[i] <- paste(">=", matrixquant[i, 1], "to", "<", matrixquant[i, 2])
           } else {
-            data_help$quant[quanthelp] <- paste(">", matrixquant[i, 1], "to", "<", matrixquant[i, 2])
+            #data_help$quant[quanthelp] <- paste(">", matrixquant[i, 1], "to", "<", matrixquant[i, 2])
+            data_help$quant[quanthelp] <- i
+            labs[i] <- paste(">", matrixquant[i, 1], "to", "<", matrixquant[i, 2])
           }
         } else {
-          data_help$quant[quanthelp] <- paste(">=", matrixquant[i, 1], "to", "<=", matrixquant[i, 2])
+          #data_help$quant[quanthelp] <- paste(">=", matrixquant[i, 1], "to", "<=", matrixquant[i, 2])
+          data_help$quant[quanthelp] <- i
+          labs[i] <- paste(">=", matrixquant[i, 1], "to", "<=", matrixquant[i, 2])
         }
       }
+      
+
       # if (remaining == FALSE) {
       #   data_help <- data_help[-which(data_help$quant == "remaining"), ]
       # }
     } else {
       stop("For selfrange: Insert a Vector of quantiles or a matrix with the quantiles ordered by row")
     }
+    
+    if (remaining == TRUE) {
+      labs <- c(labs, "remaining")
+    }
 
     if (remaining == FALSE) {
-      data_help <- data_help[-which(data_help$quant == "remaining"), ]
+      #data_help <- data_help[-which(data_help$quant == "remaining"), ]
+      data_help <- data_help[-which(data_help$quant == 999), ]
     }
-    data_help$quant <- as.factor(data_help$quant)
+    #data_help$quant <- as.factor(data_help$quant)
+    data_help$quant <- factor(data_help$quant, labels = labs)
+    
+    #if (remaining == TRUE) {
+      #if (length(levels(data_help$quant)) == 4) {
+        #levs <- levels(data_help$quant)
+        #data_help$quant <- Epi::Relevel(data_help$quant, c(levs[3], levs[1]))
+      #} else {
+        #data_help$quant <- relevel(data_help$quant, tail(levels(data_help$quant), 2)[1])
+      #}
+      
+    #} else {
+      #if(length(levels(data_help$quant)) == 3) {
+        #data_help$quant <- Epi::Relevel(data_help$quant, c(levels(data_help$quant)[3], levels(data_help$quant)[1]))
+      #} else {
+        #data_help$quant <- relevel(data_help$quant, tail(levels(data_help$quant), 1))
+      #}
+    #}
   #   if(remaining == TRUE){
   #   data_help$quant <- factor(data_help$quant,levels(data_help$quant)[c(nrow(matrixquant):1,nrow(matrixquant)+1)])
   #   } else {

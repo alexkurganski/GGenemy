@@ -44,7 +44,7 @@ GGenemy <- function() {
             div(style = "font-size = 6, font-family = Lato",
             shinyWidgets::materialSwitch(
               inputId = "checktrue",
-              label = "Upload own file?",
+              label = "Upload an external file?",
               value = FALSE,
               width = "100%"
             )),
@@ -65,13 +65,13 @@ GGenemy <- function() {
             #                           handleWidth = "100px")),
             # 
             
-            selectInput("datframe", label = "Select an already uploaded DataFrame from you Global Environment",
+            selectInput("datframe", label = "Select a data.frame from your Global Environment",
                         choices = c("",search_dataframe()),
                         selectize = TRUE),
                         
             
             # Input: Read CSV/TXT-Data
-            fileInput("file1", "Choose a txt/csv File from your PC",
+            fileInput("file1", "Choose a txt/csv file from your PC",
               accept = c(
                 "txt/csv",
                 "text/comma-separated-values,text/plain",
@@ -342,7 +342,7 @@ GGenemy <- function() {
                               .js-irs-1 .irs-bar-edge,
                               .js-irs-1 .irs-bar-edge {border: #FF7F50}")),
               # Help Text
-              helpText("When conditioning on a factor variable,
+              helpText("When conditioning on a factor,
                           the number of quantiles is set to the number of categories."),
 
               tags$hr(style = "border-color: #white;"),
@@ -532,7 +532,7 @@ GGenemy <- function() {
 
               tags$hr(style = "border-color: #white;"),
 
-              tags$br("Remaining data points as an additional Category?"),
+              tags$br("Remaining data points as an additional category?"),
               
               shinyWidgets::materialSwitch(
                 inputId = "remaining",
@@ -655,20 +655,20 @@ GGenemy <- function() {
       
       updateSelectInput(session,
                         inputId = "given_var2",
-                        label = "Condition variable",
+                        label = "Given variable",
                         choices = names(df)
       )
       
       updateSelectInput(session,
                         inputId = "boxplots",
-                        label = "Boxplots instead of densities for numerical variables?",
+                        label = "Show boxplots instead of densities for these numerical variables",
                         choices = names(df_reduced),
                         selected = ""
       )
       
       updateSelectInput(session,
                         inputId = "boxplots2",
-                        label = "Boxplots instead of densities for numerical variables?",
+                        label = "Show boxplots instead of densities for these numerical variables",
                         choices = names(df_reduced),
                         selected = ""
       )
@@ -729,20 +729,20 @@ GGenemy <- function() {
 
       updateSelectInput(session,
         inputId = "given_var2",
-        label = "Condition variable",
+        label = "Given variable",
         choices = names(df)
       )
 
       updateSelectInput(session,
         inputId = "boxplots",
-        label = "Boxplots instead of densities for numerical variables?",
+        label = "Show boxplots instead of densities for these numerical variables",
         choices = names(df_reduced),
         selected = ""
       )
 
       updateSelectInput(session,
         inputId = "boxplots2",
-        label = "Boxplots instead of densities for numerical variables?",
+        label = "Show boxplots instead of densities for these numerical variables",
         choices = names(df_reduced),
         selected = ""
       )
@@ -777,14 +777,14 @@ GGenemy <- function() {
         
            updateSelectInput(session,
              inputId = "boxplots",
-             label = "Boxplots instead of densities for numerical variables?",
+             label = "Show boxplots instead of densities for these numerical variables",
              choices = names(df_reduced),
              selected = ""
            )
 
         updateSelectInput(session,
                           inputId = "boxplots2",
-                          label = "Boxplots instead of densities for numerical variables?",
+                          label = "Show boxplots instead of densities for these numerical variables",
                           choices = names(df_reduced),
                           selected = ""
         )
@@ -816,14 +816,14 @@ GGenemy <- function() {
         
            updateSelectInput(session,
              inputId = "boxplots",
-             label = "Boxplots instead of densities for numerical variables?",
+             label = "Show boxplots instead of densities for these numerical variables",
              choices = names(df_reduced),
              selected = ""
            )
 
         updateSelectInput(session,
                           inputId = "boxplots2",
-                          label = "Boxplots instead of densities for numerical variables?",
+                          label = "Show boxplots instead of densities for these numerical variables",
                           choices = names(df_reduced),
                           selected = ""
         )
@@ -837,7 +837,7 @@ GGenemy <- function() {
     updateboxplot <- function(session) {
       updateSelectInput(session,
         "boxplots",
-        "Boxplots instead of densities for numerical variables?",
+        "Show boxplots instead of densities for these numerical variables",
         choices = input$var_to_plot1,
         selected = ""
       )
@@ -847,7 +847,7 @@ GGenemy <- function() {
     updateboxplot2 <- function(session) {
       updateSelectInput(session,
         "boxplots2",
-        "Boxplots instead of densities for numerical variables?",
+        "Show boxplots instead of densities for these numerical variables",
         choices = input$var_to_plot2,
         selected = ""
       )

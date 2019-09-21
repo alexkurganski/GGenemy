@@ -18,18 +18,21 @@ will be plotted.}
 \item{n_quantiles}{Number of quantiles you want to partition \code{given_var}
 into.}
 
-\item{boxplot}{logical. If TRUE boxplots will be presented instead of densities
-Also possible to use a vector with the names of variables, which should be plotted as boxplots instead of the density.}
+\item{boxplot}{If TRUE, all numerical variables will be presented as boxplots 
+instead of densities.
+You can also provide a vector with the names of the numerics to show
+as boxplots if you want to use this option only for a selection of variables.}
 
-\item{selfrange}{Vector of n times two Values or matrix with 2 columns.
+\item{selfrange}{Vector of n*2 values or matrix with 2 columns.
 The first value as min and the second value as max of the self selected quantile.}
 
-\item{remaining}{logical. If TRUE the remaining values not within selfrange will be plotted to
-category remaining.}
+\item{remaining}{logical. If TRUE, the remaining values not within selfrange will be plotted to
+category named 'remaining'.}
 }
 \value{
 Several ggplot graphics. The total number of plots will equal the
-  number of variables in your \code{dataset} or selected variables from \code{var_to_plot}
+  number of variables in your \code{dataset} or the amount of variables 
+  selected in \code{var_to_plot}.
 }
 \description{
 Plots densities of continuous variables, conditioned on quantiles of

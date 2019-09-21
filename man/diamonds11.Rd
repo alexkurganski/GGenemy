@@ -15,7 +15,7 @@
   \item{x}{length in mm (0 to 10.74)}
   \item{y}{width in mm (0 to 58.9)}
   \item{z}{depth in mm (0 to 31.8)}
-  \item{depth}{total depth percentage = z / mean(x, y) = 2 * z / (x + y) (43–79)}
+  \item{depth}{total depth percentage} 
   \item{table}{width of top of diamond relative to widest point (43 to 95)}
   \item{area}{location the diamond has been found (1 = Russia, 2 = South Africa,
   3 = Brazil, 4 = Australia, 5 = Canada); actually a factor but saved as an integer}
