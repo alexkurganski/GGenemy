@@ -12,7 +12,7 @@
 GGenemy <- function() {
   ui <- fluidPage(
     shinyjs::useShinyjs(),
-    shinyjs::extendShinyjs(script = "inst/hide_shiny_tabs.js"),
+    shinyjs::extendShinyjs(script = "./inst/hide_shiny_tabs.js"),
     
     # CSS defaults #############################################################
     tags$style(type = 'text/css', 
