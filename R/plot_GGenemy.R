@@ -130,26 +130,6 @@ plot_GGenemy <- function(dataset, given_var, var_to_plot = NULL, n_quantiles = 5
     #data_help$quant <- as.factor(data_help$quant)
     data_help$quant <- factor(data_help$quant, labels = labs)
     
-    #if (remaining == TRUE) {
-      #if (length(levels(data_help$quant)) == 4) {
-        #levs <- levels(data_help$quant)
-        #data_help$quant <- Epi::Relevel(data_help$quant, c(levs[3], levs[1]))
-      #} else {
-        #data_help$quant <- relevel(data_help$quant, tail(levels(data_help$quant), 2)[1])
-      #}
-      
-    #} else {
-      #if(length(levels(data_help$quant)) == 3) {
-        #data_help$quant <- Epi::Relevel(data_help$quant, c(levels(data_help$quant)[3], levels(data_help$quant)[1]))
-      #} else {
-        #data_help$quant <- relevel(data_help$quant, tail(levels(data_help$quant), 1))
-      #}
-    #}
-  #   if(remaining == TRUE){
-  #   data_help$quant <- factor(data_help$quant,levels(data_help$quant)[c(nrow(matrixquant):1,nrow(matrixquant)+1)])
-  #   } else {
-  #     data_help$quant <- factor(data_help$quant,levels(data_help$quant)[c(nrow(matrixquant):1)])      
-  #   }
    } else {
     if (is.factor(dataset[, given_var])) {
       if (n_quantiles != length(levels(dataset[, given_var]))) {

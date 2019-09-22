@@ -44,7 +44,7 @@ GGenemy <- function() {
             
             tags$div(
             HTML("<p style='font-size: 10pt; font-family= Lato; font-weight = bold'> 
-                           Do you want to upload your own file? </p>")),
+                           Do you want to upload an external file? </p>")),
             
             shinyWidgets::materialSwitch(
               inputId = "checktrue",
@@ -414,7 +414,7 @@ GGenemy <- function() {
               tags$hr(style = "border-color: #white;"),
               
               actionButton("moreranges",
-                           "I want more",
+                           "Add another self-selected range",
                            icon = icon("update"),
                            style ="background-color:#FF7F50;
                            border-color: black;
@@ -813,7 +813,7 @@ GGenemy <- function() {
       
       updateSelectInput(session,
                         "factorlevels",
-                        "Choose your factors to plot",
+                        "Choose the categories to condition on",
                         choices = levelsfac,
                         selected = levelsfac)
     }
@@ -1222,7 +1222,7 @@ GGenemy <- function() {
       #   "\n",
       #   self
       # )
-      code <- paste("This is a feature so far not implemented in GGenemy.")
+      code <- paste("This feature isn't successfully implemented yet, sorry :(")
 
       showModal(modalDialog(
         title = "Obtain your R code",
@@ -1233,7 +1233,7 @@ GGenemy <- function() {
 
     observeEvent(input$pastecode2, {
       req(data2())
-    code <- paste("This is a feature so far not implemented in GGenemy.")
+    code <- paste("This feature isn't successfully implemented yet, sorry :(")
     showModal(modalDialog(
       title = "Obtain your R code",
       tags$pre(tags$code(code)),
@@ -1243,7 +1243,7 @@ GGenemy <- function() {
     
     observeEvent(input$pastecode3, {
       req(data2())
-      code <- paste("This is a feature so far not implemented in GGenemy.")
+      code <- paste("This feature isn't successfully implemented yet, sorry :(")
       showModal(tags$div(id ="code3",
                          modalDialog( inputId = "Popup3",
                                       style = ".btn-default{background-color:#FF7F50}",
