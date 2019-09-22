@@ -412,13 +412,21 @@ GGenemy <- function() {
               ),
 
               tags$hr(style = "border-color: #white;"),
-
-
+              
+              actionButton("moreranges",
+                           "I want more",
+                           icon = icon("update"),
+                           style ="background-color:#FF7F50;
+                           border-color: black;
+                           color = white;",
+                           width = "330px"),
+              
+              
               div(
                 style = "display: inline-block;vertical-align:top;",
                 numericInput("firstrange1",
                   "From:",
-                  value = 1,
+                  value = NULL,
                   width = "155.8px"
                 )
               ),
@@ -429,7 +437,7 @@ GGenemy <- function() {
                 style = "display: inline-block;vertical-align:top;",
                 numericInput("firstrange2",
                   "To:",
-                  value = 10,
+                  value = NULL,
                   width = "155.8px"
                 )
               ),
@@ -462,7 +470,8 @@ GGenemy <- function() {
                   width = "155.8px"
                 )
               ),
-
+              
+              
               div(style = "display: inline-block;vertical-align:top; width: 10px;", HTML("<br>")),
 
               div(
@@ -473,11 +482,6 @@ GGenemy <- function() {
                   width = "155.8px"
                 )
               ),
-
-              # textInput("factorlevels",
-              #   label = "Insert the categories of the given variable.",
-              #   width = "310px"
-              # ),
               
               selectInput("factorlevels",
                           label = "",
@@ -1282,28 +1286,34 @@ GGenemy <- function() {
     ignoreInit = TRUE)
      
     observeEvent(input$given_var2, {
+      range_id <- c("firstrange","secondrange","thirdrange")
       if (is.factor(data2()[, input$given_var2])) {
-        shinyjs::hide(id = "firstrange1")
-        shinyjs::hide(id = "firstrange2")
-        shinyjs::hide(id = "secondrange1")
-        shinyjs::hide(id = "secondrange2")
-        shinyjs::hide(id = "thirdrange1")
-        shinyjs::hide(id = "thirdrange2")
-
+        for(i in 1:length(range_id)){
+        shinyjs::hide(id = paste0(range_id[i],1))
+        shinyjs::hide(id = paste0(range_id[i],2))
+        }
+        shinyjs::hide(id = "moreranges")
         shinyjs::show(id = "factorlevels")
       } else {
         shinyjs::show(id = "firstrange1")
         shinyjs::show(id = "firstrange2")
-        shinyjs::show(id = "secondrange1")
-        shinyjs::show(id = "secondrange2")
-        shinyjs::show(id = "thirdrange1")
-        shinyjs::show(id = "thirdrange2")
-
+        for(i in 1:length(range_id)){
+          shinyjs::hide(id = paste0(range_id[i+1],1))
+          shinyjs::hide(id = paste0(range_id[i+1],2))
+        }
         shinyjs::hide(id = "factorlevels")
+        shinyjs::show(id = "moreranges")
       }
     })
     
-    
+    observeEvent(input$moreranges,{
+      range_id <- c("firstrange","secondrange","thirdrange")
+      range_num <- range_id[input$moreranges[1]+1]
+      first <- paste0(range_num,1)
+      shinyjs::show(id = first)
+      shinyjs::show(id = paste0(range_num,2))
+    })
+
     }
   
 
