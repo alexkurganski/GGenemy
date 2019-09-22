@@ -2,9 +2,10 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^\.travis\.yml$
-^Image$
+^images$
 ^README\.md$
-^Shiny$
 ^to_do$
 ^README\.Rmd$
 ^data-raw$
+^doc$
+^Meta$
