@@ -25,18 +25,19 @@
 #' sum_stats(iris, "Sepal.Length", stats = c("mean", "var"), n_quantiles = 5)
 sum_stats <- function(dataset, given_var, stats = c("mean", "var", "skewness", "kurtosis"),
                       n_quantiles = 5) {
+  
+  if (!is.data.frame(dataset)) dataset <- as.data.frame(dataset)
+  if (length(class(dataset)) > 1) {
+    dataset <- unclass(dataset)
+    dataset <- as.data.frame(dataset)
+  }
+  
   if (n_quantiles < 1 | n_quantiles > 10) {
     stop("You can only partition your given_var into one to ten quantiles.")
   }
   
   if(!is.numeric(dplyr::select(dataset, given_var)[,1])) {
     stop("Your given_var has to be numeric.")
-  }
-
-  if (!is.data.frame(dataset)) dataset <- as.data.frame(dataset)
-  if (length(class(dataset)) > 1) {
-    dataset <- unclass(dataset)
-    dataset <- as.data.frame(dataset)
   }
 
   facnum <- which(sapply(dataset, is.factor))
