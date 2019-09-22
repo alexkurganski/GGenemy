@@ -32,7 +32,7 @@ GGenemy <- function() {
   ui <- fluidPage(
     shinyjs::useShinyjs(),
     #shinyjs::extendShinyjs(text = jsCode),
-    
+    includeScript(system.file("hide_shiny_tabs.js", package = "GGenemy")),
     # CSS defaults #############################################################
     tags$style(type = 'text/css', 
                '.navbar-default .navbar-brand {
