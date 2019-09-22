@@ -421,7 +421,7 @@ GGenemy <- function() {
                            color = white;",
                            width = "330px"),
               
-              
+              # Ranges #########################################################
               div(
                 style = "display: inline-block;vertical-align:top;",
                 numericInput("firstrange1",
@@ -483,12 +483,158 @@ GGenemy <- function() {
                 )
               ),
               
+              div(
+                style = "display: inline-block;vertical-align:top;",
+                numericInput("forthrange1",
+                             "From:",
+                             value = NULL,
+                             width = "155.8px"
+                )
+              ),
+              
+              
+              div(style = "display: inline-block;vertical-align:top; width: 10px;", HTML("<br>")),
+              
+              div(
+                style = "display: inline-block;vertical-align:top;",
+                numericInput("forthrange2",
+                             "To:",
+                             value = NULL,
+                             width = "155.8px"
+                )
+              ),
+              
+              div(
+                style = "display: inline-block;vertical-align:top;",
+                numericInput("fifthrange1",
+                             "From:",
+                             value = NULL,
+                             width = "155.8px"
+                )
+              ),
+              
+              
+              div(style = "display: inline-block;vertical-align:top; width: 10px;", HTML("<br>")),
+              
+              div(
+                style = "display: inline-block;vertical-align:top;",
+                numericInput("fifthrange2",
+                             "To:",
+                             value = NULL,
+                             width = "155.8px"
+                )
+              ),
+              
+              div(
+                style = "display: inline-block;vertical-align:top;",
+                numericInput("sixthrange1",
+                             "From:",
+                             value = NULL,
+                             width = "155.8px"
+                )
+              ),
+              
+              
+              div(style = "display: inline-block;vertical-align:top; width: 10px;", HTML("<br>")),
+              
+              div(
+                style = "display: inline-block;vertical-align:top;",
+                numericInput("sixthrange2",
+                             "To:",
+                             value = NULL,
+                             width = "155.8px"
+                )
+              ),
+              
+              div(
+                style = "display: inline-block;vertical-align:top;",
+                numericInput("seventhrange1",
+                             "From:",
+                             value = NULL,
+                             width = "155.8px"
+                )
+              ),
+              
+              
+              div(style = "display: inline-block;vertical-align:top; width: 10px;", HTML("<br>")),
+              
+              div(
+                style = "display: inline-block;vertical-align:top;",
+                numericInput("seventhrange2",
+                             "To:",
+                             value = NULL,
+                             width = "155.8px"
+                )
+              ),
+              div(
+                style = "display: inline-block;vertical-align:top;",
+                numericInput("eighthrange1",
+                             "From:",
+                             value = NULL,
+                             width = "155.8px"
+                )
+              ),
+              
+              
+              div(style = "display: inline-block;vertical-align:top; width: 10px;", HTML("<br>")),
+              
+              div(
+                style = "display: inline-block;vertical-align:top;",
+                numericInput("eighthrange2",
+                             "To:",
+                             value = NULL,
+                             width = "155.8px"
+                )
+              ),
               selectInput("factorlevels",
                           label = "",
                           choices = NULL,
                           multiple = TRUE,
                           selectize = TRUE
               ),
+              
+              div(
+                style = "display: inline-block;vertical-align:top;",
+                numericInput("ninthrange1",
+                             "From:",
+                             value = NULL,
+                             width = "155.8px"
+                )
+              ),
+              
+              
+              div(style = "display: inline-block;vertical-align:top; width: 10px;", HTML("<br>")),
+              
+              div(
+                style = "display: inline-block;vertical-align:top;",
+                numericInput("ninthrange2",
+                             "To:",
+                             value = NULL,
+                             width = "155.8px"
+                )
+              ),
+              
+              div(
+                style = "display: inline-block;vertical-align:top;",
+                numericInput("tenthrange1",
+                             "From:",
+                             value = NULL,
+                             width = "155.8px"
+                )
+              ),
+              
+              
+              div(style = "display: inline-block;vertical-align:top; width: 10px;", HTML("<br>")),
+              
+              div(
+                style = "display: inline-block;vertical-align:top;",
+                numericInput("tenthrange2",
+                             "To:",
+                             value = NULL,
+                             width = "155.8px"
+                )
+              ),
+              # End ranges #####################################################
 
               tags$hr(style = "border-color: #white;"),
 
@@ -1285,8 +1431,21 @@ GGenemy <- function() {
       },
     ignoreInit = TRUE)
      
+    counter <- reactiveValues(countervalue = 0)
+    
+    observeEvent(input$moreranges,{
+      counter$countervalue <- counter$countervalue + 1
+    })
+    
+    observeEvent(input$given_var2,{
+      counter$countervalue <- counter$countervalue - counter$countervalue
+    })
+    
+    
     observeEvent(input$given_var2, {
-      range_id <- c("firstrange","secondrange","thirdrange")
+      range_id <- c("firstrange","secondrange","thirdrange",
+                    "forthrange","fifthrange","sixthrange","seventhrange",
+                    "eighthrange","ninthrange","tenthrange")
       if (is.factor(data2()[, input$given_var2])) {
         for(i in 1:length(range_id)){
         shinyjs::hide(id = paste0(range_id[i],1))
@@ -1294,12 +1453,13 @@ GGenemy <- function() {
         }
         shinyjs::hide(id = "moreranges")
         shinyjs::show(id = "factorlevels")
+
       } else {
         shinyjs::show(id = "firstrange1")
         shinyjs::show(id = "firstrange2")
-        for(i in 1:length(range_id)){
-          shinyjs::hide(id = paste0(range_id[i+1],1))
-          shinyjs::hide(id = paste0(range_id[i+1],2))
+        for(i in 2:length(range_id)){
+          shinyjs::hide(id = paste0(range_id[i],1))
+          shinyjs::hide(id = paste0(range_id[i],2))
         }
         shinyjs::hide(id = "factorlevels")
         shinyjs::show(id = "moreranges")
@@ -1307,16 +1467,17 @@ GGenemy <- function() {
     })
     
     observeEvent(input$moreranges,{
-      range_id <- c("firstrange","secondrange","thirdrange")
-      range_num <- range_id[input$moreranges[1]+1]
-      first <- paste0(range_num,1)
-      shinyjs::show(id = first)
+      range_id <- c("firstrange","secondrange","thirdrange",
+                    "forthrange","fifthrange","sixthrange","seventhrange",
+                    "eighthrange","ninthrange","tenthrange")
+      range_num <- range_id[counter$countervalue]
+      shinyjs::show(id = paste0(range_num,1))
       shinyjs::show(id = paste0(range_num,2))
     })
 
     }
   
-
+  # session$onSessionEnded(stopApp)
   # Run the application
   shinyApp(ui = ui, server = server)
 }
