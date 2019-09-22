@@ -84,7 +84,6 @@ plot_GGenemy <- function(dataset, given_var, var_to_plot = NULL, n_quantiles = 5
         matrixquant <- matrix(t(matrixquant)[-uniq],byrow = TRUE, ncol = 2)
       }
       data_help <- dataset
-      #data_help$quant <- "remaining"
       data_help$quant <- 999
       labs <- NULL
       for (i in nrow(matrixquant):1) {
@@ -92,20 +91,16 @@ plot_GGenemy <- function(dataset, given_var, var_to_plot = NULL, n_quantiles = 5
         helper <- duplicated(as.vector(t(matrixquant)))[c(-1, 0) + i * 2]
         if (any(helper)) {
           if (helper[1] & !all(helper)) {
-            #data_help$quant[quanthelp] <- paste(">", matrixquant[i, 1], "to", "<=", matrixquant[i, 2])
             data_help$quant[quanthelp] <- i
             labs[i] <- paste(">", matrixquant[i, 1], "to", "<=", matrixquant[i, 2])
           } else if (helper[2] & !all(helper)) {
-            #data_help$quant[quanthelp] <- paste(">=", matrixquant[i, 1], "to", "<", matrixquant[i, 2])
             data_help$quant[quanthelp] <- i
             labs[i] <- paste(">=", matrixquant[i, 1], "to", "<", matrixquant[i, 2])
           } else {
-            #data_help$quant[quanthelp] <- paste(">", matrixquant[i, 1], "to", "<", matrixquant[i, 2])
             data_help$quant[quanthelp] <- i
             labs[i] <- paste(">", matrixquant[i, 1], "to", "<", matrixquant[i, 2])
           }
         } else {
-          #data_help$quant[quanthelp] <- paste(">=", matrixquant[i, 1], "to", "<=", matrixquant[i, 2])
           data_help$quant[quanthelp] <- i
           labs[i] <- paste(">=", matrixquant[i, 1], "to", "<=", matrixquant[i, 2])
         }
@@ -124,10 +119,8 @@ plot_GGenemy <- function(dataset, given_var, var_to_plot = NULL, n_quantiles = 5
     }
 
     if (remaining == FALSE) {
-      #data_help <- data_help[-which(data_help$quant == "remaining"), ]
       data_help <- data_help[-which(data_help$quant == 999), ]
     }
-    #data_help$quant <- as.factor(data_help$quant)
     data_help$quant <- factor(data_help$quant, labels = labs)
     
    } else {
@@ -176,7 +169,7 @@ plot_GGenemy <- function(dataset, given_var, var_to_plot = NULL, n_quantiles = 5
     }
   }
 
-  # 2.
+
   g <- ggplot2::ggplot(data_help, ggplot2::aes(fill = quant)) + ggplot2::theme_minimal() +
     ggplot2::theme(plot.title = ggplot2::element_text(size = 15, face = "bold"))
 
