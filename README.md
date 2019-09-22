@@ -11,7 +11,7 @@ GGenemy
 Installation
 ------------
 
-`GGenemy` is available on GitHub. You can install the package and all its dependencies via the `install_github()` command from the `devtools` package. Set `build_vignettes = TRUE` to have access to the packages vignette.
+`GGenemy` is available on GitHub. You can install the package and all its dependencies via the `install_github()` command from the `devtools` package. Set `build_vignettes = TRUE` to have access to the vignette.
 
 ``` r
 # install.packages("devtools")
