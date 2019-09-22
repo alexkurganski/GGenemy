@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-While you will probably work with `GGenemy`'s main feature, the shiny app launched by `GGenemy()`, it is also beneficial to have a sound understanding of how the packages most important functions work. All of these functions are called during your workflow inside the app.
+While you will probably work with `GGenemy`'s main feature, the shiny app launched by `GGenemy()`, it is also beneficial to have a sound understanding of how the package's most important functions work. All of these functions are called during your workflow inside the app.
 
 Start off by loading and attaching `GGenemy`.
 
@@ -31,7 +31,7 @@ data("diamonds11")
 head(diamonds11)
 ```
 
-As you can see, the data is almost identical to `diamonds` from `ggplot2`, but includes an additional column called `area`. This variable is factor that indicates where the diamonds were found. Each category represents a country, namely
+As you can see, the data is almost identical to `diamonds` from `ggplot2`, but includes an additional column called `area`. This variable is a factor that indicates where the diamonds were found. Each category represents a country, namely
 
 * 1 = Russia
 * 2 = South Africa
@@ -51,7 +51,7 @@ Now that we have finished the groundwork, we can take a closer look at the data 
 
 ```
 describe(dataset, num.desc = c("min", "quantile0.25", "median", "mean",
-  "quantile0.75", "max", "var", "sd", "valid.n"))
+                               "quantile0.75", "max", "var", "sd", "valid.n"))
 ```
 
 Using `describe()` on `diamonds11` gives us a deeper understanding of the dataset's numerical variables and factors.
@@ -59,22 +59,22 @@ Using `describe()` on `diamonds11` gives us a deeper understanding of the datase
 ```{r}
 describe(diamonds11, num.desc = c("min", "mean", "median", "max", "valid.n"))
 ```
-While the choice of unconditional summary statistics is calculated for the numerics, `describe()` counts the occurences of each factor, computes the percentage of the category relative to all observations and shows the modal category.
+`describe()` calculates the choice of unconditional summary statistics for the numerics. For factors, it counts the occurences of each category, computes their share in the dataset and displays the mode for each factor.
 
 ## Conditional Summary Statistics
 
-While `describe()` calculated unconditional summary statistics for numerical variables, `GGenemy`'s main functionality is to tackle the issue of conditionality.
+So far, we have only considered unconditional summary statistics. But `GGenemy`'s main functionality is to tackle the issue of conditionality.
 
 ###  Numerical table outputs with `sum_stats()`
 
-The `sum_stats()` function enables the calculation of condtional means, variances, skewness and kurtosis for numerical variables given another numeric variable. The command is of the following form:
+The `sum_stats()` function enables the calculation of conditional means, variances, skewness and kurtosis for numerical variables given another numeric variable. The command is of the following form:
 
 ```
 sum_stats(dataset, given_var, stats = c("mean", "var", "skewness",
   "kurtosis"), n_quantiles = 5)
 ```
 
-Its first argument is a dataset, which can include numerics, factors and logical variables. However, factors and logicals will be ignored for the conditional calculation. As a second input, you need to specify the name of a numerical variable from the dataset as a string. This will be the variable the summary statistics are conditoned on. Thirdly, the `stats` argument controls which conditional statistics will be computed. You can specify you choice either with a character vector (see above), or with a numerical vector with a choice of `c(1, 2, 3, 4)`.
+Its first argument is a dataset, which can include numerics, factors and logical variables. However, factors and logicals will be ignored for the conditional calculation. As a second input, you need to specify the name of a numerical variable from the dataset as a string. This will be the variable the summary statistics are conditoned on. Thirdly, the `stats` argument controls which conditional statistics will be computed. You can specify your choice either with a character vector (see above), or with a numerical vector with a (sub)set of `c(1, 2, 3, 4)`.
 Lastly, `n_quantiles` defines how many quantiles the `given_var` will be split into. You can choose any integer between 1 and 10. 
 
 Executing the command for `diamonds11` results into the following output:
@@ -93,7 +93,7 @@ print_sum_stats(diamonds_stats, "carat")
 
 ###  Graphic outputs with `plot_sum_stats()`
 
-While it is great to be able to compute conditional summary statistics with `sum_stats()`, the amount of information can be difficult to take in. `plot_sum_stats()` provides a graphical alternative to the tables, that displays the values for each variable in a line plot. The function takes the same arguments as `sum_stats()`.
+While it is great to be able to compute conditional summary statistics with `sum_stats()`, the amount of information can be difficult to take in. `plot_sum_stats()` provides a graphical alternative to the tables, which displays the values for each variable in a line plot. The function takes the same arguments as `sum_stats()`.
 
 ```{r, fig.height=7, fig.width=7, message=FALSE}
 plot_sum_stats(diamonds11, "carat", stats = c("mean", "var"), n_quantiles = 5)
@@ -112,7 +112,7 @@ While `dataset`, `given_var` and `n_quantiles` are used in the same way as earli
 
 ##### Basic arguments of `plot_GGenemy()`
 
-* `var_to_plot` allows you to state for which variables you want to create outputs. Per default, there will be one plot for each variable, regardless of its class.
+* `var_to_plot` allows you to state which variables you want to create outputs for. Per default, there will be one plot for each variable, regardless of its class.
 * `boxplot = FALSE` indicates that none of the numerical variables should be depicted as a boxplot instead of a density. If set to `TRUE`, all numerics will be shown as boxplots. You can also specify a selective character vector with the names of the numerical variables you want to create boxplots for.
 
 Here are some examples on how to work with `plot_GGenemy()`:
@@ -130,8 +130,8 @@ plot_GGenemy(diamonds11, "carat", var_to_plot = "price", boxplot = TRUE)
 
 ##### Working with `selfrange` and `remaining`
 
-* `selfrange = NULL`: per default, the `given_var` will be split into `n_quantiles` that include equal amounts of data. If `selfrange` is set to a vector or a matrix that specifies individualized ranges, `n_quantiles` will be ignored and the `selfrange`s will be used instead.
-* `remaining = TRUE`: when setting `selfrange`s, the `remaining` argument defines whether all data points not included in the ranges should be collected into an additional subset or be excluded completely.
+* `selfrange = NULL`: per default, the `given_var` will be split into `n_quantiles` which contain equal amounts of data. If `selfrange` is set to a vector or a matrix that specifies individualized ranges, `n_quantiles` will be ignored and the `selfrange`s will be used instead.
+* `remaining = TRUE`: when setting `selfrange`s, the `remaining` argument defines whether all data points not included in the ranges should be collected in an additional subset or be excluded completely.
 
 Here are some more examples for the usage of the advanced arguments:
 
