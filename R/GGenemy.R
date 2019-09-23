@@ -12,26 +12,8 @@
 
 GGenemy <- function() {
   
-  #jsCode <- "shinyjs.init = function(){
-    #$('#GGenemy li a[data-value='2. Data Structure']').hide();
-    #$('#GGenemy li a[data-value='3. Summary Statistics']').hide();
-    #$('#GGenemy li a[data-value='4. Plots']').hide();
-    #$('#file1').parent().parent().parent().parent().hide();
-    #$('#header').hide();
-    #$('#sep').hide();
-    #$('#quote').hide();
-    #$('#decimals').hide();
-    #$('#rownames').hide();
-    #$('#border1').hide();
-    #$('#border2').hide();
-    #$('#border3').hide();
-    #$('#border4').hide();
-    #$('#border5').hide();
-  #}"
-  
   ui <- fluidPage(
     shinyjs::useShinyjs(),
-    #shinyjs::extendShinyjs(text = jsCode),
     includeScript(system.file("hide_shiny_tabs.js", package = "GGenemy")),
     # CSS defaults #############################################################
     tags$style(type = 'text/css', 
@@ -42,12 +24,12 @@ GGenemy <- function() {
                            }'
                
     ),
-    # tags$style(type = "text/css",".btn-default {background-color:#FF7F50; border-color: black; color = white}
-    #            .btn-default:visited {background-color: #FF7F50;border-color: black; color = white"),
-    # tags$head(tags$style("text/css",".btn:visited, .btn:hover, .btn:focus{
-    #                             font-weight: bold;
-    #                             border-color: black;}
-    #                             ")),
+    tags$style(".btn-default {background-color:#FF7F50; border-color: black; color = white}
+               .btn-default:visited {background-color: #FF7F50;border-color: black; color = white"),
+    tags$head(tags$style(".btn:visited, .btn:hover, .btn:focus{
+                                 font-weight: bold;
+                                 border-color: black;}
+                                 ")),
 
     
     navbarPage("GGenemy",
@@ -67,8 +49,6 @@ GGenemy <- function() {
             
             shinyWidgets::materialSwitch(
               inputId = "checktrue",
-              # label = div(style = "font-size:10pt; font-weight = bold; font-family = Lato",
-              #             "Do you want to upload your own file?"),
               value = FALSE,
               width = "100%"
             ),
@@ -86,9 +66,14 @@ GGenemy <- function() {
                 ".csv"
               )
             ),
-            tags$style(".btn-file,.btn-file:visited,.btn-file:hover {background-color:#FF7F50; border-color: black;
-            color = white}"
+            tags$style(".btn-file,.btn-file:visited,.btn-file:focus
+            {background-color:#FF7F50; border-color: black;
+            color: white}"
                        ),
+            tags$style(".btn-file:hover
+            {background-color:#FF7F50; border-color: black;
+            color: white, font-weight: bold}"
+            ),
        
             tags$hr(id = "border1", style = "border-color: #white;"),
             
@@ -821,7 +806,7 @@ GGenemy <- function() {
     })
     
     data1 <- reactive({
-      req(input$file1) # require that the input is available
+      req(input$file1)
 
       inFile <- input$file1
 
@@ -1278,9 +1263,9 @@ GGenemy <- function() {
       
       assign_to_global1(input$saveGE1[1], saveplotGE1, pos=1)
       output$done1 <- shinyalert::shinyalert(title = "GOTCHA",
-                                            text = "You can access your plot: 'GGenemy-Condplot",input$saveGE1[1],"'"," after closing
+                                            text = paste0("You can access your plot: 'GGenemy-Condplot",input$saveGE1[1],"'"," after closing
                                             the Shinyapp. \n
-                                            You can also save many more plots without overwriting the others!",
+                                            You can also save many more plots without overwriting the others!"),
                                             type = "success")
     })
     
@@ -1489,14 +1474,16 @@ GGenemy <- function() {
       range_id <- c("firstrange","secondrange","thirdrange",
                     "forthrange","fifthrange","sixthrange","seventhrange",
                     "eighthrange","ninthrange","tenthrange")
-      range_num <- range_id[counter$countervalue]
+      range_num <- range_id[counter$countervalue+1]
       shinyjs::show(id = paste0(range_num,1))
       shinyjs::show(id = paste0(range_num,2))
+    })
+    
+    session$onSessionEnded(function() {
+      stopApp()
     })
 
     }
   
-  # session$onSessionEnded(stopApp)
-  # Run the application
   shinyApp(ui = ui, server = server)
 }

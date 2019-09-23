@@ -4,7 +4,6 @@
 ^\.travis\.yml$
 ^images$
 ^README\.md$
-^to_do$
 ^README\.Rmd$
 ^data-raw$
 ^doc$
