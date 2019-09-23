@@ -78,7 +78,6 @@ GGenemy <- function() {
             tags$hr(id = "border1", style = "border-color: #white;"),
             
             # Input: Checkbox if file has header
-            
             checkboxGroupInput("header",
               label = "Header",
               choices = "True",
@@ -418,8 +417,8 @@ GGenemy <- function() {
               tags$hr(style = "border-color: #white;"),
               
               actionButton("moreranges",
-                           "Add another self-selected range",
-                           icon = icon("update"),
+                           "Add another Self-Selected Range",
+                           icon = icon("plus"),
                            style ="background-color:#FF7F50;
                            border-color: black;
                            color = white;",
