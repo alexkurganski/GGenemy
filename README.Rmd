@@ -76,7 +76,7 @@ given another numeric variable. Further individual control of the process is giv
 
 The conditional summary statistics are displayed as both values in a table and line plots for each variable. 
 
-[hier GIF oder Foto von Summary Statistics einfügen, am besten mit Auswahl der Checkboxes und Berechnung der Werte]
+![Upload Data Demo](images/summary_stats.gif)
 
 ### Step 4: Conditional Plots
 
