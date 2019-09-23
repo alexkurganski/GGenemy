@@ -94,7 +94,7 @@ Pick and choose whichever variables you want to plot. As a special feature, you 
 
 If you'd rather set the quantile borders yourself, `GGenemy` is giving you that option, too! Just head over to the "Self Selected Range" subtab of "Plots" and set the borders for up to three intervals manually. If your given variable is factor, you can select the categories that should be used as conditions. A toggle switch at the bottom of the menu allows you to decide whether any remaining data points should be put into a separate quantile or left out completely. 
 
-![Upload selfranges](images/Selfranges_gif.gif)
+![Upload Data Demo](images/Selfranges_gif.gif)
 
 #### Save your results
 
